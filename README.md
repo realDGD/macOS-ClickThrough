@@ -8,13 +8,32 @@
 
 最低部署目标为 **macOS 14 Sonoma**，当前构建为 **Apple Silicon / arm64**。已完成的实机验证来自 macOS 27；macOS 14 的实际运行效果仍待验收。[版本调整与验证记录](docs/validation/MACOS14_2026_10_15.md) 区分构建支持和实机结果。
 
+## 安装
+
+Homebrew：
+
+```sh
+brew install --cask realdgd/tap/clickthrough
+```
+
+或从 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 下载 `ClickThrough-版本-arm64.zip`，解压后将 `ClickThrough.app` 放入“应用程序”。[Homebrew tap](https://github.com/realDGD/homebrew-tap) 的 Cask 使用同一份 Release 归档及 SHA-256。
+
+**当前为 ad-hoc 签名、未经 Apple 公证的开发版。** macOS 可能阻止首次打开；请审阅系统“隐私与安全性”中的提示后自行决定是否允许，不需要关闭 Gatekeeper。允许打开后，为 ClickThrough 开启辅助功能权限。更新后可能需要重新添加该权限。
+
+已手动安装的用户，迁移到 Homebrew 前请先自行退出并备份现有应用。更新前也请先退出 ClickThrough，再运行：
+
+```sh
+brew update
+brew upgrade --cask realdgd/tap/clickthrough
+```
+
 ## 使用
 
 - 左键点击菜单栏图标开启或关闭功能；右键打开设置和退出菜单。
 - 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
 - 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
 
-详情见 [应用使用说明](app/README.md)。当前只有本地开发构建，尚未发布公开下载或 Homebrew tap；[分发说明](docs/distribution.md) 包含打包和安装方法。
+详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)。
 
 ## 开发
 

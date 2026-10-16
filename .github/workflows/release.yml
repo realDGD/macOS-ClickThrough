@@ -1,0 +1,126 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing vMAJOR.MINOR.PATCH tag to build
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    name: Prepare development release draft
+    runs-on: macos-26
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_ANALYTICS: '1'
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate tag and application version
+        id: metadata
+        shell: python3 {0}
+        run: |
+          import os
+          import plistlib
+          import re
+          import subprocess
+          from pathlib import Path
+
+          tag = os.environ['RELEASE_TAG']
+          match = re.fullmatch(r'v(\d+\.\d+\.\d+)', tag)
+          assert match, 'Use an existing vMAJOR.MINOR.PATCH tag'
+          version = match.group(1)
+          info = plistlib.loads(Path('app/Resources/Info.plist').read_bytes())
+          assert info['CFBundleShortVersionString'] == version, 'Update Info.plist before tagging'
+          commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          tagged = subprocess.check_output(['git', 'rev-parse', f'refs/tags/{tag}^{{commit}}'], text=True).strip()
+          assert commit == tagged, 'Checkout differs from requested tag'
+          subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'origin/main'], check=True)
+          assert subprocess.check_output(['uname', '-m'], text=True).strip() == 'arm64'
+          with Path(os.environ['GITHUB_OUTPUT']).open('a') as output:
+              output.write(f'version={version}\ncommit={commit}\n')
+
+      - name: Run existing tests and release checker tests
+        run: |
+          make test
+          make test-release-tools
+
+      - name: Build without personal source paths
+        run: make build BUILD_DIR=app/build/github-release
+
+      - name: Check packaging and Homebrew DSL
+        run: make test-homebrew APP=app/build/github-release/ClickThrough.app
+
+      - name: Prepare and verify public assets
+        env:
+          RELEASE_VERSION: ${{ steps.metadata.outputs.version }}
+          SOURCE_COMMIT: ${{ steps.metadata.outputs.commit }}
+        run: |
+          python3 app/scripts/package-release.py \
+            --app app/build/github-release/ClickThrough.app \
+            --source-commit "$SOURCE_COMMIT" \
+            --url "https://github.com/realDGD/macOS-ClickThrough/releases/download/$RELEASE_TAG/ClickThrough-$RELEASE_VERSION-arm64.zip" \
+            --homepage https://github.com/realDGD/macOS-ClickThrough
+          python3 app/scripts/verify-release.py \
+            --directory app/build/github-release/release \
+            --tag "$RELEASE_TAG" --source-commit "$SOURCE_COMMIT"
+          ditto -x -k "app/build/github-release/release/ClickThrough-$RELEASE_VERSION-arm64.zip" "$RUNNER_TEMP/release-extracted"
+          codesign --verify --strict "$RUNNER_TEMP/release-extracted/ClickThrough.app"
+          test -x "$RUNNER_TEMP/release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough"
+          test "$(lipo -archs "$RUNNER_TEMP/release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough")" = arm64
+
+      - name: Verify Mach-O deployment target
+        shell: python3 {0}
+        run: |
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          binary = Path(os.environ['RUNNER_TEMP']) / 'release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough'
+          build = subprocess.check_output(['xcrun', 'vtool', '-show-build', str(binary)], text=True)
+          assert re.search(r'^\s*minos\s+14\.0\s*$', build, re.MULTILINE), build
+
+      - name: Create draft release with exact verified assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ steps.metadata.outputs.version }}
+          SOURCE_COMMIT: ${{ steps.metadata.outputs.commit }}
+        run: |
+          cat > "$RUNNER_TEMP/release-notes.md" <<EOF
+          ## ClickThrough $RELEASE_VERSION
+
+          Apple Silicon (arm64), minimum macOS 14. Built from source commit $SOURCE_COMMIT.
+
+          This is a development build: ad-hoc signed, not Developer ID signed, and not notarized by Apple. macOS Gatekeeper may block its first launch. Accessibility permission may need to be re-added after updates. This release does not change Gatekeeper or grant permissions automatically.
+
+          Install the ZIP manually, or use the Homebrew entry documented in the project README. Review the download and macOS prompts before allowing the app to run.
+
+          Assets include the app ZIP, its SHA-256 sidecar, source/version manifest, and matching Homebrew Cask. The archive passed signature, integrity, required-resource and checked privacy-pattern validation. No GUI or Accessibility interaction is tested by this workflow.
+
+          Source is licensed under AGPL-3.0-only; Lucide artwork retains its ISC license.
+          EOF
+          gh release create "$RELEASE_TAG" app/build/github-release/release/* \
+            --repo "$GITHUB_REPOSITORY" --verify-tag --draft --prerelease \
+            --title "ClickThrough $RELEASE_VERSION (development, unnotarized)" \
+            --notes-file "$RUNNER_TEMP/release-notes.md"
