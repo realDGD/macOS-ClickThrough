@@ -6,6 +6,7 @@ import json
 import plistlib
 import re
 import subprocess
+import tempfile
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -15,7 +16,7 @@ from release_cask import render_cask
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--url", help="HTTPS URL where the resulting zip will be published")
+    parser.add_argument("--url", help="HTTPS URL where the resulting DMG will be published")
     parser.add_argument("--homepage", help="Public project homepage (required with --url)")
     parser.add_argument("--app", type=Path, help="Built .app to package; output goes to its sibling release directory")
     parser.add_argument("--source-commit", help="Full source commit recorded in the public release manifest")
@@ -41,8 +42,13 @@ def main():
     version = metadata["CFBundleShortVersionString"]
     output = app.parent / "release"
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / f"ClickThrough-{version}-{arch}.zip"
-    subprocess.run(["ditto", "-c", "-k", "--norsrc", "--noextattr", "--keepParent", str(app), str(archive)], check=True)
+    archive = output / f"ClickThrough-{version}-{arch}.dmg"
+    with tempfile.TemporaryDirectory(prefix='clickthrough-dmg-stage-') as temporary:
+        stage = Path(temporary)
+        subprocess.run(['ditto', '--norsrc', '--noextattr', str(app), str(stage / 'ClickThrough.app')], check=True)
+        (stage / 'Applications').symlink_to('/Applications', target_is_directory=True)
+        subprocess.run(['hdiutil', 'create', '-quiet', '-nospotlight', '-fs', 'HFS+', '-format', 'UDZO',
+                        '-volname', 'ClickThrough', '-srcfolder', str(stage), str(archive)], check=True)
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     (output / (archive.name + ".sha256")).write_text(f"{digest}  {archive.name}\n")
     manifest = dict(version=version, arch=arch, archive=archive.name, sha256=digest,

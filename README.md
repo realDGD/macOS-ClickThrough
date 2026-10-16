@@ -13,10 +13,13 @@
 Homebrew：
 
 ```sh
+brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrough
 brew install --cask realdgd/tap/clickthrough
 ```
 
-或从 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 下载 `ClickThrough-版本-arm64.zip`，解压后将 `ClickThrough.app` 放入“应用程序”。[Homebrew tap](https://github.com/realDGD/homebrew-tap) 的 Cask 使用同一份 Release 归档及 SHA-256。
+或从 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 下载 `ClickThrough-版本-arm64.dmg`，打开后将 `ClickThrough.app` 拖入“应用程序”。Homebrew 的 [Cask](Casks/clickthrough.rb) 与源码合并在本仓库，使用同一份 DMG 及 SHA-256。从 v0.1.1 起使用 DMG，已发布的 v0.1.0 ZIP 保留原样。
+
+已使用旧 `homebrew-tap` 的用户，也先执行上面的 `brew tap --custom-remote ...` 更新来源；tap 和包名保持不变，该命令本身不安装或替换应用。
 
 **当前为 ad-hoc 签名、未经 Apple 公证的开发版。** macOS 可能阻止首次打开；请审阅系统“隐私与安全性”中的提示后自行决定是否允许，不需要关闭 Gatekeeper。允许打开后，为 ClickThrough 开启辅助功能权限。更新后可能需要重新添加该权限。
 
@@ -33,7 +36,7 @@ brew upgrade --cask realdgd/tap/clickthrough
 - 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
 - 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
 
-详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)：tag 自动构建草稿，手动公开后 Action 自动更新 Homebrew tap。
+详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)：tag 自动构建草稿，手动公开后 Action 自动更新本仓库的 Cask，无需跨仓库密钥。
 
 ## 开发
 

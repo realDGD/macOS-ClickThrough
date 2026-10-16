@@ -4,7 +4,7 @@
 
 项目使用 Swift 6、AppKit、SwiftUI 和系统框架，没有第三方 Swift 包依赖。macOS 27 是主要开发和验证环境，当前工具链为 Xcode 27 / Swift 6.4；最低运行目标保持 macOS 14。开发主机、SDK／编译器和最低部署版本分别管理，最低运行版本不要求使用同年代的工具链。
 
-**无需完整 Xcode。** 本项目通过 SwiftPM 编译，使用预生成的 ICNS，再调用系统 `plutil`、`codesign` 组装应用，不依赖 `xcodebuild`、Interface Builder 或 Asset Catalog 编译。提供 Swift 6 和适配 macOS SDK 的独立 Command Line Tools 即可构建；已在 macOS 27 用 CLT 的 Swift 6.4 / SDK 27 独立构建成功。旧系统自带的旧版 CLT 不一定满足 Swift 6 要求。分发脚本和相应检查另外需要 Python 3，Cask DSL 检查需要已安装的 Homebrew。
+**无需完整 Xcode。** 本项目通过 SwiftPM 编译，使用预生成的 ICNS，再调用系统 `plutil`、`codesign` 组装应用，不依赖 `xcodebuild`、Interface Builder 或 Asset Catalog 编译。提供 Swift 6 和适配 macOS SDK 的独立 Command Line Tools 即可构建；已在 macOS 27 用 CLT 的 Swift 6.4 / SDK 27 独立构建成功。旧系统自带的旧版 CLT 不一定满足 Swift 6 要求。分发脚本和相应检查另外需要 Python 3；DMG 使用系统 `hdiutil` 创建与只读挂载，Cask DSL 检查需要已安装的 Homebrew。
 
 安装 CLT 可使用 `xcode-select --install`。如果机器也装有 Xcode，可对单次构建指定工具目录，无需改变系统的全局选择：
 
@@ -46,7 +46,8 @@ make build BUILD_DIR=app/build/review-candidate
 
 - `app/Sources/`、`app/Tests/`：产品与相关自动检查。
 - `app/Resources/Info.plist`、`app/Package.swift`：应用与部署声明。
-- `app/scripts/`：构建和打包入口。
+- `app/scripts/`：构建、DMG 打包、原生校验和 Cask 更新入口。
+- `Casks/clickthrough.rb`：同仓库 Homebrew 入口，由已公开 Release 自动更新。
 - `app/build/`、`app/.build/`：可再生成的输出，不进入源码版本控制。
 - `app/verification/`：本地验证原始证据；保留在磁盘，默认不进入源码版本控制。
 - `poc/`：历史探针、靶标和实验，不随产品整理移动或覆盖。

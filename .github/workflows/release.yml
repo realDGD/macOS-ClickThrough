@@ -79,27 +79,11 @@ jobs:
           python3 app/scripts/package-release.py \
             --app app/build/github-release/ClickThrough.app \
             --source-commit "$SOURCE_COMMIT" \
-            --url "https://github.com/realDGD/macOS-ClickThrough/releases/download/$RELEASE_TAG/ClickThrough-$RELEASE_VERSION-arm64.zip" \
+            --url "https://github.com/realDGD/macOS-ClickThrough/releases/download/$RELEASE_TAG/ClickThrough-$RELEASE_VERSION-arm64.dmg" \
             --homepage https://github.com/realDGD/macOS-ClickThrough
           python3 app/scripts/verify-release.py \
             --directory app/build/github-release/release \
-            --tag "$RELEASE_TAG" --source-commit "$SOURCE_COMMIT"
-          ditto -x -k "app/build/github-release/release/ClickThrough-$RELEASE_VERSION-arm64.zip" "$RUNNER_TEMP/release-extracted"
-          codesign --verify --strict "$RUNNER_TEMP/release-extracted/ClickThrough.app"
-          test -x "$RUNNER_TEMP/release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough"
-          test "$(lipo -archs "$RUNNER_TEMP/release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough")" = arm64
-
-      - name: Verify Mach-O deployment target
-        shell: python3 {0}
-        run: |
-          import os
-          import re
-          import subprocess
-          from pathlib import Path
-
-          binary = Path(os.environ['RUNNER_TEMP']) / 'release-extracted/ClickThrough.app/Contents/MacOS/ClickThrough'
-          build = subprocess.check_output(['xcrun', 'vtool', '-show-build', str(binary)], text=True)
-          assert re.search(r'^\s*minos\s+14\.0\s*$', build, re.MULTILINE), build
+            --tag "$RELEASE_TAG" --source-commit "$SOURCE_COMMIT" --native
 
       - name: Create draft release with exact verified assets
         env:
@@ -114,9 +98,9 @@ jobs:
 
           This is a development build: ad-hoc signed, not Developer ID signed, and not notarized by Apple. macOS Gatekeeper may block its first launch. Accessibility permission may need to be re-added after updates. This release does not change Gatekeeper or grant permissions automatically.
 
-          Install the ZIP manually, or use the Homebrew entry documented in the project README. Review the download and macOS prompts before allowing the app to run.
+          Open the DMG and drag ClickThrough.app to Applications, or use the Homebrew entry documented in the project README. Review the download and macOS prompts before allowing the app to run.
 
-          Assets include the app ZIP, its SHA-256 sidecar, source/version manifest, and matching Homebrew Cask. The archive passed signature, integrity, required-resource and checked privacy-pattern validation. No GUI or Accessibility interaction is tested by this workflow.
+          Assets include the app DMG, its SHA-256 sidecar, source/version manifest, and matching Homebrew Cask. The disk image passed signature, integrity, required-resource and checked privacy-pattern validation. No GUI or Accessibility interaction is tested by this workflow.
 
           Source is licensed under AGPL-3.0-only; Lucide artwork retains its ISC license.
           EOF

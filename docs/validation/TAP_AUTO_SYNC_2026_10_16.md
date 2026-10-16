@@ -1,5 +1,7 @@
 # Homebrew tap 自动同步验证（2026-10-16）
 
+> 历史记录：此处为首次跨仓库方案的当时结果。后续已采用 [单仓库 DMG 决策](../../.agents/notes/implemented/process/2026-10-16-single-repository-dmg.md)；旧专用凭据撤销，不再作为当前发布流程。原验证结果保留。
+
 ## 改动与权限
 
 [PR #3](https://github.com/realDGD/macOS-ClickThrough/pull/3) 增加 Release `published` 事件同步及 main 分支手动恢复入口。草稿仍由维护者检查后公开，pre-release 同样同步。只更新独立 tap 的 `Casks/clickthrough.rb`，不修改产品 Swift 源码。

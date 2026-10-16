@@ -27,3 +27,7 @@ Session event tap 同步收到鼠标事件后，先按原有规则筛选未修�
 `app/` 是产品源码，`poc/` 是保存的探针与独立靶标。没有 helper、驱动或运行时第三方依赖。不 raise 方向仍停留在 [已暂停研究](research/BACKGROUND_ACTION_RESEARCH.md)。
 
 组件实现与构建可用性不直接证明首次点击业务成功。实际证据和待验收范围见 [测试说明](testing.md)。
+
+## 分发路径
+
+产品与 Homebrew Cask 共用此仓库。tag 工作流构建 DMG 草稿；公开 Release 后，另一个工作流验证 DMG、应用和 Cask，再使用本仓库内置 token 仅提交 `Casks/clickthrough.rb`。发布与凭据策略见 [发布指南](releasing.md)，长期取舍见 [单仓库 DMG 决策](../.agents/notes/implemented/process/2026-10-16-single-repository-dmg.md)。
