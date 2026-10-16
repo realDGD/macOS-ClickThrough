@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Checks (${{ matrix.runner }}, arm64)
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-15, macos-26]
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_ANALYTICS: '1'
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Inspect toolchain
+        run: |
+          test "$(uname -m)" = arm64
+          swift --version
+          xcrun --show-sdk-version
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Build application
+        run: make build BUILD_DIR=app/build/ci
+
+      - name: Verify deployment target and resources
+        shell: python3 {0}
+        run: |
+          import plistlib
+          import re
+          import subprocess
+          from pathlib import Path
+
+          app = Path('app/build/ci/ClickThrough.app/Contents')
+          info = plistlib.loads((app / 'Info.plist').read_bytes())
+          assert info['LSMinimumSystemVersion'] == '14.0'
+          binary = app / 'MacOS/ClickThrough'
+          assert subprocess.check_output(['lipo', '-archs', str(binary)], text=True).strip() == 'arm64'
+          build = subprocess.check_output(['xcrun', 'vtool', '-show-build', str(binary)], text=True)
+          assert re.search(r'^\s*minos\s+14\.0\s*$', build, re.MULTILINE), build
+          resources = app / 'Resources'
+          for source, bundled in [
+              ('LICENSE', 'LICENSE'),
+              ('THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.md'),
+              ('app/Resources/AppIcon.icns', 'AppIcon.icns'),
+              ('app/Resources/Artwork/Lucide/LICENSE.txt', 'ThirdParty/Lucide-LICENSE.txt'),
+          ]:
+              assert Path(source).read_bytes() == (resources / bundled).read_bytes(), bundled
+
+      - name: Check packaging and Homebrew Cask DSL
+        run: make test-homebrew APP=app/build/ci/ClickThrough.app

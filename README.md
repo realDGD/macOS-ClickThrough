@@ -1,5 +1,7 @@
 # ClickThrough
 
+[![CI](https://github.com/realDGD/macOS-ClickThrough/actions/workflows/ci.yml/badge.svg)](https://github.com/realDGD/macOS-ClickThrough/actions/workflows/ci.yml)
+
 <img src="app/Resources/Artwork/AppIcon.png" alt="ClickThrough 应用图标" width="128">
 
 原生 macOS 菜单栏应用，让可见后台窗口的首次点击尽可能执行原本操作。使用公开 API，保留真实鼠标事件；目标窗口会正常激活并前移。
@@ -16,7 +18,7 @@
 
 ## 开发
 
-主要开发环境为 macOS 27，使用支持 Swift 6 的当前 Xcode 工具链，最低运行目标保持 macOS 14。后续新功能的版本取舍见 [平台政策](.agents/notes/implemented/architecture/2026-10-15-macos14-platform.md)。在项目根目录运行：
+主要开发环境为 macOS 27，最低运行目标保持 macOS 14。构建只需提供 Swift 6 和 macOS SDK 的现代 Command Line Tools，无需完整 Xcode；已验证的工具链及要求见 [开发指南](docs/development.md)。后续新功能的版本取舍见 [平台政策](.agents/notes/implemented/architecture/2026-10-15-macos14-platform.md)。在项目根目录运行：
 
 ```sh
 make help
