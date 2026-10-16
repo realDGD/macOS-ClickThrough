@@ -42,7 +42,7 @@ final class StatusItemController: NSObject {
 
     private func openMenu() {
         model.refreshSystemState()
-        guard let button = item?.button else { return }
+        guard let item, let button = item.button else { return }
         let menu = NSMenu()
         let status = menu.addItem(withTitle: "ClickThrough · \(model.state.label)", action: nil, keyEquivalent: "")
         status.isEnabled = false
@@ -52,7 +52,11 @@ final class StatusItemController: NSObject {
         menu.addItem(.separator())
         let quit = menu.addItem(withTitle: "退出 ClickThrough", action: #selector(quitClicked), keyEquivalent: "q")
         quit.target = self
-        menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.minY), in: button)
+        // Let AppKit anchor the menu below the status item. Detach it after
+        // tracking ends so subsequent left clicks still toggle the engine.
+        item.menu = menu
+        defer { item.menu = nil }
+        button.performClick(nil)
     }
 
     @objc private func settingsClicked() { showSettings() }
