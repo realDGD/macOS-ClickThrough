@@ -86,6 +86,10 @@ jobs:
           repository = 'https://github.com/realDGD/macOS-ClickThrough'
           subprocess.run(['python3', 'app/scripts/package-release.py', '--app', str(app),
               '--source-commit', commit, '--homepage', repository,
-              '--url', f'{repository}/releases/download/v{version}/ClickThrough-{version}-arm64.zip'], check=True)
+              '--url', f'{repository}/releases/download/v{version}/ClickThrough-{version}-arm64.dmg'], check=True)
           subprocess.run(['python3', 'app/scripts/verify-release.py', '--directory', str(app.parent / 'release'),
-              '--tag', f'v{version}', '--source-commit', commit], check=True)
+              '--tag', f'v{version}', '--source-commit', commit, '--native'], check=True)
+
+      - name: Check committed Homebrew Cask syntax and DSL
+        run: |
+          brew ruby -e 'require "cask/cask_loader"; c = Cask::CaskLoader.load(File.read(ARGV.fetch(0))); abort "Unexpected Cask" unless c.token == "clickthrough"' -- Casks/clickthrough.rb

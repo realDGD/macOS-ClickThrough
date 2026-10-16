@@ -1,4 +1,4 @@
-name: Sync Homebrew tap
+name: Sync Homebrew Cask
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Published vMAJOR.MINOR.PATCH release to sync
+        description: Published DMG vMAJOR.MINOR.PATCH release to sync
         required: true
         type: string
 
@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: sync-homebrew-tap
+  group: sync-homebrew-cask
   cancel-in-progress: false
 
 jobs:
@@ -22,22 +22,23 @@ jobs:
     if: github.repository == 'realDGD/macOS-ClickThrough' && (github.event_name == 'release' || github.ref == 'refs/heads/main')
     runs-on: macos-26
     timeout-minutes: 10
+    permissions:
+      contents: write
     defaults:
       run:
         shell: bash
-        working-directory: source
     env:
       RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_ANALYTICS: '1'
     steps:
-      - name: Check out trusted validation tools
+      - name: Check out main with repository-scoped credentials
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: main
           fetch-depth: 0
-          persist-credentials: false
-          path: source
 
-      - name: Download and validate published assets before accessing the tap key
+      - name: Download and validate published DMG and metadata
         id: release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -47,21 +48,16 @@ jobs:
             | tee "$RUNNER_TEMP/verified-release.json"
           echo "source_commit=$(jq -r .source_commit "$RUNNER_TEMP/verified-release.json")" >> "$GITHUB_OUTPUT"
 
-      - name: Check out tap with its dedicated write key
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: realDGD/homebrew-tap
-          ref: main
-          path: tap
-          ssh-key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
-          ssh-strict: true
+      - name: Check validated Cask with Homebrew before committing
+        run: |
+          brew ruby -e 'require "cask/cask_loader"; c = Cask::CaskLoader.load(File.read(ARGV.fetch(0))); abort "Unexpected Cask" unless c.token == "clickthrough"' -- "$RUNNER_TEMP/release-assets/clickthrough.rb"
 
-      - name: Update Cask without downgrading or rewriting a published version
+      - name: Update only this repository's Cask
         env:
           SOURCE_COMMIT: ${{ steps.release.outputs.source_commit }}
         run: |
           python3 app/scripts/sync-homebrew.py sync \
             --tag "$RELEASE_TAG" --source-commit "$SOURCE_COMMIT" \
-            --directory "$RUNNER_TEMP/release-assets" --tap ../tap \
-            | tee "$RUNNER_TEMP/tap-sync.json"
-          cat "$RUNNER_TEMP/tap-sync.json" >> "$GITHUB_STEP_SUMMARY"
+            --directory "$RUNNER_TEMP/release-assets" --tap . \
+            | tee "$RUNNER_TEMP/cask-sync.json"
+          cat "$RUNNER_TEMP/cask-sync.json" >> "$GITHUB_STEP_SUMMARY"

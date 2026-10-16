@@ -7,7 +7,6 @@ import subprocess
 import sys
 import tempfile
 import unittest
-import zipfile
 from pathlib import Path
 
 
@@ -25,11 +24,11 @@ class ReleaseVerificationTests(unittest.TestCase):
         self.output = Path(self.temp.name)
 
     def fixture(self, binary=b'release executable', extra=None):
-        name = 'ClickThrough-0.1.0-arm64.zip'
+        name = 'ClickThrough-0.1.1-arm64.dmg'
         files = {
             'Contents/MacOS/ClickThrough': binary,
             'Contents/Info.plist': plistlib.dumps({
-                'CFBundleShortVersionString': '0.1.0', 'LSMinimumSystemVersion': '14.0',
+                'CFBundleShortVersionString': '0.1.1', 'LSMinimumSystemVersion': '14.0',
             }),
             'Contents/Resources/AppIcon.icns': b'icon',
             'Contents/Resources/LICENSE': b'GNU AFFERO GENERAL PUBLIC LICENSE',
@@ -38,21 +37,28 @@ class ReleaseVerificationTests(unittest.TestCase):
             'Contents/_CodeSignature/CodeResources': b'signature manifest',
         }
         files.update(extra or {})
-        with zipfile.ZipFile(self.output / name, 'w') as archive:
+        with tempfile.TemporaryDirectory(prefix='clickthrough-dmg-fixture-') as temporary:
+            stage = Path(temporary)
             for path, data in files.items():
-                archive.writestr('ClickThrough.app/' + path, data)
+                target = stage / 'ClickThrough.app' / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
+            (stage / 'Applications').symlink_to('/Applications', target_is_directory=True)
+            subprocess.run(['hdiutil', 'create', '-quiet', '-nospotlight', '-fs', 'HFS+',
+                            '-format', 'UDZO', '-volname', 'ClickThrough', '-srcfolder', str(stage),
+                            str(self.output / name)], check=True)
         digest = hashlib.sha256((self.output / name).read_bytes()).hexdigest()
-        url = f'{REPOSITORY}/releases/download/v0.1.0/{name}'
+        url = f'{REPOSITORY}/releases/download/v0.1.1/{name}'
         (self.output / (name + '.sha256')).write_text(f'{digest}  {name}\n')
         (self.output / 'release.json').write_text(json.dumps({
-            'version': '0.1.0', 'arch': 'arm64', 'minimum_macos': '14.0',
+            'version': '0.1.1', 'arch': 'arm64', 'minimum_macos': '14.0',
             'archive': name, 'sha256': digest, 'url': url, 'homepage': REPOSITORY,
             'source_commit': 'a' * 40,
         }))
         (self.output / 'clickthrough.rb').write_text(
-            render_cask('0.1.0', digest, url, REPOSITORY))
+            render_cask('0.1.1', digest, url, REPOSITORY))
 
-    def run_check(self, tag='v0.1.0'):
+    def run_check(self, tag='v0.1.1'):
         return subprocess.run([sys.executable, str(SCRIPT), '--directory', str(self.output),
                                '--tag', tag], capture_output=True, text=True)
 
@@ -69,7 +75,7 @@ class ReleaseVerificationTests(unittest.TestCase):
 
     def test_tampered_download_is_rejected(self):
         self.fixture()
-        with (self.output / 'ClickThrough-0.1.0-arm64.zip').open('ab') as stream:
+        with (self.output / 'ClickThrough-0.1.1-arm64.dmg').open('ab') as stream:
             stream.write(b'tampered')
         result = self.run_check()
         self.assertEqual(result.returncode, 1)

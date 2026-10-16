@@ -24,7 +24,7 @@ def prepare(directory, tag):
         ['gh', 'api', f'repos/{REPOSITORY}/releases/tags/{tag}'], text=True))
     release.require(metadata['tag_name'] == tag and metadata['draft'] is False
                     and metadata['published_at'], 'Release must already be public')
-    name = f'ClickThrough-{tag[1:]}-arm64.zip'
+    name = f'ClickThrough-{tag[1:]}-arm64.dmg'
     assets = {name, name + '.sha256', 'release.json', 'clickthrough.rb'}
     release.require({asset['name'] for asset in metadata['assets']} == assets,
                     'Release must contain exactly the four expected assets')
@@ -37,7 +37,7 @@ def prepare(directory, tag):
     for asset in sorted(assets):
         command.extend(['--pattern', asset])
     subprocess.run(command, check=True)
-    return release.verify(directory, tag, commit)
+    return release.verify(directory, tag, commit, native=True)
 
 
 def sync(directory, tag, source_commit, tap):

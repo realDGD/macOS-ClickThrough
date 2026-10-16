@@ -5,12 +5,13 @@ import hashlib
 import json
 import plistlib
 import re
-import stat
+import os
+import subprocess
 import sys
-import zipfile
 from pathlib import Path
 
 from release_cask import render_cask
+from release_dmg import mounted_dmg
 
 REPOSITORY = 'https://github.com/realDGD/macOS-ClickThrough'
 REQUIRED_FILES = {
@@ -32,7 +33,7 @@ def require(condition, message):
         raise ValueError(message)
 
 
-def verify(directory, tag, source_commit=None):
+def verify(directory, tag, source_commit=None, native=False):
     match = re.fullmatch(r'v(\d+\.\d+\.\d+)', tag)
     require(match, 'tag must be vMAJOR.MINOR.PATCH')
     version = match.group(1)
@@ -45,7 +46,7 @@ def verify(directory, tag, source_commit=None):
             'release must record a full source commit')
     if source_commit:
         require(commit == source_commit, 'source commit differs from requested source')
-    name = f'ClickThrough-{version}-arm64.zip'
+    name = f'ClickThrough-{version}-arm64.dmg'
     require(manifest['archive'] == name, 'unexpected archive filename')
     url = f'{REPOSITORY}/releases/download/{tag}/{name}'
     require(manifest['url'] == url and manifest['homepage'] == REPOSITORY,
@@ -64,27 +65,38 @@ def verify(directory, tag, source_commit=None):
         if path.name != name:
             require(not PERSONAL_PATH.search(path.read_bytes()), 'personal path in release metadata')
             require(not CREDENTIAL.search(path.read_bytes()), 'credential in release metadata')
-    with zipfile.ZipFile(directory / name) as archive:
+    with mounted_dmg(directory / name) as volume:
+        require({p.name for p in volume.iterdir()} == {'ClickThrough.app', 'Applications'},
+                'unexpected disk image contents')
+        applications = volume / 'Applications'
+        require(applications.is_symlink() and os.readlink(applications) == '/Applications',
+                'unexpected Applications shortcut')
+        app = volume / 'ClickThrough.app'
+        require(app.is_dir() and not app.is_symlink(), 'expected a regular application bundle')
         seen = set()
-        for entry in archive.infolist():
-            path = Path(entry.filename)
-            require(not path.is_absolute() and '..' not in path.parts, 'unsafe archive path')
-            require(not stat.S_ISLNK(entry.external_attr >> 16), 'unexpected symlink in archive')
-            if entry.is_dir():
+        for path in app.rglob('*'):
+            require(not path.is_symlink(), 'unexpected symlink in application')
+            if path.is_dir():
                 continue
-            require(entry.filename not in seen, 'duplicate archive file')
-            seen.add(entry.filename)
-            require(path.parts[0] == 'ClickThrough.app', 'unexpected archive root')
-            relative = '/'.join(path.parts[1:])
+            require(path.is_file(), 'unexpected application file type')
+            relative = path.relative_to(app).as_posix()
+            seen.add(relative)
             require(relative in REQUIRED_FILES, f'unexpected archive file: {relative}')
-            payload = archive.read(entry)
+            payload = path.read_bytes()
             require(not PERSONAL_PATH.search(payload), f'personal path in {relative}')
             require(not CREDENTIAL.search(payload), f'credential in {relative}')
-        require(seen == {'ClickThrough.app/' + path for path in REQUIRED_FILES},
-                'required application resource missing')
-        info = plistlib.loads(archive.read('ClickThrough.app/Contents/Info.plist'))
+        require(seen == REQUIRED_FILES, 'required application resource missing')
+        info = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
         require(info['CFBundleShortVersionString'] == version, 'bundle version differs from tag')
         require(info['LSMinimumSystemVersion'] == '14.0', 'bundle minimum macOS version differs')
+        if native:
+            binary = app / 'Contents/MacOS/ClickThrough'
+            require(os.access(binary, os.X_OK), 'application binary is not executable')
+            subprocess.run(['codesign', '--verify', '--strict', str(app)], check=True)
+            require(subprocess.check_output(['lipo', '-archs', str(binary)], text=True).strip() == 'arm64',
+                    'unexpected Mach-O architecture')
+            build = subprocess.check_output(['xcrun', 'vtool', '-show-build', str(binary)], text=True)
+            require(re.search(r'^\s*minos\s+14\.0\s*$', build, re.MULTILINE), 'unexpected Mach-O minimum version')
     return {'version': version, 'sha256': digest, 'source_commit': commit,
             'result': 'passed', 'scope': 'integrity and checked privacy patterns; no install or launch'}
 
@@ -94,10 +106,11 @@ def main():
     parser.add_argument('--directory', type=Path, required=True)
     parser.add_argument('--tag', required=True)
     parser.add_argument('--source-commit')
+    parser.add_argument('--native', action='store_true', help='Also verify signature, executable, Mach-O architecture and minimum macOS')
     args = parser.parse_args()
     try:
-        print(json.dumps(verify(args.directory, args.tag, args.source_commit), indent=2))
-    except (ValueError, KeyError, OSError, zipfile.BadZipFile, plistlib.InvalidFileException) as error:
+        print(json.dumps(verify(args.directory, args.tag, args.source_commit, args.native), indent=2))
+    except (ValueError, KeyError, OSError, subprocess.CalledProcessError, plistlib.InvalidFileException) as error:
         print(f'Release rejected: {error}', file=sys.stderr)
         return 1
     return 0

@@ -44,7 +44,7 @@ class TapSyncTests(unittest.TestCase):
 
     def sync(self, commit='a' * 40):
         return subprocess.run([sys.executable, str(SCRIPT), 'sync', '--directory', str(self.assets),
-                               '--tag', 'v0.1.0', '--source-commit', commit, '--tap', str(self.tap)],
+                               '--tag', 'v0.1.1', '--source-commit', commit, '--tap', str(self.tap)],
                               capture_output=True, text=True)
 
     def test_new_version_pushes_only_the_cask(self):
