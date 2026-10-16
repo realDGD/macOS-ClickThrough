@@ -20,7 +20,8 @@ with tempfile.TemporaryDirectory(prefix='clickthrough-distribution-') as temp_na
     fixture = Path(temp_name)
     (fixture/'scripts').mkdir()
     (fixture/'build').mkdir()
-    shutil.copy2(root/'scripts/package-release.py', fixture/'scripts/package-release.py')
+    for name in ('package-release.py', 'release_cask.py'):
+        shutil.copy2(root/'scripts'/name, fixture/'scripts'/name)
     app = fixture/'candidate/ClickThrough.app'
     shutil.copytree(args.app or root/'build/ClickThrough.app', app)
     # A fixture-specific minimum catches a packager that hardcodes the old target.
