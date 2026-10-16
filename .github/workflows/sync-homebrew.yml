@@ -24,6 +24,7 @@ jobs:
     timeout-minutes: 10
     defaults:
       run:
+        shell: bash
         working-directory: source
     env:
       RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
