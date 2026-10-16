@@ -1,8 +1,8 @@
 cask "clickthrough" do
-  version '0.1.1'
-  sha256 '540df8249649662cecce202def31c8b598997ea9271d8dd5f8b5e8428e52f5ad'
+  version '0.1.2'
+  sha256 '51761e6222ea33b403e4696757d6323d8535be7f0616af3b1838fae1f004c4b1'
 
-  url 'https://github.com/realDGD/macOS-ClickThrough/releases/download/v0.1.1/ClickThrough-0.1.1-arm64.dmg'
+  url 'https://github.com/realDGD/macOS-ClickThrough/releases/download/v0.1.2/ClickThrough-0.1.2-arm64.dmg'
   name "ClickThrough"
   desc "Menu bar utility for first-click interaction with background windows"
   homepage 'https://github.com/realDGD/macOS-ClickThrough'
