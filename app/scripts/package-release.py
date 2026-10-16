@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import plistlib
+import re
 import subprocess
 from pathlib import Path
 from urllib.parse import urlparse
@@ -18,7 +19,10 @@ def main():
     parser.add_argument("--url", help="HTTPS URL where the resulting zip will be published")
     parser.add_argument("--homepage", help="Public project homepage (required with --url)")
     parser.add_argument("--app", type=Path, help="Built .app to package; output goes to its sibling release directory")
+    parser.add_argument("--source-commit", help="Full source commit recorded in the public release manifest")
     args = parser.parse_args()
+    if args.source_commit and not re.fullmatch(r'[0-9a-f]{40}', args.source_commit):
+        parser.error("--source-commit must be a full lowercase 40-character Git commit")
     if bool(args.url) != bool(args.homepage):
         parser.error("--url and --homepage must be supplied together")
     for value in (args.url, args.homepage):
@@ -39,12 +43,12 @@ def main():
     output = app.parent / "release"
     output.mkdir(parents=True, exist_ok=True)
     archive = output / f"ClickThrough-{version}-{arch}.zip"
-    subprocess.run(["ditto", "-c", "-k", "--sequesterRsrc", "--keepParent", str(app), str(archive)], check=True)
+    subprocess.run(["ditto", "-c", "-k", "--norsrc", "--noextattr", "--keepParent", str(app), str(archive)], check=True)
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     (output / (archive.name + ".sha256")).write_text(f"{digest}  {archive.name}\n")
     manifest = dict(version=version, arch=arch, archive=archive.name, sha256=digest,
                     minimum_macos=minimum_macos, signing="Run codesign -dv to inspect the built identity",
-                    published=False, url=args.url, homepage=args.homepage)
+                    published=False, url=args.url, homepage=args.homepage, source_commit=args.source_commit)
     (output / "release.json").write_text(json.dumps(manifest, indent=2) + "\n")
     if args.url:
         if arch != "arm64":
@@ -71,6 +75,8 @@ def main():
   ]
 
   caveats <<~EOS
+    This development build is ad-hoc signed and has not been notarized by Apple.
+    macOS may block its first launch; updates may require re-adding Accessibility permission.
     Enable Accessibility for ClickThrough in System Settings, then turn it on.
     Before uninstalling, turn off launch at login in ClickThrough settings.
   EOS

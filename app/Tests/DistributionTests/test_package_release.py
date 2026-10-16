@@ -26,6 +26,7 @@ with tempfile.TemporaryDirectory(prefix='clickthrough-distribution-') as temp_na
     # A fixture-specific minimum catches a packager that hardcodes the old target.
     info = app/'Contents/Info.plist'
     metadata = plistlib.loads(info.read_bytes())
+    fixture_version = metadata['CFBundleShortVersionString']
     metadata['LSMinimumSystemVersion'] = '14.0'
     info.write_bytes(plistlib.dumps(metadata))
     subprocess.run(['codesign', '--force', '--sign', '-', str(app)], check=True, capture_output=True)
@@ -76,7 +77,7 @@ puts JSON.generate({token:c.token,version:c.version.to_s,sha256:c.sha256,
         assert loaded.returncode == 0, loaded.stderr
         definition = json.loads(loaded.stdout)
         assert definition['macos'] == '14' and definition['comparator'] == '>='
-        assert definition['sha256'] == digest and definition['version'] == '0.1.0'
+        assert definition['sha256'] == digest and definition['version'] == fixture_version
         records.append({'case': 'current_homebrew_dsl', 'result': 'pass', 'parsed': definition})
 
     # A local package after a previously generated public Cask must not advertise stale publication metadata.

@@ -5,11 +5,14 @@
 ```sh
 make test
 make test-release APP=app/build/ClickThrough.app
+make test-release-tools
 ```
 
 Swift 单元检查覆盖应用规则、手动／登录图标恢复、状态与图标、修饰标志、失败开启意图和 AX 步骤顺序。分发检查在临时签名副本中验证参数、归档校验值、最低系统声明和旧 Cask 清理，不修改运行包。
 
 使用新目录候选包时，将 `APP` 指向该包。已安装 Homebrew 的环境可运行 `make test-homebrew APP=路径/ClickThrough.app`，额外解析真实 Cask DSL；不注册 tap、不安装软件。
+
+`test-release-tools` 覆盖有效发布、版本不匹配、ZIP 被修改、二进制中的个人路径与凭据模式、意外诊断文件六类输入。发布工作流对实际 ZIP 运行同一校验，并在解压后核对签名、执行权限、arm64 架构和 Mach-O 最低版本；不安装或启动应用。
 
 构建验证另见 [开发指南](development.md)。包的最低版本应同时核对 Info.plist 和 Mach-O `minos`，字符串图标还需检查系统符号可用性，不能只依赖编译器。
 

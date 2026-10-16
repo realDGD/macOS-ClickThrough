@@ -24,6 +24,6 @@ bundle ID 为 `local.clickthrough.app`，设置保存在相应 UserDefaults。�
 ## 开发与安装入口
 
 - [开发指南](../docs/development.md)：构建、候选包与运行方法。
-- [分发与 Homebrew](../docs/distribution.md)：归档、签名、公证、Cask 和安装方法；公开 tap 尚未发布。
+- [分发与 Homebrew](../docs/distribution.md)：归档、签名、公证、Cask 和安装方法；[发布指南](../docs/releasing.md) 说明版本维护步骤。
 - [当前架构](../docs/architecture.md)：组件与 A4 固定约束。
 - [macOS 14 版本调整验证](../docs/validation/MACOS14_2026_10_15.md)：本次候选包和证据边界。

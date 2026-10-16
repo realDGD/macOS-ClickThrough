@@ -40,6 +40,8 @@ make build BUILD_DIR=app/build/review-candidate
 
 应用图标源、生成命令及许可位置见 [素材说明](../app/Resources/Artwork/README.md)。正常构建使用已生成的 ICNS，不增加 Xcode 资源编译或下载步骤。
 
+构建对源码路径执行编译器前缀映射，并仅在新组装的可执行副本上移除调试符号，再签名。发布前另以 [归档检查工具](../app/scripts/verify-release.py) 核对版本、SHA-256、资源白名单及个人路径／凭据模式。编译目录和原始日志仍只保留在本地；这些检查不会修改正在运行的包。
+
 ## 目录
 
 - `app/Sources/`、`app/Tests/`：产品与相关自动检查。

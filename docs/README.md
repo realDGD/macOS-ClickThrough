@@ -8,6 +8,7 @@
 | [开发](development.md) | 构建、运行、工具链与目录 |
 | [测试](testing.md) | 检查命令、实机证据和未验收范围 |
 | [分发](distribution.md) | 本地包、签名、公证与 Homebrew |
+| [发布](releasing.md) | 版本 tag、Release 草稿、公开发布和 tap 更新 |
 | [Agent Notes](../.agents/notes/README.md) | 长期决策的理由与备选 |
 | [macOS 14 调整验证](validation/MACOS14_2026_10_15.md) | 本次兼容改动与候选包证据 |
 | [应用图标接入](validation/APP_ICON_2026_10_15.md) | Lucide 来源、图标资源与候选包检查 |

@@ -15,11 +15,12 @@ if pgrep -x ClickThrough >/dev/null && [[ -e "$clickthrough_build/ClickThrough.a
   echo "ClickThrough 正在运行；请先退出，再覆盖已有应用，或用 --output 指定没有应用的新目录。" >&2
   exit 1
 fi
-swift build --package-path "$clickthrough_root" -c release > "$clickthrough_build/build.log" 2>&1 || {
+clickthrough_swift_args=(--package-path "$clickthrough_root" -c release -Xswiftc -file-prefix-map -Xswiftc "$clickthrough_root=.")
+swift build "${clickthrough_swift_args[@]}" > "$clickthrough_build/build.log" 2>&1 || {
   tail -n 35 "$clickthrough_build/build.log" >&2
   exit 1
 }
-clickthrough_bin="$(swift build --package-path "$clickthrough_root" -c release --show-bin-path)"
+clickthrough_bin="$(swift build "${clickthrough_swift_args[@]}" --show-bin-path)"
 clickthrough_stage="$(mktemp -d "$clickthrough_build/stage.XXXXXX")"
 trap 'rm -rf "$clickthrough_stage"' EXIT
 clickthrough_app="$clickthrough_stage/ClickThrough.app"
@@ -30,6 +31,7 @@ cp "$clickthrough_root/Resources/AppIcon.icns" "$clickthrough_app/Contents/Resou
 cp "$clickthrough_root/Resources/Artwork/Lucide/LICENSE.txt" "$clickthrough_app/Contents/Resources/ThirdParty/Lucide-LICENSE.txt"
 cp "$clickthrough_root/../THIRD_PARTY_NOTICES.md" "$clickthrough_app/Contents/Resources/THIRD_PARTY_NOTICES.md"
 cp "$clickthrough_root/../LICENSE" "$clickthrough_app/Contents/Resources/LICENSE"
+strip -S "$clickthrough_app/Contents/MacOS/ClickThrough"
 plutil -lint "$clickthrough_app/Contents/Info.plist"
 codesign --force --options runtime --sign "${CLICKTHROUGH_SIGN_IDENTITY:--}" "$clickthrough_app"
 codesign --verify --strict "$clickthrough_app"

@@ -1,8 +1,14 @@
 # 分发与 Homebrew
 
-当前提供本地 arm64 开发包和 Cask 生成工具，最低部署目标为 macOS 14。尚未发布公开下载、Homebrew tap、Developer ID 签名或公证版本。
+当前通过 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 分发 arm64 开发版，最低部署目标为 macOS 14；[独立 tap](https://github.com/realDGD/homebrew-tap) 提供 Homebrew 入口。当前没有 Developer ID 签名和 Apple 公证，首次打开可能被 Gatekeeper 阻止，更新后可能需要重新添加辅助功能权限。不会通过安装脚本关闭 Gatekeeper、移除 quarantine 或自动授予 TCC 权限。
 
-2026-10-16 已再次通过现有五项分发检查，包括 Homebrew 7.0.9 的真实 Cask DSL 解析；这是生成器验证。公开源码仓库 [macOS-ClickThrough](https://github.com/realDGD/macOS-ClickThrough) 尚无 Release 安装归档，现有 `realDGD/homebrew-cask` 是上游 fork、没有 ClickThrough 定义，因此目前没有可直接安装本项目的 `brew install` 命令。本轮仅检查，不注册或修改 tap。
+```sh
+brew install --cask realdgd/tap/clickthrough
+```
+
+完整命令只信任该 Cask，不要求信任整个 tap，参见 [Homebrew Tap Trust](https://docs.brew.sh/Tap-Trust)。手动安装也可使用 Release 中同一份 ZIP。已有手动安装版本时先自行退出并备份，再迁移至 Homebrew；不要覆盖正在运行的应用。
+
+2026-10-16 的早期核查仅验证了生成器，当时还没有 Release 或可安装 Cask。后续经用户重新授权准备公开开发版和独立 tap；原有 `realDGD/homebrew-cask` 上游 fork 保持不变。首次发行的实际版本、下载与校验结果见 [发布验证](validation/RELEASE_0_1_0_2026_10_16.md)。
 
 ## 本地归档
 
@@ -29,17 +35,12 @@ python3 app/scripts/package-release.py \
 
 Cask 使用 `depends_on arch: :arm64` 与 `depends_on macos: :sonoma`；只接受最低版本声明为 14.0 的包，避免把仍在运行的旧 27 包当作 14 发布。将生成的 `clickthrough.rb` 放入自己的 Homebrew tap 仓库的 `Casks/`，上传这次生成的原始 zip，保持校验值一致。
 
-发布归档及专用 Homebrew tap 准备好后，用户才可使用以下命令，`OWNER` 替换为实际发布账号：
+当前 tap 为 `realdgd/tap`。升级前自行退出应用，再运行 `brew update` 和 `brew upgrade --cask realdgd/tap/clickthrough`。卸载前先在应用中关闭登录启动，再运行 `brew uninstall --cask realdgd/tap/clickthrough`。只有显式 `--zap` 才清理偏好和日志；不宣称能自动清空 macOS 的 TCC 记录。
 
-```sh
-brew tap OWNER/tap
-brew install --cask OWNER/tap/clickthrough
-```
-
-升级使用 `brew upgrade --cask OWNER/tap/clickthrough`。卸载前先在应用中关闭登录启动，再运行 `brew uninstall --cask clickthrough`。只有显式 `--zap` 才清理偏好和日志；不宣称能自动清空 macOS 的 TCC 记录。
+新版本由 tag 工作流先生成草稿，经检查后公开，再更新 tap 中的 Cask；详见 [发布指南](releasing.md)。公开 ZIP 必须与生成 Cask 时使用的原始 ZIP 完全一致，不重新打包或覆盖已发布版本。
 
 ## 正式发布条件
 
-使用 Developer ID 与 Hardened Runtime 签名，提交公证并确认成功，Staple 到应用后再生成最终 zip 和 SHA-256。当前工具不会上传、安装、注册 tap、绕过 Gatekeeper 或更改权限。Intel 包、旧系统实机和登录行为仍按独立证据验收。
+正式签名发行需使用 Developer ID 与 Hardened Runtime，提交公证并确认成功，Staple 到应用后再生成最终 ZIP 和 SHA-256。当前公开版本为用户已选择的未公证开发版；本地打包工具不上传，Release 工作流仅上传到草稿。公开发布和 tap 更新由维护者执行，不安装软件、绕过 Gatekeeper 或更改权限。Intel、旧系统实机和登录行为各按其独立证据报告。
 
 参考：[Homebrew Cask Cookbook](https://docs.brew.sh/Cask-Cookbook)、[Apple SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice)。
