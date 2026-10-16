@@ -10,7 +10,7 @@
 
 ## 安装
 
-Homebrew：
+首次使用 Homebrew 入口：
 
 ```sh
 brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrough
@@ -19,7 +19,7 @@ brew install --cask realdgd/tap/clickthrough
 
 或从 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 下载 `ClickThrough-版本-arm64.dmg`，打开后将 `ClickThrough.app` 拖入“应用程序”。Homebrew 的 [Cask](Casks/clickthrough.rb) 与源码合并在本仓库，使用同一份 DMG 及 SHA-256。从 v0.1.1 起使用 DMG，已发布的 v0.1.0 ZIP 保留原样。
 
-已使用旧 `homebrew-tap` 的用户，也先执行上面的 `brew tap --custom-remote ...` 更新来源；tap 和包名保持不变，该命令本身不安装或替换应用。
+已使用旧独立 `homebrew-tap` 的用户，请先按[迁移步骤](docs/distribution.md#旧独立-tap-迁移)备份并重置该 tap 的源码。两个仓库的 Git 历史不同，仅改变 URL 不足以迁移。tap 和包名保持不变，迁移源码与升级应用分别执行。
 
 **当前为 ad-hoc 签名、未经 Apple 公证的开发版。** macOS 可能阻止首次打开；请审阅系统“隐私与安全性”中的提示后自行决定是否允许，不需要关闭 Gatekeeper。允许打开后，为 ClickThrough 开启辅助功能权限。更新后可能需要重新添加该权限。
 

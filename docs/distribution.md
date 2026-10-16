@@ -9,7 +9,7 @@ brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrou
 brew install --cask realdgd/tap/clickthrough
 ```
 
-显式 URL 让项目仓库同时作为 tap，`realdgd/tap` 是保留的本地 tap 名称。`--custom-remote` 既用于首次添加，也能将旧独立 tap 的来源切换到项目仓库，不需要改包名。该命令会下载 tap 源码，不安装或替换应用；随后只有显式安装／升级才更改应用。不要只执行旧的一行安装命令来期待 Homebrew 自动猜出新来源。
+上面命令用于首次添加本项目 tap。显式 URL 让项目仓库同时作为 tap，`realdgd/tap` 是保留的本地 tap 名称。已添加旧独立 tap 的用户先执行下方迁移，不能只改 URL：新旧仓库的 Git 历史不相通。
 
 完整安装命令仅信任该 Cask，不要求信任整个 tap，参见 [Homebrew Tap Trust](https://docs.brew.sh/Tap-Trust)。原独立 `homebrew-tap` 保留迁移说明和历史版本，不再同步新发行；原 `homebrew-cask` 上游 fork 保持不变。
 
@@ -25,6 +25,20 @@ brew upgrade --cask realdgd/tap/clickthrough
 卸载前先在应用中关闭登录启动，再执行 `brew uninstall --cask realdgd/tap/clickthrough`。只有显式 `--zap` 才清理偏好与日志；不宣称能自动清空 macOS TCC 记录。
 
 当前仍为 ad-hoc 签名、未公证开发版，macOS 可能阻止首次打开，更新后可能需要重新添加辅助功能权限。请审阅系统提示后自行决定是否允许。DMG 不改变签名／公证状态；安装流程不关闭 Gatekeeper、不移除 quarantine、不自动授予权限。
+
+## 旧独立 tap 迁移
+
+仅针对已添加旧 `realdgd/tap` 的用户。以下先完整备份 tap 的 Git 历史、本地改动及未跟踪文件，再改变远程并将该 tap 的源码切换为项目仓库。**会重置该 tap 的本地改动，请保留备份。** 不卸载、替换或启动已安装应用。
+
+```sh
+clickthrough_tap_path="$(brew --repository realdgd/tap)"
+clickthrough_tap_backup="$(mktemp -d "$HOME/ClickThrough-tap-backup.XXXXXX")"
+ditto "$clickthrough_tap_path" "$clickthrough_tap_backup/tap"
+brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrough
+brew update-reset "$clickthrough_tap_path"
+```
+
+`update-reset` 接收的是保存的仓库路径，不是 tap 名称；不要省略路径，否则会重置更多 Homebrew 仓库。无需运行 `brew untap`，它可能要求卸载已安装的 Cask。迁移来源后，实际升级应用仍按上文先退出 ClickThrough，再执行 `brew update`／`brew upgrade`。
 
 ## 本地 DMG
 

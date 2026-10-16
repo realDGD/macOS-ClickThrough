@@ -8,11 +8,11 @@ Status: implemented
 
 ## Decision
 
-将 `Casks/clickthrough.rb` 放入项目根目录。Homebrew 保留 `realdgd/tap/clickthrough` 名称，通过 `brew tap --custom-remote` 显式指定项目 URL，已有用户可以只更换来源。旧独立仓库保留历史 Cask 和迁移说明，停止维护新版本，不删除用户历史。
+将 `Casks/clickthrough.rb` 放入项目根目录。Homebrew 保留 `realdgd/tap/clickthrough` 名称，通过 `brew tap --custom-remote` 显式指定项目 URL，已有用户先完整备份旧 tap，再显式重置该 tap 的源码以处理两个仓库不相通的 Git 历史；不通过 untap 迁移，以免卸载已安装应用。旧独立仓库保留历史 Cask 和迁移说明，停止维护新版本，不删除用户历史。
 
 v0.1.1 起发布一个标准 HFS+ / UDZO DMG，包含应用和 `/Applications` 快捷方式，由系统工具生成，供手动下载与 Homebrew 共用。v0.1.0 的 tag、ZIP 和四附件均保持原样，不在原版本上替换归档。
 
-tag 仍生成草稿；公开后使用本仓库 `GITHUB_TOKEN` 写入单个 Cask，撤销旧 Deploy Key 与额外 Secret。同步前检查来源、原生应用、DMG 内容及完整 Cask 模板；只读挂载、不打开窗口、不启动应用，并保证卸载。相同内容不提交、旧版本不降级、同版本不改写、并发推送不强制覆盖。
+tag 仍生成草稿；公开后使用本仓库 `GITHUB_TOKEN` 写入单个 Cask，撤销旧 Deploy Key 与额外 Secret。同步前检查来源、原生应用、DMG 内容及完整 Cask 模板；只读挂载、不打开窗口、不启动应用，并在结束时卸载。相同内容不提交、旧版本不降级、同版本不改写、并发推送不强制覆盖。
 
 ## Alternatives considered
 
