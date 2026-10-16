@@ -14,6 +14,7 @@
 | [应用图标接入](validation/APP_ICON_2026_10_15.md) | Lucide 来源、图标资源与候选包检查 |
 | [小范围真实鼠标回归](validation/PHASE_3_PHYSICAL_2026_10_15.md) | 调整前产品构建的用户物理输入结果 |
 | [安装版撤权恢复](validation/PERMISSION_RECOVERY_2026_10_15.md) | 同一构建、同一进程的权限关闭与恢复结果 |
+| [Homebrew 自动同步](validation/TAP_AUTO_SYNC_2026_10_16.md) | 专用权限、线上幂等同步与后续新版本边界 |
 | [CI、CLT 与 Homebrew](validation/CI_CLT_2026_10_16.md) | PR 检查、独立 CLT 构建及公开安装状态 |
 
 ## 研究与历史
