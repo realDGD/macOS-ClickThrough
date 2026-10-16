@@ -31,11 +31,15 @@ brew upgrade --cask realdgd/tap/clickthrough
 仅针对已添加旧 `realdgd/tap` 的用户。以下先完整备份 tap 的 Git 历史、本地改动及未跟踪文件，再改变远程并将该 tap 的源码切换为项目仓库。**会重置该 tap 的本地改动，请保留备份。** 不卸载、替换或启动已安装应用。
 
 ```sh
+(
+set -e
 clickthrough_tap_path="$(brew --repository realdgd/tap)"
 clickthrough_tap_backup="$(mktemp -d "$HOME/ClickThrough-tap-backup.XXXXXX")"
 ditto "$clickthrough_tap_path" "$clickthrough_tap_backup/tap"
 brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrough
 brew update-reset "$clickthrough_tap_path"
+printf 'Tap backup: %s\n' "$clickthrough_tap_backup/tap"
+)
 ```
 
 `update-reset` 接收的是保存的仓库路径，不是 tap 名称；不要省略路径，否则会重置更多 Homebrew 仓库。无需运行 `brew untap`，它可能要求卸载已安装的 Cask。迁移来源后，实际升级应用仍按上文先退出 ClickThrough，再执行 `brew update`／`brew upgrade`。
