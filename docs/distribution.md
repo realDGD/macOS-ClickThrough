@@ -2,6 +2,8 @@
 
 当前提供本地 arm64 开发包和 Cask 生成工具，最低部署目标为 macOS 14。尚未发布公开下载、Homebrew tap、Developer ID 签名或公证版本。
 
+2026-10-16 已再次通过现有五项分发检查，包括 Homebrew 7.0.9 的真实 Cask DSL 解析；这是生成器验证。公开源码仓库 [macOS-ClickThrough](https://github.com/realDGD/macOS-ClickThrough) 尚无 Release 安装归档，现有 `realDGD/homebrew-cask` 是上游 fork、没有 ClickThrough 定义，因此目前没有可直接安装本项目的 `brew install` 命令。本轮仅检查，不注册或修改 tap。
+
 ## 本地归档
 
 先按 [开发指南](development.md) 构建，再打包选定的应用：
