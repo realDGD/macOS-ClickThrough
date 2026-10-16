@@ -14,6 +14,7 @@
 | [应用图标接入](validation/APP_ICON_2026_10_15.md) | Lucide 来源、图标资源与候选包检查 |
 | [小范围真实鼠标回归](validation/PHASE_3_PHYSICAL_2026_10_15.md) | 调整前产品构建的用户物理输入结果 |
 | [安装版撤权恢复](validation/PERMISSION_RECOVERY_2026_10_15.md) | 同一构建、同一进程的权限关闭与恢复结果 |
+| [v0.1.1 DMG 与同仓库发布](validation/RELEASE_0_1_1_2026_10_16.md) | 真实发布事件、Cask 自动提交、旧版本保留及密钥撤销 |
 | [历史跨仓库同步](validation/TAP_AUTO_SYNC_2026_10_16.md) | 已被单仓库方案替代的首次验证记录 |
 | [单仓库 DMG 决策](../.agents/notes/implemented/process/2026-10-16-single-repository-dmg.md) | Cask 合并、DMG、内置 token 与旧版本保留 |
 | [CI、CLT 与 Homebrew](validation/CI_CLT_2026_10_16.md) | PR 检查、独立 CLT 构建及公开安装状态 |
