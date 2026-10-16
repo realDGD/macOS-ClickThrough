@@ -1,0 +1,67 @@
+name: Sync Homebrew tap
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published vMAJOR.MINOR.PATCH release to sync
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-homebrew-tap
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'realDGD/macOS-ClickThrough' && (github.event_name == 'release' || github.ref == 'refs/heads/main')
+    runs-on: macos-26
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+        working-directory: source
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      - name: Check out trusted validation tools
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+          path: source
+
+      - name: Download and validate published assets before accessing the tap key
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 app/scripts/sync-homebrew.py prepare \
+            --tag "$RELEASE_TAG" --directory "$RUNNER_TEMP/release-assets" \
+            | tee "$RUNNER_TEMP/verified-release.json"
+          echo "source_commit=$(jq -r .source_commit "$RUNNER_TEMP/verified-release.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Check out tap with its dedicated write key
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: realDGD/homebrew-tap
+          ref: main
+          path: tap
+          ssh-key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+          ssh-strict: true
+
+      - name: Update Cask without downgrading or rewriting a published version
+        env:
+          SOURCE_COMMIT: ${{ steps.release.outputs.source_commit }}
+        run: |
+          python3 app/scripts/sync-homebrew.py sync \
+            --tag "$RELEASE_TAG" --source-commit "$SOURCE_COMMIT" \
+            --directory "$RUNNER_TEMP/release-assets" --tap ../tap \
+            | tee "$RUNNER_TEMP/tap-sync.json"
+          cat "$RUNNER_TEMP/tap-sync.json" >> "$GITHUB_STEP_SUMMARY"

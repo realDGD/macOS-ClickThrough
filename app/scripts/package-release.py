@@ -10,8 +10,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-def ruby_string(value):
-    return "'" + value.replace("\\", "\\\\").replace("'", "\\'") + "'"
+from release_cask import render_cask
 
 
 def main():
@@ -53,35 +52,7 @@ def main():
     if args.url:
         if arch != "arm64":
             parser.error("the initial Cask supports the validated arm64 build only")
-        cask = f'''cask "clickthrough" do
-  version {ruby_string(version)}
-  sha256 {ruby_string(digest)}
-
-  url {ruby_string(args.url)}
-  name "ClickThrough"
-  desc "Menu bar utility for first-click interaction with background windows"
-  homepage {ruby_string(args.homepage)}
-
-  depends_on arch: :arm64
-  depends_on macos: :sonoma
-
-  app "ClickThrough.app"
-
-  uninstall quit: "local.clickthrough.app"
-
-  zap trash: [
-    "~/Library/Preferences/local.clickthrough.app.plist",
-    "~/Library/Logs/ClickThrough",
-  ]
-
-  caveats <<~EOS
-    This development build is ad-hoc signed and has not been notarized by Apple.
-    macOS may block its first launch; updates may require re-adding Accessibility permission.
-    Enable Accessibility for ClickThrough in System Settings, then turn it on.
-    Before uninstalling, turn off launch at login in ClickThrough settings.
-  EOS
-end
-'''
+        cask = render_cask(version, digest, args.url, args.homepage)
         (output / "clickthrough.rb").write_text(cask)
     else:
         # A local-only package must not leave a Cask for an older public archive.

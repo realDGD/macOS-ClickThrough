@@ -10,6 +10,8 @@ import sys
 import zipfile
 from pathlib import Path
 
+from release_cask import render_cask
+
 REPOSITORY = 'https://github.com/realDGD/macOS-ClickThrough'
 REQUIRED_FILES = {
     'Contents/MacOS/ClickThrough', 'Contents/Info.plist',
@@ -56,8 +58,8 @@ def verify(directory, tag, source_commit=None):
     require((directory / (name + '.sha256')).read_text().strip() == f'{digest}  {name}',
             'SHA-256 sidecar differs from archive')
     cask = (directory / 'clickthrough.rb').read_text()
-    for declaration in [f"version '{version}'", f"sha256 '{digest}'", f"url '{url}'"]:
-        require(declaration in cask, 'Cask differs from public release metadata')
+    require(cask == render_cask(version, digest, url, REPOSITORY),
+            'Cask differs from the trusted release template')
     for path in directory.iterdir():
         if path.name != name:
             require(not PERSONAL_PATH.search(path.read_bytes()), 'personal path in release metadata')

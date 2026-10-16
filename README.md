@@ -33,7 +33,7 @@ brew upgrade --cask realdgd/tap/clickthrough
 - 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
 - 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
 
-详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)。
+详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)：tag 自动构建草稿，手动公开后 Action 自动更新 Homebrew tap。
 
 ## 开发
 

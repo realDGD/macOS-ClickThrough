@@ -33,14 +33,14 @@ python3 app/scripts/package-release.py \
   --homepage 'https://YOUR_PROJECT_HOMEPAGE'
 ```
 
-Cask 使用 `depends_on arch: :arm64` 与 `depends_on macos: :sonoma`；只接受最低版本声明为 14.0 的包，避免把仍在运行的旧 27 包当作 14 发布。将生成的 `clickthrough.rb` 放入自己的 Homebrew tap 仓库的 `Casks/`，上传这次生成的原始 zip，保持校验值一致。
+Cask 使用 `depends_on arch: :arm64` 与 `depends_on macos: :sonoma`；只接受最低版本声明为 14.0 的包，避免把仍在运行的旧 27 包当作 14 发布。本项目在 Release 公开后自动校验并同步 Cask 至独立 tap；自行分发时将生成的 `clickthrough.rb` 放入自己的 tap 的 `Casks/`。上传这次生成的原始 zip，保持校验值一致。
 
 当前 tap 为 `realdgd/tap`。升级前自行退出应用，再运行 `brew update` 和 `brew upgrade --cask realdgd/tap/clickthrough`。卸载前先在应用中关闭登录启动，再运行 `brew uninstall --cask realdgd/tap/clickthrough`。只有显式 `--zap` 才清理偏好和日志；不宣称能自动清空 macOS 的 TCC 记录。
 
-新版本由 tag 工作流先生成草稿，经检查后公开，再更新 tap 中的 Cask；详见 [发布指南](releasing.md)。公开 ZIP 必须与生成 Cask 时使用的原始 ZIP 完全一致，不重新打包或覆盖已发布版本。
+新版本由 tag 工作流先生成草稿，经维护者检查后公开，再由同步工作流更新 tap 中的 Cask；详见 [发布指南](releasing.md)。公开 ZIP 必须与生成 Cask 时使用的原始 ZIP 完全一致，不重新打包或覆盖已发布版本。
 
 ## 正式发布条件
 
-正式签名发行需使用 Developer ID 与 Hardened Runtime，提交公证并确认成功，Staple 到应用后再生成最终 ZIP 和 SHA-256。当前公开版本为用户已选择的未公证开发版；本地打包工具不上传，Release 工作流仅上传到草稿。公开发布和 tap 更新由维护者执行，不安装软件、绕过 Gatekeeper 或更改权限。Intel、旧系统实机和登录行为各按其独立证据报告。
+正式签名发行需使用 Developer ID 与 Hardened Runtime，提交公证并确认成功，Staple 到应用后再生成最终 ZIP 和 SHA-256。当前公开版本为用户已选择的未公证开发版；本地打包工具不上传，Release 工作流仅上传到草稿。公开发布由维护者执行，tap 更新由专用 Deploy Key 授权的工作流执行，不安装软件、绕过 Gatekeeper 或更改权限。Intel、旧系统实机和登录行为各按其独立证据报告。
 
 参考：[Homebrew Cask Cookbook](https://docs.brew.sh/Cask-Cookbook)、[Apple SMAppService](https://developer.apple.com/documentation/servicemanagement/smappservice)。
