@@ -24,6 +24,6 @@ tag 仍生成草稿；公开后使用本仓库 `GITHUB_TOKEN` 写入单个 Cask�
 
 ## Consequences
 
-首次安装需显式 URL，Homebrew 会克隆整个项目，tap 更新流量大于单文件仓库；已安装旧 tap 者可保留名称并换源。内置 token 的提交通常不再触发 CI，因此原生和 Homebrew 检查在同步 job 内、提交前完成。
+首次安装需显式 URL，Homebrew 会克隆整个项目，tap 更新流量大于单文件仓库；已安装旧 tap 者可保留名称，按备份并只重置 tap 源码的步骤换源。内置 token 的提交通常不再触发 CI，因此原生和 Homebrew 检查在同步 job 内、提交前完成。
 
 DMG 不带来 Developer ID 或 Apple 公证，也不自动解决 Gatekeeper 或 TCC。该改动不影响 A4 核心、不安装候选包、不新增鼠标业务或应用矩阵验收。实际发布、旧资产保持及凭据撤销分别记录证据，不能由本地构建代替。命令见 [发布指南](../../../../docs/releasing.md)。

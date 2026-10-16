@@ -14,7 +14,7 @@ Swift 单元检查覆盖应用规则、手动／登录图标恢复、状态与�
 
 使用新目录候选包时，将 `APP` 指向该包。已安装 Homebrew 的环境可运行 `make test-homebrew APP=路径/ClickThrough.app`，额外解析真实 Cask DSL；不注册 tap、不安装软件。
 
-`test-release-tools` 覆盖有效发布、版本不匹配、DMG 被修改、二进制中的个人路径与凭据模式、意外诊断文件及附加 Ruby 代码等输入。发布工作流对实际 ZIP 运行同一校验，并在只读挂载时核对应用签名、执行权限、arm64 架构和 Mach-O 最低版本；不安装或启动应用。
+`test-release-tools` 覆盖有效发布、版本不匹配、DMG 被修改、二进制中的个人路径与凭据模式、意外诊断文件及附加 Ruby 代码等输入。发布工作流对实际 DMG 运行同一校验，并在只读挂载时核对应用签名、执行权限、arm64 架构和 Mach-O 最低版本；不安装或启动应用。
 
 `test-release-tools` 还用临时本地 Git 仓库检查 tap 新版本提交／推送、同版本幂等、数字版本防降级、同版本内容不可改写、源码提交核对及无关修改隔离；不连接用户 tap、不安装软件。公开附件与 GitHub Actions 的历史跨仓库同步证据见 [原自动同步验证](validation/TAP_AUTO_SYNC_2026_10_16.md)，现已改为仓库内置 token 更新同仓库 Cask，不能由这些本地检查代替。
 
