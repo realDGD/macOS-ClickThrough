@@ -24,3 +24,4 @@ test-homebrew:
 
 test-release-tools:
 	python3 app/Tests/DistributionTests/test_verify_release.py
+	python3 app/Tests/DistributionTests/test_sync_homebrew.py

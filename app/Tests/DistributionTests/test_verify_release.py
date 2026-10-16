@@ -12,6 +12,9 @@ from pathlib import Path
 
 
 SCRIPT = Path(__file__).resolve().parents[2] / 'scripts/verify-release.py'
+sys.path.insert(0, str(SCRIPT.parent))
+from release_cask import render_cask
+
 REPOSITORY = 'https://github.com/realDGD/macOS-ClickThrough'
 
 
@@ -47,8 +50,7 @@ class ReleaseVerificationTests(unittest.TestCase):
             'source_commit': 'a' * 40,
         }))
         (self.output / 'clickthrough.rb').write_text(
-            f'cask "clickthrough" do\n  version \'0.1.0\'\n'
-            f'  sha256 \'{digest}\'\n  url \'{url}\'\nend\n')
+            render_cask('0.1.0', digest, url, REPOSITORY))
 
     def run_check(self, tag='v0.1.0'):
         return subprocess.run([sys.executable, str(SCRIPT), '--directory', str(self.output),
@@ -90,6 +92,14 @@ class ReleaseVerificationTests(unittest.TestCase):
         result = self.run_check()
         self.assertEqual(result.returncode, 1)
         self.assertIn('unexpected', result.stderr)
+
+    def test_cask_with_extra_ruby_is_rejected(self):
+        self.fixture()
+        with (self.output / 'clickthrough.rb').open('a') as stream:
+            stream.write('system("unexpected command")\n')
+        result = self.run_check()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('Cask', result.stderr)
 
 
 if __name__ == '__main__':

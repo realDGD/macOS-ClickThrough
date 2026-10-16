@@ -55,11 +55,25 @@ gh release edit v0.1.1 --repo realDGD/macOS-ClickThrough --draft=false --prerele
 
 当前开发版保留 pre-release 标记和未公证说明。不要移动已公开 tag、替换同版本 ZIP 或重新计算 Cask 指向另一份 ZIP；需要修正时发布新版本。
 
-## 4. 更新 Homebrew tap
+## 4. 自动同步 Homebrew tap
 
-发布完成、公开 URL 可以下载且 SHA-256 一致后，在 `homebrew-tap` 仓库将附件 `clickthrough.rb` 原样复制为 `Casks/clickthrough.rb`，提交并推送。不要手工猜测校验值，也不要重新压缩 ZIP。tap 的 CI 会检查 Ruby／Cask 解析并下载归档核对 SHA-256。
+公开 Release 后，[Sync Homebrew tap 工作流](../.github/workflows/sync-homebrew.yml) 自动下载四个附件，核对 tag 对应的 main 历史提交、ZIP 完整性、脱敏规则和完整 Cask 模板，再更新独立 tap 的 `Casks/clickthrough.rb` 并推送，触发 tap 原有 CI。pre-release 同样同步；草稿不触发。无需手动复制 Cask，也不要重新压缩 ZIP。
 
-发布工作流的仓库 token 不能跨仓库写入 tap，因此这一步由维护者使用自己的 Git 权限完成；本项目没有要求添加跨仓库 PAT 或公开任何签名凭据。
+版本按数字比较：重复同步相同内容不产生提交，旧版本不会覆盖新版，同版本内容不同则失败，要求发布新版本。并发远程改动导致普通推送失败时，先检查 tap，再重跑；不使用 force push。
+
+可在源码仓库 Actions → **Sync Homebrew tap** → **Run workflow**，选择 `main` 并输入已公开的 tag；也可执行：
+
+```sh
+gh workflow run sync-homebrew.yml --repo realDGD/macOS-ClickThrough --ref main -f tag=v0.1.1
+```
+
+这是恢复同步的入口，不创建或公开 Release。查看该 Action 的摘要确认 `updated`、`unchanged` 或 `skipped-older`；有版本更新时还应确认 tap CI 成功。GitHub 内置 `GITHUB_TOKEN` 发布产生的事件通常不会触发另一工作流；本流程由维护者在网页／个人 CLI 公开草稿，若将来改为 Action 内自动公开，须显式 dispatch 同步工作流。
+
+### 一次性权限配置与轮换
+
+跨仓库写入采用独立 SSH Deploy Key：公钥仅添加到 `realDGD/homebrew-tap` 并开启写权限，私钥仅存入源码仓库 Actions Secret `HOMEBREW_TAP_DEPLOY_KEY`。Deploy Key 的权限范围是整个 tap 仓库，路径限制由同步脚本实现；它不能访问维护者的其他私有仓库。不要把个人 GitHub token、私钥或签名材料写入源码、Release 或日志。
+
+轮换时创建新的专用密钥，更新同名 Secret 和 tap Deploy Key，手动同步一次已有版本确认通过，再移除旧公钥。撤销自动更新时删除该 Secret 及 tap 中对应公钥。密钥不会自动过期，需由维护者管理。凭据缺失或失效会使 Action 失败，不影响已经公开的 Release 和已安装应用。
 
 用户安装／升级命令见 [README](../README.md) 和 [分发说明](distribution.md)。Homebrew 只负责安装应用，不会自动允许 Gatekeeper 或辅助功能权限。若本机已有手动安装版，迁移前应先自行退出并备份；发布本身不会更新已运行实例。
 
@@ -67,4 +81,4 @@ gh release edit v0.1.1 --repo realDGD/macOS-ClickThrough --draft=false --prerele
 
 先准备有效的 Developer ID Application 证书及公证凭据，再调整签名／公证工作流：签名、提交公证并确认成功、Staple、最后打包。重新核验归档后再更新 Release 和 Cask 的签名说明。证书私钥和凭据存入 Keychain 或专用 Secrets，不进入 Git、附件或日志。
 
-参考：[Apple 公证要求](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)、[Homebrew Tap Trust](https://docs.brew.sh/Tap-Trust)。
+参考：[GitHub Release 事件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release)、[GITHUB_TOKEN 范围与事件限制](https://docs.github.com/en/actions/concepts/security/github_token)、[Deploy Key 权限](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys)、[Apple 公证要求](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)、[Homebrew Tap Trust](https://docs.brew.sh/Tap-Trust)。
