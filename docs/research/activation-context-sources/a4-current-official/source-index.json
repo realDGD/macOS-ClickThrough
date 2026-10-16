@@ -1,0 +1,24 @@
+[
+  {
+    "official_url": "https://developer.apple.com/documentation/applicationservices/kaxmainattribute",
+    "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxmainattribute.json",
+    "file": "docs/research/activation-context-sources/a4-current-official/kaxmainattribute.json",
+    "sha256": "deb680bf3655b2a28e53df320b7454aff9d9acbfe8416afceca79825cdcea93f"
+  },
+  {
+    "official_url": "https://developer.apple.com/documentation/applicationservices/kaxfrontmostattribute",
+    "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxfrontmostattribute.json",
+    "file": "docs/research/activation-context-sources/a4-current-official/kaxfrontmostattribute.json",
+    "sha256": "d8ff94b835901771ffdb16ede33a60c7453968bcc1d528137cea19eb9f66beab"
+  },
+  {
+    "official_url": "https://developer.apple.com/documentation/applicationservices/axuielementsetattributevalue(_:_:_:)",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "official_url": "https://developer.apple.com/documentation/appkit/passing-control-from-one-app-to-another-with-cooperative-activation",
+    "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/appkit/passing-control-from-one-app-to-another-with-cooperative-activation.json",
+    "file": "docs/research/activation-context-sources/a4-current-official/passing-control-from-one-app-to-another-with-cooperative-activation.json",
+    "sha256": "0ab6e3b342746de7edd434c64ed2d97567859e57875e9c676b600c416072519a"
+  }
+]

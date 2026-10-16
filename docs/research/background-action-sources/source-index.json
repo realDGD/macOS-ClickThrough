@@ -1,0 +1,93 @@
+{
+  "retrieved_at": "2026-10-15T10:27:38.356777+08:00",
+  "sources": [
+    {
+      "title": "AXUIElementCopyActionNames",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/1462053-axuielementcopyactionnames",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462053-axuielementcopyactionnames.json",
+      "file": "docs/research/background-action-sources/AXUIElementCopyActionNames.json",
+      "sha256": "fba38c1eb42acacedcc350efb8ba7fa178d2a703f4f64881928669b177c658af",
+      "review_text": "Returns a list of all the actions the specified accessibility object can perform. func   AXUIElementCopyActionNames ( _   element :  AXUIElement ,  _   names :  UnsafeMutablePointer < CFArray ?> ) ->  AXError The AXUIElementRef representing the accessibility object. On return, an array of actions the accessibility object can perform (empty if the accessibility object supports no actions). Return Value If unsuccessful,   may return one of the following error codes, among others: One or both of the arguments is an illegal value. The AXUIElementRef is invalid. There was some sort of system memory failure. The function cannot complete because messaging has failed in some way. The process does not fully support the accessibility API."
+    },
+    {
+      "title": "AXUIElementCopyElementAtPosition",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/1462077-axuielementcopyelementatposition",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462077-axuielementcopyelementatposition.json",
+      "file": "docs/research/background-action-sources/AXUIElementCopyElementAtPosition.json",
+      "sha256": "ec3f0b4a4d1ba15b3d9d28e7ab1682c7fb477ad2f5d99a45641bc763030c8c31",
+      "review_text": "Returns the accessibility object at the specified position in top-left relative screen coordinates. func   AXUIElementCopyElementAtPosition ( _   application :  AXUIElement ,  _   x :  Float ,  _   y :  Float ,  _   element :  UnsafeMutablePointer < AXUIElement ?> ) ->  AXError The AXUIElementRef representing the application that contains the screen coordinates (or the system-wide accessibility object). The horizontal position. The vertical position. On return, the accessibility object at the position specified by x and y. Return Value If unsuccessful,   may return one of the following error codes, among others: There is no accessibility object at the specified position. One or more of the arguments is an illegal value. The AXUIElementRef is invalid. The function cannot complete because messaging has failed in some way. The process does not fully support the accessibility API. Discussion This function does hit-testing based on window z-order (that is, layering). If one window is on top of another window, the returned accessibility object comes from whichever window is topmost at the specified location. Note that if the system-wide accessibility object is passed in the   parameter, the position test is not restricted to a particular application."
+    },
+    {
+      "title": "AXUIElementPerformAction",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/1462091-axuielementperformaction",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462091-axuielementperformaction.json",
+      "file": "docs/research/background-action-sources/AXUIElementPerformAction.json",
+      "sha256": "cedea5c3a5083dc74c4deea1b29f8d13bf2bd6ee6bc9fd17c6e179ee14239ff4",
+      "review_text": "Requests that the specified accessibility object perform the specified action. func   AXUIElementPerformAction ( _   element :  AXUIElement ,  _   action :  CFString ) ->  AXError The AXUIElementRef representing the accessibility object. The action to be performed. Return Value If unsuccessful,   may return one of the following error codes, among others: The specified AXUIElementRef does not support the specified action (you will also receive this error if you pass in the system-wide accessibility object). One or more of the arguments is an illegal value. The AXUIElementRef is invalid. The function cannot complete because messaging has failed in some way or the application has not yet responded. The process does not fully support the accessibility API. Discussion It is possible to receive the   error code from this function because accessible applications often need to perform some sort of modal processing inside their action callbacks and they may not return within the timeout value set by the accessibility API. This does not necessarily mean that the function has failed, however. If appropriate, your assistive application can try to call this function again. Also, you may be able to increase the timeout value (see  )."
+    },
+    {
+      "title": "AXUIElementSetMessagingTimeout",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/1459345-axuielementsetmessagingtimeout",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1459345-axuielementsetmessagingtimeout.json",
+      "file": "docs/research/background-action-sources/AXUIElementSetMessagingTimeout.json",
+      "sha256": "46a30452edbc87985e382b62c7b1d873441fc3f947d5199ebb095a730c81f961",
+      "review_text": "Sets the timeout value used in the accessibility API. func   AXUIElementSetMessagingTimeout ( _   element :  AXUIElement ,  _   timeoutInSeconds :  Float ) ->  AXError The AXUIElementRef representing an accessibility object. The number of seconds for the new timeout value. Return Value If unsuccessful,   may return one of the following error codes, among others: One or more of the arguments is an illegal value (timeout values must be positive). The AXUIElementRef is invalid. Discussion Pass the system-wide accessibility object (see  ) if you want to set the timeout globally for this process. Setting the timeout on another accessibility object sets it only for that object, not for other accessibility objects that are equal to it. Setting   to 0 for the system-wide accessibility object resets the global timeout to its default value. Setting   to 0 for any other accessibility object makes that element use the current global timeout value."
+    },
+    {
+      "title": "AXIsProcessTrustedWithOptions",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/1459186-axisprocesstrustedwithoptions",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1459186-axisprocesstrustedwithoptions.json",
+      "file": "docs/research/background-action-sources/AXIsProcessTrustedWithOptions.json",
+      "sha256": "8603607d340d89f28fe57246e3e3d6439b5f6c6baaedf576797bacd536606d1a",
+      "review_text": "Returns whether the current process is a trusted accessibility client. func   AXIsProcessTrustedWithOptions ( _   options :  CFDictionary ? ) ->  Bool A dictionary of options, or NULL to specify no options. The following options are available: KEY: kAXTrustedCheckOptionPrompt VALUE: ACFBooleanRef indicating whether the user will be informed if the current process is untrusted. This could be used, for example, on application startup to always warn a user if accessibility is not enabled for the current process. Prompting occurs asynchronously and does not affect the return value. Return Value Returns TRUE if the current process is a trusted accessibility client, FALSE if it is not."
+    },
+    {
+      "title": "postToPid",
+      "official_url": "https://developer.apple.com/documentation/coregraphics/cgevent/posttopid(_:)",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/coregraphics/cgevent/posttopid(_:).json",
+      "file": "docs/research/background-action-sources/postToPid.json",
+      "sha256": "342eda0084eb3bd7e7005b02ff4e4b3eafece43447a4a117dc873981e0262cbb",
+      "review_text": "func   postToPid ( _   pid :  pid_t )"
+    },
+    {
+      "title": "preventWindowOrdering",
+      "official_url": "https://developer.apple.com/documentation/appkit/nsapplication/preventwindowordering()",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsapplication/preventwindowordering().json",
+      "file": "docs/research/background-action-sources/preventWindowOrdering.json",
+      "sha256": "b3631e170dd1379f9c5d63a8aa4b18ce61f04b76591b93904195586db957777b",
+      "review_text": "Suppresses the usual window ordering in handling the most recent mouse-down event. func   preventWindowOrdering () Discussion This method is only useful for mouse-down events when you want to prevent the window that receives the event from being ordered to the front."
+    },
+    {
+      "title": "shouldDelayWindowOrdering",
+      "official_url": "https://developer.apple.com/documentation/appkit/nsview/shoulddelaywindowordering(for:)",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsview/shoulddelaywindowordering(for:).json",
+      "file": "docs/research/background-action-sources/shouldDelayWindowOrdering.json",
+      "sha256": "2880bd133bcd40c3db0f44123535f0814913ae14323a61a2318eca5e971e2bc5",
+      "review_text": "Allows the user to drag objects from the view without activating the app or moving the window of the view forward, possibly obscuring the destination. func   shouldDelayWindowOrdering ( for   event :  NSEvent ) ->  Bool An object representing an initial mouse-down event. Return Value If this method returns  , the normal window-ordering and activation mechanism is delayed (not necessarily prevented) until the next mouse-up event. If it returns  , then normal ordering and activation occur. Discussion Never invoke this method directly; it’s invoked automatically for each mouse-down event directed at the NSView. An   subclass that allows dragging should implement this method to return   if   is potentially the beginning of a dragging session or of some other context where window ordering isn’t appropriate. This method is invoked before a   message for   is sent. The default implementation returns  . If, after delaying window ordering, the view actually initiates a dragging session or similar operation, it should also send a   message to  , which completely prevents the window from ordering forward and the activation from becoming active.   is sent automatically by the   and   methods of  ."
+    },
+    {
+      "title": "kAXPressAction",
+      "official_url": "https://developer.apple.com/documentation/applicationservices/kaxpressaction",
+      "snapshot_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxpressaction.json",
+      "file": "docs/research/background-action-sources/kAXPressAction.json",
+      "sha256": "f5d9b5bedbc023dc07193e88cedb4bb0f3b0bc86ea586d86eb56cba76e9f7647",
+      "review_text": "Simulates a single click, such as on a button. var   kAXPressAction :  String  {  get  }"
+    },
+    {
+      "title": "chromium-reviewed",
+      "official_url": "https://chromium.googlesource.com/chromium/src/+/ebbea25128026b70e2fec4a85ff3a9043dcc9093/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "revision": "ebbea25128026b70e2fec4a85ff3a9043dcc9093",
+      "file": "docs/research/background-action-sources/chromium-reviewed.mm",
+      "sha256": "cbd41ed682aa6e294b6d25447669662e2b845fe48db420a5dfbfbf3bb9b03e3f",
+      "review_text": "- (BOOL)acceptsFirstMouse:(NSEvent*)theEvent {\n  // A click that another process posts straight to this process does not\n  // activate the app, unlike one the window server routes here, so treating it\n  // as an activation click would only drop it.\n  CGEventRef cgEvent = theEvent.CGEvent;\n  if (!NSApp.active && cgEvent) {\n    int64_t sourcePid =\n        CGEventGetIntegerValueField(cgEvent, kCGEventSourceUnixProcessID);\n    if (sourcePid != 0 && sourcePid != getpid()) {\n      return YES;\n    }\n  }\n\n  // Enable \"click-through\" if mouse clicks are accepted in inactive windows.\n  return\n      [self acceptsMouseEventsOption] > AcceptMouseEvents::kWhenInActiveWindow;\n}\n\n- (BOOL)shouldBecomeFirstResponderOnRightClick {\n  if (![self acceptsFirstResponder]) {"
+    },
+    {
+      "title": "chrome-installed-tag",
+      "official_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "revision": "refs/tags/155.0.8059.79",
+      "file": "docs/research/background-action-sources/chrome-installed-tag.mm",
+      "sha256": "afdde4c1ae098c26285a7a6e7e57cf3bf5a00e5afeb089cd10e942cf97da6c19",
+      "review_text": "- (BOOL)acceptsFirstMouse:(NSEvent*)theEvent {\n  // Enable \"click-through\" if mouse clicks are accepted in inactive windows.\n  return\n      [self acceptsMouseEventsOption] > AcceptMouseEvents::kWhenInActiveWindow;\n}\n\n- (BOOL)shouldBecomeFirstResponderOnRightClick {\n  if (![self acceptsFirstResponder]) {\n    return NO;\n  }\n\n  if (_responderDelegate &&\n      [_responderDelegate respondsToSelector:@selector\n                          (shouldBecomeFirstResponderOnRightClick)]) {\n    return [_responderDelegate shouldBecomeFirstResponderOnRightClick];\n  }\n\n  return NO;\n}\n"
+    }
+  ]
+}

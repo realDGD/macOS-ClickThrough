@@ -1,0 +1,59 @@
+# macOS metadata
+.DS_Store
+.AppleDouble
+._*
+
+# SwiftPM and Xcode generated files / per-user state
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Build and distribution output; source artwork stays versioned
+build/
+dist/
+*.app/
+*.dSYM/
+*.xcarchive/
+*.zip
+*.dmg
+*.pkg
+
+# Local verification and raw experiment evidence (preserved locally)
+app/verification/
+poc/**/runs/
+*.jsonl
+*.log
+*.stderr
+*.pid
+
+# Downloaded third-party research caches; retain provenance indexes only
+docs/research/*-sources/*
+!docs/research/*-sources/*index.json
+!docs/research/activation-context-sources/a4-current-official/
+docs/research/activation-context-sources/a4-current-official/*
+!docs/research/activation-context-sources/a4-current-official/source-index.json
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local credentials and signing / provisioning material
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.cert
+*.mobileprovision
+*.provisionprofile

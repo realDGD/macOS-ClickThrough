@@ -1,0 +1,19 @@
+{
+  "updated_at": "2026-10-15T11:06:29.283927+08:00",
+  "status": "paused_by_user",
+  "runtime": "probe exited; latest log contains quit",
+  "tap_enabled": false,
+  "run_directory": "poc/background-action/runs/20261015-103011",
+  "resume_requires_explicit_user_request": true,
+  "future_goal": "窗口不前移；用户允许短暂切换焦点后恢复。此放宽条件尚未实验验证。",
+  "completed_results": [
+    "chrome-button-axpress-result.json",
+    "web-copy-trial2-result.json"
+  ],
+  "pending_unexecuted_routes": [
+    "temporary focus without window raising",
+    "PID directed delivery"
+  ],
+  "a4_sources_and_binary_unchanged": true,
+  "active_project_phase": "Phase 2 A4 architecture decisions"
+}

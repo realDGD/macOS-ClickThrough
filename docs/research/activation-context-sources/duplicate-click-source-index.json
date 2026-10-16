@@ -1,0 +1,85 @@
+{
+  "version_scope": "Chrome version tag source, not a complete installed-binary audit",
+  "sources": [
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm?format=TEXT",
+      "snapshot": "chromium-155-render-widget-host-view-cocoa.mm",
+      "sha256": "afdde4c1ae098c26285a7a6e7e57cf3bf5a00e5afeb089cd10e942cf97da6c19"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/input/web_input_event_builders_mac.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/input/web_input_event_builders_mac.mm?format=TEXT",
+      "snapshot": "chromium-155-web_input_event_builders_mac.mm",
+      "sha256": "5fe442d3ba40038903829f5443e06d18f28dbc1e9c95487d4c267302ae10e38b"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/third_party/blink/renderer/core/input/mouse_event_manager.cc",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/third_party/blink/renderer/core/input/mouse_event_manager.cc?format=TEXT",
+      "snapshot": "chromium-155-mouse_event_manager.cc",
+      "sha256": "0f049c6f18bf2cb5ef96acf2dc292a8555bbd6a5b4ad86d1a03c14a3497bc34e"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/third_party/blink/renderer/core/input/event_handler.cc",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/third_party/blink/renderer/core/input/event_handler.cc?format=TEXT",
+      "snapshot": "chromium-155-event_handler.cc",
+      "sha256": "92e8bb5b20a5b8d0b06a879c83d5762502caca2040529a392b54dbb09033c4c8"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/bridged_content_view.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/bridged_content_view.mm?format=TEXT",
+      "snapshot": "chromium-155-bridged_content_view.mm",
+      "sha256": "6488af762ed3216b1b47325d8e5be9e26ec087556e2e55f90c313912e6f97673"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow_headless_unittests.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow_headless_unittests.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_nswindow_headless_unittests.mm",
+      "sha256": "afa9bd4bdd64dff5a2d0c7064c278ff7a3d09d50578706ea4bcb2b2cb0f5d480",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_overlay_nswindow_unittests.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_overlay_nswindow_unittests.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_overlay_nswindow_unittests.mm",
+      "sha256": "76b5023acab55d76564d88efdc11fe88977ef14196f0035b9486f329fa1ca1ef",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/views_nswindow_delegate.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/views_nswindow_delegate.mm?format=TEXT",
+      "snapshot": "chromium-155-views_nswindow_delegate.mm",
+      "sha256": "1506c14e9e5baaa47454da7d0ed9c38f9e4553222b7484e7ee092e43704591f8",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_nswindow.mm",
+      "sha256": "9f5f2ab2d6f9c959c7593d782a2fc4276294bc02f79c2fc609f717711dca7efc",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_frameless_nswindow.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_frameless_nswindow.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_frameless_nswindow.mm",
+      "sha256": "ef4ffaf3718fd04a2917449a690c7d2163f92a70d41732e959d755739506c2e6",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_overlay_nswindow.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_overlay_nswindow.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_overlay_nswindow.mm",
+      "sha256": "9f863e4cc6f119f23d6d735822f278f45dcf10186470242cde94d6e42ab4d8ec",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    },
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow_headless.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/components/remote_cocoa/app_shim/native_widget_mac_nswindow_headless.mm?format=TEXT",
+      "snapshot": "chromium-155-native_widget_mac_nswindow_headless.mm",
+      "sha256": "ec79d4f546d3cea6e6763047170d207b9c215d946fa99ecb7a5bac312d2eac9b",
+      "scope": "Additional native window boundary review; headless/overlay code not assumed active in this test"
+    }
+  ],
+  "exact_duplicate_generator": "NOT_LOCATED_IN_REVIEWED_FILES"
+}

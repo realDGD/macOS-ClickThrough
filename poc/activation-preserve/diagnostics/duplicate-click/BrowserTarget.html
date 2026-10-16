@@ -1,0 +1,86 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>FirstClick 连点诊断</title>
+<style>
+body{font:17px system-ui;margin:36px;max-width:900px;background:#f4f5f7;color:#18202a}
+section{background:white;border:1px solid #d5dbe2;border-radius:12px;padding:22px;margin:20px 0}
+button,input,textarea{font:inherit;padding:12px;margin:8px 8px 8px 0}
+button{cursor:pointer}textarea{width:90%;min-height:65px}pre{padding:18px;background:#eef1f5;user-select:text}
+#inputTrace{height:26px;line-height:26px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.count{font-size:30px;font-weight:650}#context{padding:30px;border:2px dashed #8c98a5}
+</style>
+<h1>FirstClick 连点诊断</h1><p>保留原按钮计数，记录鼠标事件顺序。每次单击后观察是否恰好增加一次。</p><p id="inputTrace">鼠标事件：尚未记录</p>
+<p>只验证真实操作。先切到其他应用，使本窗口处于后台，再点击一次。窗口获得焦点不算通过。</p>
+<section>
+<button id="counter">执行普通按钮操作</button><span class="count" id="count">0</span>
+<p id="clickDetails">尚未执行。</p>
+<a href="#link-result" id="link">验证首次点击链接</a> · <span id="link-result">链接操作：0</span>
+<p><input placeholder="首次点击定位，再输入；内容不写入日志" size="45"></p>
+<div id="context">在这里右键，查看真实浏览器上下文菜单。<p>右键事件：<span id="rightCount">0</span></p></div>
+</section>
+<section>
+<h2>复制按钮与当前应用的代码复制验证</h2>
+<pre>FIRST_CLICK_PROBE_2026_10_14</pre>
+<button id="copy">复制上述标记</button><span id="copyState">尚未复制</span>
+<p>也可复制当前 Codex 对话里的相同代码块，然后点击下方验证区、按 Cmd+V。这里仅记录匹配结果，不保存剪贴板内容。</p>
+<button id="prepare">准备复制试次（写入不同的对照标记）</button><span id="prepareState">每次复制前必须准备；此操作会替换当前剪贴板。</span>
+<textarea id="paste" placeholder="点击这里并按 Cmd+V；只接受预期标记进行验证"></textarea>
+<p id="pasteState">粘贴验证：尚未执行</p>
+</section>
+<script>
+const diagnosticSession=crypto.randomUUID();
+let diagnosticSequence=0;
+const marker='FIRST_CLICK_PROBE_2026_10_14';
+let clicks=0,rights=0,links=0,pastes=0,trial=0,prepared=false;
+function record(data){fetch('/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...data,page_session:diagnosticSession,uptime_ms:performance.now()})}).catch(()=>{});}
+document.querySelector('#counter').onclick=e=>{
+  clicks++;document.querySelector('#count').textContent=clicks;
+  document.querySelector('#clickDetails').textContent=`操作已执行 ${clicks} 次；isTrusted=${e.isTrusted}；click.detail=${e.detail}`;
+  record({kind:'button_action',count:clicks,trusted:e.isTrusted,click_count:e.detail,user_activation:navigator.userActivation.isActive});
+};
+document.querySelector('#link').onclick=e=>{links++;document.querySelector('#link-result').textContent=`链接操作：${links}`;record({kind:'link_action',count:links,trusted:e.isTrusted,command:e.metaKey});};
+document.querySelector('#context').oncontextmenu=e=>{rights++;document.querySelector('#rightCount').textContent=rights;record({kind:'context_menu',count:rights,trusted:e.isTrusted});};
+document.querySelector('#copy').onclick=async e=>{
+  record({kind:'copy_click',trusted:e.isTrusted,user_activation:navigator.userActivation.isActive});
+  try{await navigator.clipboard.writeText(marker);document.querySelector('#copyState').textContent='复制 API 完成；仍需粘贴验证';record({kind:'copy_api',success:true});}
+  catch{document.querySelector('#copyState').textContent='复制 API 失败';record({kind:'copy_api',success:false});}
+};
+document.querySelector('#prepare').onclick=async()=>{
+  prepared=false;trial++;
+  try{
+    await navigator.clipboard.writeText(`CONTROL_PRECOPY_${trial}_${Date.now()}`);
+    prepared=true;document.querySelector('#prepareState').textContent=`试次 ${trial} 已准备。现在单击一次后台 Codex 代码复制按钮，再返回粘贴验证。`;
+    record({kind:'copy_trial_prepared',trial,success:true});
+  }catch{document.querySelector('#prepareState').textContent='设置对照失败，本次试次无效';record({kind:'copy_trial_prepared',trial,success:false});}
+};
+document.querySelector('#paste').onpaste=e=>{
+  e.preventDefault();pastes++;
+  const value=(e.clipboardData?.getData('text/plain')||'').replace(/\r\n/g,'\n').replace(/\n$/,'');
+  const match=value===marker;
+  document.querySelector('#paste').value=match?'标记匹配（原文未写入日志）':'内容不匹配（原文未保存）';
+  document.querySelector('#pasteState').textContent=`试次 ${trial}：${prepared?(match?'匹配':'不匹配'):'无效（未准备对照）'}`;
+  record({kind:'paste_validation',count:pastes,trial,valid_trial:prepared,clipboard_match:match,trusted:e.isTrusted});
+  prepared=false;
+};
+
+const trace=[];
+for(const type of ['pointerdown','pointerup','mousedown','mouseup','click','dblclick']){
+ document.querySelector('#counter').addEventListener(type,e=>{
+  const eventSequence=++diagnosticSequence;
+  record({kind:'input_event',event_type:e.type,event_sequence:eventSequence,
+   trusted:e.isTrusted,button:e.button,buttons:e.buttons,click_count:e.detail,
+   pointer_type:e.pointerType,event_timestamp_ms:e.timeStamp,
+   page_has_focus:document.hasFocus(),visibility:document.visibilityState,
+   counter_at_event:clicks,target_id:'counter'});
+  trace.push(`${eventSequence}:${e.type}(detail=${e.detail},buttons=${e.buttons})`);
+  document.querySelector('#inputTrace').textContent='鼠标事件：'+trace.slice(-12).join(' → ');
+ },true);
+}
+for(const type of ['focus','blur']){
+ window.addEventListener(type,e=>record({kind:'window_focus',event_type:e.type,
+  event_sequence:++diagnosticSequence,page_has_focus:document.hasFocus(),
+  visibility:document.visibilityState}));
+}
+
+record({kind:'page_loaded'});
+</script>

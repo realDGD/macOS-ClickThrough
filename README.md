@@ -1,0 +1,44 @@
+# ClickThrough
+
+<img src="app/Resources/Artwork/AppIcon.png" alt="ClickThrough 应用图标" width="128">
+
+原生 macOS 菜单栏应用，让可见后台窗口的首次点击尽可能执行原本操作。使用公开 API，保留真实鼠标事件；目标窗口会正常激活并前移。
+
+最低部署目标为 **macOS 14 Sonoma**，当前构建为 **Apple Silicon / arm64**。已完成的实机验证来自 macOS 27；macOS 14 的实际运行效果仍待验收。[版本调整与验证记录](docs/validation/MACOS14_2026_10_15.md) 区分构建支持和实机结果。
+
+## 使用
+
+- 左键点击菜单栏图标开启或关闭功能；右键打开设置和退出菜单。
+- 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
+- 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
+
+详情见 [应用使用说明](app/README.md)。当前只有本地开发构建，尚未发布公开下载或 Homebrew tap；[分发说明](docs/distribution.md) 包含打包和安装方法。
+
+## 开发
+
+主要开发环境为 macOS 27，使用支持 Swift 6 的当前 Xcode 工具链，最低运行目标保持 macOS 14。后续新功能的版本取舍见 [平台政策](.agents/notes/implemented/architecture/2026-10-15-macos14-platform.md)。在项目根目录运行：
+
+```sh
+make help
+make test
+make build
+```
+
+默认产物为 `app/build/ClickThrough.app`。运行中的应用不会被覆盖；要保留现有实例，可通过 [开发指南](docs/development.md) 构建到新目录。
+
+| 入口 | 内容 |
+| --- | --- |
+| [AGENTS.md](AGENTS.md) | Agent 长期工作约束和阅读入口 |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | 修改范围、验证和提交准备 |
+| [架构](docs/architecture.md) | 当前组件与 A4 主路径 |
+| [开发指南](docs/development.md) | 构建、运行和目录约定 |
+| [测试说明](docs/testing.md) | 自动检查、真实鼠标验收及未验证范围 |
+| [Agent Notes](.agents/notes/README.md) | 长期决策的理由与取舍 |
+| [文档目录](docs/README.md) | 当前文档、历史研究与验证记录 |
+| [第三方素材声明](THIRD_PARTY_NOTICES.md) | 应用图标的 Lucide 来源与 ISC 许可 |
+
+项目组织参考 [DeepSeek Harness 的 AGENTS.md](https://github.com/deepseek-ai/deepseek-harness/blob/master/AGENTS.md) 和 [Agent Notes](https://github.com/deepseek-ai/deepseek-harness/blob/master/.agents/notes/README.md)，按本项目规模采用精简结构。
+
+## 许可证
+
+Copyright (C) 2026 realDGD。本项目原创代码采用 [GNU AGPLv3](LICENSE)（SPDX：`AGPL-3.0-only`），允许商业使用，修改和分发须遵守相应的 copyleft 与源码提供要求。第三方素材保留其原有许可证，Lucide 图标的 ISC 许可见 [第三方声明](THIRD_PARTY_NOTICES.md)。

@@ -1,0 +1,1243 @@
+{
+  "research_date": "2026-10-14",
+  "timezone": "Asia/Makassar",
+  "phase": "Phase 0",
+  "runtime_test_status": "NOT_RUN",
+  "evidence_policy": "Documentation, source inspection and read-only local observations are separate from experimental success.",
+  "environment": {
+    "macOS": "27.0.1",
+    "macOS_build": "26A434",
+    "Xcode": "27.0",
+    "Xcode_build": "27A266a",
+    "SDK": "macosx27.0",
+    "architecture": "arm64",
+    "Chrome": "155.0.8059.79",
+    "Safari": "27.0.1",
+    "ChatGPT_app_path_bundle": "com.openai.codex",
+    "Firefox_target": "not confirmed",
+    "yabai_running_when_checked": true,
+    "skhd_running_when_checked": true,
+    "karabiner_grabber_name_found": false
+  },
+  "sources": [
+    {
+      "kind": "Apple official documentation",
+      "title": "yieldActivation(to:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsapplication/yieldactivation(to:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsapplication/yieldactivation(to:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "f0e806fae8e5667496f115e6bd9b7ba17657d26c57f9ec6bf8510729e0461479",
+      "bytes": 1173
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "addGlobalMonitorForEvents(matching:handler:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsevent/addglobalmonitorforevents(matching:handler:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsevent/addglobalmonitorforevents(matching:handler:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "bc2e0e61038472457e5f10cd8c9a4c5aad9cef59c67b8ff9255fd85bdb3f0cca",
+      "bytes": 3005
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "addLocalMonitorForEvents(matching:handler:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsevent/addlocalmonitorforevents(matching:handler:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsevent/addlocalmonitorforevents(matching:handler:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "31ff0b1f2e5145b948d49e6fe45fa0144a8fdb6ff666402e8d17af4fee11a529",
+      "bytes": 3146
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "activate(from:options:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsrunningapplication/activate(from:options:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsrunningapplication/activate(from:options:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "65f4cff8d4ca9a65154a704bf814cf0482d2f6e2d4757c1f5350f61ac417287c",
+      "bytes": 1587
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "activate(options:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsrunningapplication/activate(options:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsrunningapplication/activate(options:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "45163f253997fa3bc512b3df5a9a4272cdc6307640585594e28c9267252825de",
+      "bytes": 1410
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "acceptsFirstMouse(for:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsview/acceptsfirstmouse(for:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsview/acceptsfirstmouse(for:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "5640879d2d130e1977a50009c624a4a59b752d69bd78088fbad7bc1f130d4c12",
+      "bytes": 2111
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "shouldDelayWindowOrdering(for:)",
+      "url": "https://developer.apple.com/documentation/appkit/nsview/shoulddelaywindowordering(for:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nsview/shoulddelaywindowordering(for:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "c68aa0b76e8902ea1ea6f1ceb90f480374d6705567f5b9aec87dd9875ae70bab",
+      "bytes": 2979
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "windowNumber(at:belowWindowWithWindowNumber:)",
+      "url": "https://developer.apple.com/documentation/appkit/nswindow/windownumber(at:belowwindowwithwindownumber:)",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/nswindow/windownumber(at:belowwindowwithwindownumber:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "38c8b068eb049bc4401197159dbccf94d2629e9fec64cea2b987d681f6ac4123",
+      "bytes": 1491
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "Passing control from one app to another with cooperative activation",
+      "url": "https://developer.apple.com/documentation/appkit/passing-control-from-one-app-to-another-with-cooperative-activation",
+      "retrieval_url": "https://developer.apple.com/documentation/appkit/passing-control-from-one-app-to-another-with-cooperative-activation.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "a3c3deb7777a72a9150f2e64400a7a633dfe4ba202f67ec72fd02c0a87c44452",
+      "bytes": 6852
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXIsProcessTrustedWithOptions(_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1459186-axisprocesstrustedwithoptions",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1459186-axisprocesstrustedwithoptions.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "8603607d340d89f28fe57246e3e3d6439b5f6c6baaedf576797bacd536606d1a",
+      "bytes": 56780
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementSetMessagingTimeout(_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1459345-axuielementsetmessagingtimeout",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1459345-axuielementsetmessagingtimeout.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "46a30452edbc87985e382b62c7b1d873441fc3f947d5199ebb095a730c81f961",
+      "bytes": 65645
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementIsAttributeSettable(_:_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1459972-axuielementisattributesettable",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1459972-axuielementisattributesettable.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "a2e21b198278130a38c4b8c19ea9edaed66eb33a1f6f3833c23cb4f8f49cf1d5",
+      "bytes": 72755
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXObserverCreate(_:_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1460133-axobservercreate",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1460133-axobservercreate.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "d20e2f55becb7840d9f8b06cad22b9c6967aa9e6a24aa45c7dee8d267bdb73fb",
+      "bytes": 37865
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementSetAttributeValue(_:_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1460434-axuielementsetattributevalue",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1460434-axuielementsetattributevalue.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "b89578f58e0b4fae5b7df9ae4987faf3a25ed65865278a2d82f8f52aa8507a5a",
+      "bytes": 71141
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementCopyActionNames(_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1462053-axuielementcopyactionnames",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462053-axuielementcopyactionnames.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "fba38c1eb42acacedcc350efb8ba7fa178d2a703f4f64881928669b177c658af",
+      "bytes": 68126
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementCopyElementAtPosition(_:_:_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1462077-axuielementcopyelementatposition",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462077-axuielementcopyelementatposition.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "ec3f0b4a4d1ba15b3d9d28e7ab1682c7fb477ad2f5d99a45641bc763030c8c31",
+      "bytes": 73308
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElementPerformAction(_:_:)",
+      "url": "https://developer.apple.com/documentation/applicationservices/1462091-axuielementperformaction",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/1462091-axuielementperformaction.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "cedea5c3a5083dc74c4deea1b29f8d13bf2bd6ee6bc9fd17c6e179ee14239ff4",
+      "bytes": 70207
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AXUIElement.h",
+      "url": "https://developer.apple.com/documentation/applicationservices/axuielement_h",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/axuielement_h.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "2c048016df03334d6030fe43e2a3652746855baa9f6c0770abe87f833c247771",
+      "bytes": 91087
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "post(tap:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgevent/post(tap:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgevent/post(tap:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "b43cf7f89252735fd72410a85979e52802c67c5cebc716a62d66fc38bd82a53d",
+      "bytes": 1139
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "postToPid(_:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgevent/posttopid(_:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgevent/posttopid(_:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "9cefddd9639cf6e7ebe7ee6879e0a7d4eaf4878e7b98a7491db49ddaf4454e99",
+      "bytes": 741
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "tapCreate(tap:place:options:eventsOfInterest:callback:userInfo:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgevent/tapcreate(tap:place:options:eventsofinterest:callback:userinfo:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgevent/tapcreate(tap:place:options:eventsofinterest:callback:userinfo:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "401480753904f45c17aaa43f4216af5d7f0b0c33f7a56c2a2cf1a2677557827a",
+      "bytes": 3723
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "tapCreateForPid(pid:place:options:eventsOfInterest:callback:userInfo:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgevent/tapcreateforpid(pid:place:options:eventsofinterest:callback:userinfo:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgevent/tapcreateforpid(pid:place:options:eventsofinterest:callback:userinfo:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "f9788ca7e1f1c36c60f02082ecafcc7b805c87f3069867f64258b218657df348",
+      "bytes": 1088
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "tapPostEvent(_:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgevent/tappostevent(_:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgevent/tappostevent(_:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "aa93b1144196d20619b6681b61a8d9a17469ff0cbe4cddf47ede5ab17cc915a4",
+      "bytes": 1335
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "localEventsSuppressionInterval",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgeventsource/localeventssuppressioninterval",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgeventsource/localeventssuppressioninterval.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "750a418aa03f7c422b8169c8c11a973e369697cf08cb6cef95e2aafe65e92c9d",
+      "bytes": 1685
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "setLocalEventsFilterDuringSuppressionState(_:state:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgeventsource/setlocaleventsfilterduringsuppressionstate(_:state:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgeventsource/setlocaleventsfilterduringsuppressionstate(_:state:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "a095df115cfeef643b480d9acdbb2f019d4b1cbaf083a9d9f457b365dbd1e1ff",
+      "bytes": 2400
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGEventTapCallBack",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgeventtapcallback",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgeventtapcallback.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "070d357d95b5d13903eb8382234ab20bf7768536d6478b177357f7e419872360",
+      "bytes": 2115
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGPreflightListenEventAccess()",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgpreflightlisteneventaccess()",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgpreflightlisteneventaccess().md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "11ac9c0ae8da72212ba50da066d531991203bda3a04371356151fbc733e9784a",
+      "bytes": 775
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGPreflightPostEventAccess()",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgpreflightposteventaccess()",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgpreflightposteventaccess().md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "c289a8474dd5d8312fca153ec42f18a88fdd56a6d64f31aab84f95539763b825",
+      "bytes": 765
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGRequestListenEventAccess()",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgrequestlisteneventaccess()",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgrequestlisteneventaccess().md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "7efbe202a39794a38360d3a758bfb40a30479b499b04b80de6d90a121207762d",
+      "bytes": 765
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGRequestPostEventAccess()",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgrequestposteventaccess()",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgrequestposteventaccess().md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "aa73a4a52ae4102ecfcb1f000aeb64099695ff429d9a43dcf307a3aa1c1686f2",
+      "bytes": 755
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGWindowListCopyWindowInfo(_:_:)",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgwindowlistcopywindowinfo(_:_:)",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/cgwindowlistcopywindowinfo(_:_:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "b1e1c0c526ca88c6ae8229a32535a6814e49a19662baacb6672b7b000aa7a2c1",
+      "bytes": 2710
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "Quartz Event Services",
+      "url": "https://developer.apple.com/documentation/coregraphics/quartz-event-services",
+      "retrieval_url": "https://developer.apple.com/documentation/coregraphics/quartz-event-services.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "542e8d3d7f2370940e021e4d79715d20afe748001e15b534169181da2e1da18d",
+      "bytes": 18158
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "IOHIDRequestAccess",
+      "url": "https://developer.apple.com/documentation/iokit/3181574-iohidrequestaccess",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/iokit/3181574-iohidrequestaccess.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "3d7ace507aa68a9ce62cb3b9848d69758cd5d09daf26304c054c976f42ac6178",
+      "bytes": 10212
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "SCShareableContent",
+      "url": "https://developer.apple.com/documentation/screencapturekit/scshareablecontent",
+      "retrieval_url": "https://developer.apple.com/documentation/screencapturekit/scshareablecontent.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "10977c2b56e528bdf5e861933fbd43c41ac5877eb259a54225c9ceba72b8e8ac",
+      "bytes": 4110
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "Protecting user data with App Sandbox",
+      "url": "https://developer.apple.com/documentation/security/protecting-user-data-with-app-sandbox",
+      "retrieval_url": "https://developer.apple.com/documentation/security/protecting-user-data-with-app-sandbox.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "8049ddbeac893e81186da86ba4474f39a77cc8fb86e7cdd7064b36e47926f0fc",
+      "bytes": 4408
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "allowsWindowActivationEvents()",
+      "url": "https://developer.apple.com/documentation/swiftui/view/allowswindowactivationevents()",
+      "retrieval_url": "https://developer.apple.com/documentation/swiftui/view/allowswindowactivationevents().md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "174d371ab68ac5f7619e486694a0e0c900e65a132568ca2f460107434f8d572e",
+      "bytes": 1723
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "allowsWindowActivationEvents(_:)",
+      "url": "https://developer.apple.com/documentation/swiftui/view/allowswindowactivationevents(_:)",
+      "retrieval_url": "https://developer.apple.com/documentation/swiftui/view/allowswindowactivationevents(_:).md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "e63b8a2c3467ba2c139a0cff49b661d0c0bf6ae1d68dc087bff5ef424235a303",
+      "bytes": 2154
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "TN3212: Adopting gesture recognizers for Sidecar touch support",
+      "url": "https://developer.apple.com/documentation/technotes/tn3212-adopting-gesture-recognizers-for-sidecar-touch-support",
+      "retrieval_url": "https://developer.apple.com/documentation/technotes/tn3212-adopting-gesture-recognizers-for-sidecar-touch-support.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "196479edca742d044768efb14cdbe649ec5a354738fe3bd35febc318f77c14a3",
+      "bytes": 15813
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "AppKit updates",
+      "url": "https://developer.apple.com/documentation/updates/appkit",
+      "retrieval_url": "https://developer.apple.com/documentation/updates/appkit.md",
+      "retrieval_method": "Apple official Markdown",
+      "retrieved_on": "2026-10-14",
+      "sha256": "5019b72be00204a41ef03993308e5bc5165530a820a59e6bdf0a776cd1f2784c",
+      "bytes": 10609
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "README.md",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/README.md",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/README.md",
+      "retrieved_on": "2026-10-14",
+      "sha256": "14d3b111a35879bb22587737b8966438a11fe37839a28a354b64ef05f554f7e6",
+      "bytes": 2753
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/ax_utils.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/ax_utils.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/ax_utils.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "67a59f3ec389dbaa4f8293f58bb1ced4f29ae460a216a28a252442410405d931",
+      "bytes": 1307
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/event.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/event.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/event.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "3af978e5588103dbf5b5c89a3f1e3d8f88ef1bd5d7875d5c3622a1e1c89c82f4",
+      "bytes": 5956
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/init.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/init.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/init.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "790602cbb5339fdafb45778bd585b5101bec7b6cfb088d927e1811428961a3a7",
+      "bytes": 138
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/main.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/main.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/main.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "103161f658f47f3444cc47edf6952cdea0991101bfe8da0e08f42d2319c6ca8f",
+      "bytes": 485
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/target.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/target.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/target.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "6d548cc60e427919ec11cf89f3e309452b1ef38b8dd08c98d8dbb4186e7d2065",
+      "bytes": 761
+    },
+    {
+      "kind": "primary open source",
+      "repository": "dainank/apple-click-through",
+      "revision": "ee0be75cd007c391789a7be86e83076c4d3ba2e5",
+      "commit_date_utc": "2026-08-29T09:42:04Z",
+      "path": "clickthrough/utils.lua",
+      "url": "https://github.com/dainank/apple-click-through/blob/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/utils.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/dainank/apple-click-through/ee0be75cd007c391789a7be86e83076c4d3ba2e5/clickthrough/utils.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "543308c0dbb7af35902f25d5974aef38999080813849077a0463da3f13c111c8",
+      "bytes": 861
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "Hammerspoon/HSuicore.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/Hammerspoon/HSuicore.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/Hammerspoon/HSuicore.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "64fe9999c605c59d23126266a579bfcf045b5883a9021ec3a5fa786845601ffb",
+      "bytes": 30358
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/application/libapplication.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/application/libapplication.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/application/libapplication.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "bbe61aec2285c765c2925f5df1ccd8f9c03c0cccd88f8180bf47dd0a9d5263be",
+      "bytes": 52908
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/axuielement/libaxuielement.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/axuielement/libaxuielement.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/axuielement/libaxuielement.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "0c7e9101303f0932507e4fe8954a247be690dce84f8d7842937482c4ac706179",
+      "bytes": 84031
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/eventtap/libeventtap.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/eventtap/libeventtap.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/eventtap/libeventtap.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "b8985b7a5738a386cc980b6433483f936eb1192c61a6133fca8896898df6d0be",
+      "bytes": 18028
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/eventtap/libeventtap_event.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/eventtap/libeventtap_event.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/eventtap/libeventtap_event.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "33105ade3a156f4786dd5591de4db17e52738651ff1b500b7f9de43b11c15243",
+      "bytes": 101904
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/window/libwindow.m",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/window/libwindow.m",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/window/libwindow.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "2a70aa7c6536c634b415046a89b23e1f5d913275326d1032b40ea5aebfeeaa50",
+      "bytes": 28085
+    },
+    {
+      "kind": "primary open source",
+      "repository": "Hammerspoon/hammerspoon",
+      "revision": "23e387e2805a9890066366e0ac96c71b27f0cfd5",
+      "commit_date_utc": "2026-07-08T21:13:24Z",
+      "path": "extensions/window/window.lua",
+      "url": "https://github.com/Hammerspoon/hammerspoon/blob/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/window/window.lua",
+      "retrieval_url": "https://raw.githubusercontent.com/Hammerspoon/hammerspoon/23e387e2805a9890066366e0ac96c71b27f0cfd5/extensions/window/window.lua",
+      "retrieved_on": "2026-10-14",
+      "sha256": "87f17bf240aebdcfa0bb8bb092af19006c792f3ec5ebea21ec83e8cb159a39b7",
+      "bytes": 45604
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "README.md",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/README.md",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/README.md",
+      "retrieved_on": "2026-10-14",
+      "sha256": "d0ba2028c0e5b70001ee94723b4bec8b633ea4794b28f892f353a3c46a2d4af2",
+      "bytes": 7609
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "src/event_loop.c",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/event_loop.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/src/event_loop.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "ebeb00b1cdd11be5aaec01f0df55d85b7366b65ad53c523f753aa9e09111f34f",
+      "bytes": 67586
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "src/misc/extern.h",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/misc/extern.h",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/src/misc/extern.h",
+      "retrieved_on": "2026-10-14",
+      "sha256": "fd62037b3ebde0a6b52bb76e967317b154468d63d66aca198de3d32ba5c3a14c",
+      "bytes": 7514
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "src/mouse_handler.c",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/mouse_handler.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/src/mouse_handler.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "025c86ea5b79fa7e67eee1cd2ae8b12c8fc47ba5477fb26d92a44d015e397bbe",
+      "bytes": 12950
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "src/window.c",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/window.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/src/window.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "c5831dc02e0331cee539d55e69553bff395651a1043aa88640b50a200036fc94",
+      "bytes": 32113
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/yabai",
+      "revision": "dd845723416f5fe92af49fad5ebab00369e07edd",
+      "commit_date_utc": "2026-06-14T12:40:04Z",
+      "path": "src/window_manager.c",
+      "url": "https://github.com/asmvik/yabai/blob/dd845723416f5fe92af49fad5ebab00369e07edd/src/window_manager.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/yabai/dd845723416f5fe92af49fad5ebab00369e07edd/src/window_manager.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "3551fa7c575eabac321e79abf6c4f87ebdd84f21a5e77315d55355cb1127dd52",
+      "bytes": 107693
+    },
+    {
+      "kind": "primary open source",
+      "repository": "BlueM/cliclick",
+      "revision": "e7976889c9f4d401bba887a22b2e139a8687990a",
+      "commit_date_utc": "2025-08-23T13:39:50Z",
+      "path": "Actions/ClickAction.m",
+      "url": "https://github.com/BlueM/cliclick/blob/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/ClickAction.m",
+      "retrieval_url": "https://raw.githubusercontent.com/BlueM/cliclick/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/ClickAction.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "2f282a78eecf3d54cd53fa993b41cb5d8fa637dafa2aa6d2512349e7d523fd12",
+      "bytes": 2840
+    },
+    {
+      "kind": "primary open source",
+      "repository": "BlueM/cliclick",
+      "revision": "e7976889c9f4d401bba887a22b2e139a8687990a",
+      "commit_date_utc": "2025-08-23T13:39:50Z",
+      "path": "Actions/MouseBaseAction.m",
+      "url": "https://github.com/BlueM/cliclick/blob/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/MouseBaseAction.m",
+      "retrieval_url": "https://raw.githubusercontent.com/BlueM/cliclick/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/MouseBaseAction.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "9943c0e47242b7ca936636cda4e335e98adae871d59ef46cf1f6eb209b80cec6",
+      "bytes": 7812
+    },
+    {
+      "kind": "primary open source",
+      "repository": "BlueM/cliclick",
+      "revision": "e7976889c9f4d401bba887a22b2e139a8687990a",
+      "commit_date_utc": "2025-08-23T13:39:50Z",
+      "path": "Actions/RightClickAction.m",
+      "url": "https://github.com/BlueM/cliclick/blob/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/RightClickAction.m",
+      "retrieval_url": "https://raw.githubusercontent.com/BlueM/cliclick/e7976889c9f4d401bba887a22b2e139a8687990a/Actions/RightClickAction.m",
+      "retrieved_on": "2026-10-14",
+      "sha256": "751bc0e71ba9d455998350e3dd1ad2d4cf943b7d055c16a6cd757d8d649e13c1",
+      "bytes": 2882
+    },
+    {
+      "kind": "primary open source",
+      "repository": "BlueM/cliclick",
+      "revision": "e7976889c9f4d401bba887a22b2e139a8687990a",
+      "commit_date_utc": "2025-08-23T13:39:50Z",
+      "path": "README.md",
+      "url": "https://github.com/BlueM/cliclick/blob/e7976889c9f4d401bba887a22b2e139a8687990a/README.md",
+      "retrieval_url": "https://raw.githubusercontent.com/BlueM/cliclick/e7976889c9f4d401bba887a22b2e139a8687990a/README.md",
+      "retrieved_on": "2026-10-14",
+      "sha256": "74d3352ba5270e3212652fe6657dc5c71884fee9a8a9979b46a136acacf5398a",
+      "bytes": 12688
+    },
+    {
+      "kind": "primary open source",
+      "repository": "sbmpost/AutoRaise",
+      "revision": "cfed9445695d8092a283fa54d9453072978c7262",
+      "commit_date_utc": "2026-09-22T10:32:47Z",
+      "path": "AutoRaise.mm",
+      "url": "https://github.com/sbmpost/AutoRaise/blob/cfed9445695d8092a283fa54d9453072978c7262/AutoRaise.mm",
+      "retrieval_url": "https://raw.githubusercontent.com/sbmpost/AutoRaise/cfed9445695d8092a283fa54d9453072978c7262/AutoRaise.mm",
+      "retrieved_on": "2026-10-14",
+      "sha256": "fd11cc50725bce6ee03c79487d54f1f1ef7da9fe4d71f2bbd017298e32a478ee",
+      "bytes": 66503
+    },
+    {
+      "kind": "primary open source",
+      "repository": "sbmpost/AutoRaise",
+      "revision": "cfed9445695d8092a283fa54d9453072978c7262",
+      "commit_date_utc": "2026-09-22T10:32:47Z",
+      "path": "README.md",
+      "url": "https://github.com/sbmpost/AutoRaise/blob/cfed9445695d8092a283fa54d9453072978c7262/README.md",
+      "retrieval_url": "https://raw.githubusercontent.com/sbmpost/AutoRaise/cfed9445695d8092a283fa54d9453072978c7262/README.md",
+      "retrieved_on": "2026-10-14",
+      "sha256": "b08ee30424880e0f5a38717f28675ba039052f1f1be9d060ebf41670831933f2",
+      "bytes": 11374
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/skhd",
+      "revision": "a7105d5b3db6b25d01c0ded79a25536ab284b34f",
+      "commit_date_utc": "2025-12-09T23:24:40Z",
+      "path": "README.md",
+      "url": "https://github.com/asmvik/skhd/blob/a7105d5b3db6b25d01c0ded79a25536ab284b34f/README.md",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/skhd/a7105d5b3db6b25d01c0ded79a25536ab284b34f/README.md",
+      "retrieved_on": "2026-10-14",
+      "sha256": "33d9db1628df941059b66407a4afdceffe210fc2e3c0902cf121e7bf78a87f0c",
+      "bytes": 6592
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/skhd",
+      "revision": "a7105d5b3db6b25d01c0ded79a25536ab284b34f",
+      "commit_date_utc": "2025-12-09T23:24:40Z",
+      "path": "src/event_tap.c",
+      "url": "https://github.com/asmvik/skhd/blob/a7105d5b3db6b25d01c0ded79a25536ab284b34f/src/event_tap.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/skhd/a7105d5b3db6b25d01c0ded79a25536ab284b34f/src/event_tap.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "024cf37e20cf34526b514ae14c7f144eb1c84ef4917674197b21737b28c14fe2",
+      "bytes": 1471
+    },
+    {
+      "kind": "primary open source",
+      "repository": "asmvik/skhd",
+      "revision": "a7105d5b3db6b25d01c0ded79a25536ab284b34f",
+      "commit_date_utc": "2025-12-09T23:24:40Z",
+      "path": "src/skhd.c",
+      "url": "https://github.com/asmvik/skhd/blob/a7105d5b3db6b25d01c0ded79a25536ab284b34f/src/skhd.c",
+      "retrieval_url": "https://raw.githubusercontent.com/asmvik/skhd/a7105d5b3db6b25d01c0ded79a25536ab284b34f/src/skhd.c",
+      "retrieved_on": "2026-10-14",
+      "sha256": "bd303d24b82f640855f88db014c7452dd1b51cedceab3ba2ff0e58cd704d4560",
+      "bytes": 15487
+    },
+    {
+      "kind": "primary open source",
+      "repository": "electron/electron",
+      "revision": "bec2821ba7b83e43aefe40f6a36456be57871dfd",
+      "commit_date_utc": "2026-10-13T23:58:08Z",
+      "path": "shell/browser/native_window_mac.mm",
+      "url": "https://github.com/electron/electron/blob/bec2821ba7b83e43aefe40f6a36456be57871dfd/shell/browser/native_window_mac.mm",
+      "retrieval_url": "https://raw.githubusercontent.com/electron/electron/bec2821ba7b83e43aefe40f6a36456be57871dfd/shell/browser/native_window_mac.mm",
+      "retrieved_on": "2026-10-14",
+      "sha256": "5ff2572e91f809725eb5189ec71d8b278813eebabe27a58d9c7f8daa2f9309aa",
+      "bytes": 65538
+    },
+    {
+      "kind": "primary open source",
+      "repository": "WebKit/WebKit",
+      "revision": "3e810703e9c67a4a3a40c1c746c0e1e11a1dc6b7",
+      "commit_date_utc": "2026-10-14T07:02:34Z",
+      "path": "Source/WebKit/UIProcess/mac/WebViewImpl.mm",
+      "url": "https://github.com/WebKit/WebKit/blob/3e810703e9c67a4a3a40c1c746c0e1e11a1dc6b7/Source/WebKit/UIProcess/mac/WebViewImpl.mm",
+      "retrieval_url": "https://raw.githubusercontent.com/WebKit/WebKit/3e810703e9c67a4a3a40c1c746c0e1e11a1dc6b7/Source/WebKit/UIProcess/mac/WebViewImpl.mm",
+      "retrieved_on": "2026-10-14",
+      "sha256": "cb1b5b4daa3a800a7e70dffb4b85c0f09a2daa4ee0e77329852a24e9e886e38c",
+      "bytes": 339616
+    },
+    {
+      "kind": "primary open source",
+      "repository": "chromium/src",
+      "revision": "ebbea25128026b70e2fec4a85ff3a9043dcc9093",
+      "path": "content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "url": "https://chromium.googlesource.com/chromium/src/+/ebbea25128026b70e2fec4a85ff3a9043dcc9093/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/ebbea25128026b70e2fec4a85ff3a9043dcc9093/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm?format=TEXT",
+      "hash_representation": "base64-decoded source bytes",
+      "retrieved_on": "2026-10-14",
+      "sha256": "cbd41ed682aa6e294b6d25447669662e2b845fe48db420a5dfbfbf3bb9b03e3f",
+      "bytes": 127592
+    },
+    {
+      "kind": "primary open source",
+      "repository": "chromium/src",
+      "revision": "refs/tags/155.0.8059.79",
+      "path": "content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm",
+      "retrieval_url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/content/app_shim_remote_cocoa/render_widget_host_view_cocoa.mm?format=TEXT",
+      "hash_representation": "base64-decoded source bytes",
+      "retrieved_on": "2026-10-14",
+      "sha256": "afdde4c1ae098c26285a7a6e7e57cf3bf5a00e5afeb089cd10e942cf97da6c19",
+      "bytes": 126027
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Cocoa Event Handling Guide: Handling Mouse Events",
+      "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/HandlingMouseEvents/HandlingMouseEvents.html",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Cocoa Event Handling Guide: Monitoring Events",
+      "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/MonitoringEvents/MonitoringEvents.html",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "UIElementInspector official archived sample",
+      "url": "https://developer.apple.com/library/archive/samplecode/UIElementInspector/Introduction/Intro.html",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Apple DTS: Input Monitoring and Accessibility capabilities",
+      "url": "https://developer.apple.com/forums/thread/828052",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Apple DTS: supported sandboxed event listening",
+      "url": "https://developer.apple.com/forums/thread/811443",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Apple DTS: AX and App Sandbox",
+      "url": "https://developer.apple.com/forums/thread/794253",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Apple DTS: macOS 27 window metadata permission inference",
+      "url": "https://developer.apple.com/forums/thread/839069",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Electron BaseWindowConstructorOptions",
+      "url": "https://www.electronjs.org/docs/latest/api/structures/base-window-options",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "apple-click-through issue 12 (user report, not local reproduction)",
+      "url": "https://github.com/dainank/apple-click-through/issues/12",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Hammerspoon Click-Through Gist discussion",
+      "url": "https://gist.github.com/dainank/fd236aa71a8b3fcf637b9d8428ce98db",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "official documentation or first-party discussion",
+      "title": "Clipboard API and events specification",
+      "url": "https://w3c.github.io/clipboard-apis/",
+      "retrieval_method": "web tool",
+      "retrieved_on": "2026-10-14",
+      "sha256": null,
+      "note": "No byte-identical local snapshot retained; not runtime test evidence."
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "IOHIDManager.h",
+      "url": "https://developer.apple.com/documentation/iokit/iohidmanager_h",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/iokit/iohidmanager_h.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "ccadd57617f0d1e67970776ef0cddef896afca5655d91f9a64bcf1e8f68cb022",
+      "bytes": 44130
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "NSApplication",
+      "url": "https://developer.apple.com/documentation/appkit/nsapplication",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsapplication.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "3825b5f00db6819beb5bb2e32aeb2c7e42f868fed54d9aa6a3c8ed9ed33b1d74",
+      "bytes": 224409
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "NSView",
+      "url": "https://developer.apple.com/documentation/appkit/nsview",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsview.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "09a5de6c393254c3adc480b7e877f5e0245c0b35fde59f63f2bc96ae05c83ae7",
+      "bytes": 134623
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "NSApplication.ActivationOptions",
+      "url": "https://developer.apple.com/documentation/appkit/nsapplication/activationoptions",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsapplication/activationoptions.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "c8cbe27f14bac504309bdc7dcafc7133835442e0c4f368f7d121484032f7e391",
+      "bytes": 25905
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "Actions",
+      "url": "https://developer.apple.com/documentation/applicationservices/carbon_accessibility/actions",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/carbon_accessibility/actions.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "3bd387972a961e48d567f936e65c1dab8e87b26f01cf5f90f04759831bb1c777",
+      "bytes": 31255
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "Attributes",
+      "url": "https://developer.apple.com/documentation/applicationservices/carbon_accessibility/attributes",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/carbon_accessibility/attributes.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "cc2a88928dc3085248327b5d674d3b32d905e873f8d81241efa293a7ee1cf212",
+      "bytes": 191127
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGEventTapLocation",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgeventtaplocation",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/coregraphics/cgeventtaplocation.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "9fea035b6992279a5d975c603e29d69eb04a2017c009eea971dbfb412b332f65",
+      "bytes": 39472
+    },
+    {
+      "kind": "Apple official documentation",
+      "title": "CGEventField",
+      "url": "https://developer.apple.com/documentation/coregraphics/cgeventfield",
+      "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/coregraphics/cgeventfield.json",
+      "retrieval_method": "Apple official DocC JSON",
+      "retrieved_on": "2026-10-14",
+      "sha256": "75fe399ed07b30e678a085fa6b4f894dc06032ae0536bb3cc0483e692613afa4",
+      "bytes": 129024
+    }
+  ],
+  "sdk_files": [
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGEvent.h",
+      "sha256": "82c0ad9eb7c2f1ccfe8483fe96f5d71493ee1f5b4a6a68458ba9c07dd728f8bb",
+      "line_count": 414,
+      "symbol_lines": {
+        "CGEventTapCreate": [
+          296,
+          305,
+          308,
+          315
+        ],
+        "CGEventTapPostEvent": [
+          343
+        ],
+        "CGEventPostToPid": [
+          367,
+          372
+        ],
+        "CGPreflight": [
+          399,
+          405
+        ],
+        "CGRequest": [
+          402,
+          408
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGEventTypes.h",
+      "sha256": "0eb5b0aca9a77730d7c1b0449113b18419765771ae02a596708281f56f6c45b4",
+      "line_count": 496,
+      "symbol_lines": {
+        "kCGMouseEventWindowUnder": [
+          377,
+          378
+        ],
+        "kCGEventTargetUnixProcessID": [
+          349
+        ],
+        "kCGEventSourceUnixProcessID": [
+          352
+        ],
+        "kCGEventSourceUserData": [
+          356
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreGraphics.framework/Headers/CGEventSource.h",
+      "sha256": "20bf22c7d7a17679ff8ba0692be0fc01a69d5bfdbe15711c06edae70b4cc68b5",
+      "line_count": 253,
+      "symbol_lines": {},
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSView.h",
+      "sha256": "af91fb647759eccbc205c2db73a20f7d73cd3850b90ae13d4a211745abeb372c",
+      "line_count": 724,
+      "symbol_lines": {
+        "acceptsFirstMouse": [
+          225
+        ],
+        "shouldDelayWindowOrdering": [
+          226
+        ]
+      },
+      "macos_27_availability_lines": [
+        493,
+        575,
+        583,
+        614,
+        617,
+        620,
+        623
+      ]
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSEvent.h",
+      "sha256": "fe7611bf49295ba80ba7bd88ca8abc6af490a0d1fb73ed59853b7a45f6e56bdb",
+      "line_count": 639,
+      "symbol_lines": {},
+      "macos_27_availability_lines": [
+        496
+      ]
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWindow.h",
+      "sha256": "32d8533578a7dfc8edf193775bc3471556ad8da94322bc42ce5942eed9c47549",
+      "line_count": 1074,
+      "symbol_lines": {
+        "windowNumberAtPoint": [
+          634,
+          636
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSRunningApplication.h",
+      "sha256": "b7fa5d5b933aef2165268305c631c2e8c617ba55234f83250b37cd9db1899f5e",
+      "line_count": 189,
+      "symbol_lines": {
+        "ActivateIgnoringOtherApps": [
+          27
+        ],
+        "activateWithOptions": [
+          18,
+          148
+        ],
+        "activateFromApplication": [
+          144
+        ],
+        "yieldActivationToApplication": [
+          138
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSApplication.h",
+      "sha256": "33ed7a975710fc58046253c6d12f5210acb99418ae5e2c3f6a89c585fc3ee793",
+      "line_count": 728,
+      "symbol_lines": {
+        "yieldActivationToApplication": [
+          231,
+          244,
+          246,
+          253,
+          254
+        ]
+      },
+      "macos_27_availability_lines": [
+        178
+      ]
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSControl.h",
+      "sha256": "97801b3a7c4df7ff89349e0ac4f02e291b369eb00cdfefa51247b584ad16a5f0",
+      "line_count": 216,
+      "symbol_lines": {},
+      "macos_27_availability_lines": [
+        168,
+        185,
+        187,
+        189,
+        194
+      ]
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/Headers/AXUIElement.h",
+      "sha256": "10f58138ceb51d24d5855b961592af8c077aa2d563f68753016e0bbaacdd3bad",
+      "line_count": 669,
+      "symbol_lines": {
+        "AXUIElementCopyElementAtPosition": [
+          334,
+          346,
+          353
+        ],
+        "AXUIElementPerformAction": [
+          315,
+          324,
+          331
+        ],
+        "AXUIElementCopyActionNames": [
+          283,
+          288,
+          295
+        ],
+        "AXIsProcessTrustedWithOptions": [
+          49,
+          55,
+          64
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/Headers/AXActionConstants.h",
+      "sha256": "d7c61e15b0573bcbb014a516e5a0fd2a8f1c4494a7634921f2fc4df131b7a26d",
+      "line_count": 129,
+      "symbol_lines": {},
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/Headers/AXAttributeConstants.h",
+      "sha256": "5734d01bc751983b0f82d2b16b85ab5ddd04d074c70398a4a9458ee0835123cd",
+      "line_count": 1327,
+      "symbol_lines": {
+        "kAXWindowAttribute": [
+          57,
+          573,
+          576,
+          587,
+          593
+        ],
+        "kAXMainAttribute": [
+          89,
+          805,
+          818
+        ],
+        "kAXFocusedAttribute": [
+          66,
+          478,
+          482,
+          493
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/SwiftUI.framework/Modules/SwiftUI.swiftmodule/arm64e-apple-macos.swiftinterface",
+      "sha256": "155b00c7d8fa9e9696b96b4bd3291b4c910207b480025d13ba6482f7b9940d38",
+      "line_count": 34178,
+      "symbol_lines": {
+        "acceptsFirstMouse": [
+          12172
+        ],
+        "shouldDelayWindowOrdering": [
+          12173
+        ],
+        "allowsWindowActivationEvents": [
+          2456,
+          2458,
+          2462
+        ]
+      },
+      "macos_27_availability_lines": []
+    },
+    {
+      "path": "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/hid/IOHIDManager.h",
+      "sha256": "ffdc393a3d21f73dec8c57902622e42d34cd9fb358a1b6c07f339ad82d7b5291",
+      "line_count": 552,
+      "symbol_lines": {
+        "IOHIDManagerRegisterInputValueCallback": [
+          84,
+          470,
+          482,
+          490,
+          510
+        ]
+      },
+      "macos_27_availability_lines": []
+    }
+  ],
+  "fetch_limitations": [
+    "Apple AX legacy symbol Markdown endpoints returned 404; official DocC JSON succeeded and was cross-checked with SDK 27.",
+    "Chromium Gitiles +log returned 401; no history or change introduction date inferred.",
+    "Some Chromium HTML pages were inaccessible to the web tool; direct official Gitiles TEXT retrieval succeeded."
+  ],
+  "retention": "Only metadata, hashes and research prose are saved to the project. Temporary source downloads were not installed or executed and are not vendored."
+}

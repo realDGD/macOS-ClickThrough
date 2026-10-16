@@ -1,0 +1,23 @@
+{
+  "retrieved_at": "2026-10-15T10:58:33.731494+08:00",
+  "failed_retrievals": [
+    {
+      "url": "https://chromium.googlesource.com/chromium/src/+/refs/tags/155.0.8059.79/third_party/blink/renderer/modules/clipboard/clipboard_promise.cc?format=TEXT",
+      "error": "HTTP503"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/chromium/chromium/refs/tags/155.0.8059.79/third_party/blink/renderer/modules/clipboard/clipboard_promise.cc",
+      "file": "docs/research/background-action-sources/chrome155-clipboard-promise.cc",
+      "sha256": "6137667983ae3a8eb806227664806aa51aab0ab35807b98af35597d3a0ad6c37",
+      "excerpt": "808: bool ClipboardPromise::RejectIfDocumentNotFocused() {\n809:   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);\n810:   auto* window = To<LocalDOMWindow>(GetExecutionContext());\n811: \n812:   // Trusted surfaces (WebUI, DevTools, chrome-untrusted, and Isolated Web Apps)\n813:   // are exempt from the focus requirement. See the corresponding browser-side\n814:   // check in ContentBrowserClient::IsClipboardPasteAllowed().\n815:   // Prerendering documents are excluded because WebPreferences (which carries\n816:   // clipboard_focus_exempt from the primary main frame) is shared with the\n817:   // prerendering page, and prerendering documents must not bind ClipboardHost.\n818:   LocalFrame* frame = window->GetFrame();\n819:   const bool clipboard_focus_exempt =\n820:       frame && frame->GetSettings()->GetClipboardFocusExempt();\n821:   if (!window->document()->IsPrerendering() &&\n822:       (clipboard_focus_exempt || window->document()->hasFocus())) {\n823:     return false;\n824:   }\n825:   script_promise_resolver_->RejectWithDOMException(\n826:       DOMExceptionCode::kNotAllowedError, \"Document is not focused.\");\n827:   return true;\n828: }\n829: \n830: LocalFrame* ClipboardPromise::GetLocalFrame() const {\n831:   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);\n832:   ExecutionContext* context = GetExecutionContext();\n833:   // In case the context was destroyed and the caller didn't check for it, we\n834:   // just return nullptr.\n835:   if (!context) {"
+    },
+    {
+      "url": "https://www.w3.org/TR/clipboard-apis/",
+      "file": "docs/research/background-action-sources/clipboard-apis-w3c.html",
+      "sha256": "64ff9e279103212d7287137569bf593e73c0501fe6ccb6db824d0b1295bd65da",
+      "excerpt": "id=\"privacy-async\"> 11.2. Privacy and the Asychronous Clipboard API The Asynchronous Clipboard API is a powerful feature because it can allow access to the clipboard data from any script (access is not restricted to Clipboard Event handlers) and data can be accessed in the absence of a user provided gesture. To help prevent abuse, this API must not be available unless the script is executing in the context of a document that has focus . 11.2.1. Privacy and Clipboard Permission The Clipboard Permission gates access to this API, but user agents get to choose the permission defaults and which of these permission settings can be set by the user. For example, a user agent may choose to only allow access to the Asynchronous Clipboard API when a user gesture is present and always deny script requests for access without a gesture. User agents may opt to have this permission automatically expire sometime after the user grants permission, for example, by having the permission expire: After a set time from when the permission was first granted After a set time from the user’s last visit to a site When the user navigates away from the page 11.3. Other Privacy Concerns If the user agent allows clipboard data to be read using document.execCommand(\"paste\") then the user agent must ensure that t"
+    }
+  ]
+}

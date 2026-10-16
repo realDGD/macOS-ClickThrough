@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-14",
+  "sources": [
+    {
+      "id": "apple-ax-frontmost",
+      "url": "https://developer.apple.com/documentation/applicationservices/kaxfrontmostattribute.md",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "id": "apple-workspace-open-application",
+      "url": "https://developer.apple.com/documentation/appkit/nsworkspace/openapplication(at:configuration:completionhandler:).md",
+      "path": "docs/research/activation-context-sources/apple-workspace-open-application.md",
+      "sha256": "164c00a192774184f070a6da1c949cb440915dc95e531b2dba054a1f95590ce2"
+    },
+    {
+      "id": "apple-workspace-activates",
+      "url": "https://developer.apple.com/documentation/appkit/nsworkspace/openconfiguration/activates.md",
+      "path": "docs/research/activation-context-sources/apple-workspace-activates.md",
+      "sha256": "975a9d56942b5ea849bd3c9743011272494d817832828dc85a08c32cc45694db"
+    },
+    {
+      "id": "node-window-manager",
+      "url": "https://github.com/sentialx/node-window-manager/blob/d4174d2902a9dc8f2a08f0b692cae26b23507726/lib/macos.mm",
+      "path": "docs/research/activation-context-sources/node-window-manager-macos.mm",
+      "sha256": "8a59a8597fdc91b15cfe84b9274421c81b7200d8abab93aeefbf00eb30e6e180",
+      "revision": "d4174d2902a9dc8f2a08f0b692cae26b23507726"
+    },
+    {
+      "id": "apple-ax-frontmost-json",
+      "url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxfrontmostattribute.json",
+      "path": "docs/research/activation-context-sources/apple-ax-frontmost.json",
+      "sha256": "d8ff94b835901771ffdb16ede33a60c7453968bcc1d528137cea19eb9f66beab"
+    }
+  ]
+}

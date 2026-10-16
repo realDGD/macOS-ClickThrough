@@ -1,0 +1,52 @@
+[
+  {
+    "url": "https://developer.apple.com/documentation/applicationservices/kaxfocusedwindowattribute",
+    "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxfocusedwindowattribute.json",
+    "snapshot": "kaxfocusedwindowattribute.json",
+    "sha256": "d6191a666d5d3f42834dbf8f4349105375c93f9aab69035459747b6738cefc3f",
+    "abstract": [
+      {
+        "type": "text",
+        "text": "The accessibility object that represents the currently focused window of this application. This attribute is recommended for all application-level accessibility objects."
+      }
+    ]
+  },
+  {
+    "url": "https://developer.apple.com/documentation/applicationservices/kaxmainattribute",
+    "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxmainattribute.json",
+    "snapshot": "kaxmainattribute.json",
+    "sha256": "deb680bf3655b2a28e53df320b7454aff9d9acbfe8416afceca79825cdcea93f",
+    "abstract": []
+  },
+  {
+    "url": "https://developer.apple.com/documentation/applicationservices/kaxfocusedattribute",
+    "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxfocusedattribute.json",
+    "snapshot": "kaxfocusedattribute.json",
+    "sha256": "c27b83c3269f32bb5345e4197b13e5e10454a8783e730fb3a06b32f441c9e3e0",
+    "abstract": []
+  },
+  {
+    "url": "https://developer.apple.com/documentation/applicationservices/kaxraiseaction",
+    "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/applicationservices/kaxraiseaction.json",
+    "snapshot": "kaxraiseaction.json",
+    "sha256": "fb7481d727f7672eebc2232f19b9a8847af7c6f467a3e2db57458abad2ee4ea2",
+    "abstract": [
+      {
+        "type": "text",
+        "text": "Causes a window to become as frontmost as is allowed by the containing application’s circumstances. Note that an application’s floating windows (such as inspector windows) might remain above a window that performs the raise action."
+      }
+    ]
+  },
+  {
+    "url": "https://developer.apple.com/documentation/appkit/nsaccessibilityprotocol/setaccessibilityfocusedwindow(_:)",
+    "retrieval_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsaccessibilityprotocol/setaccessibilityfocusedwindow(_:).json",
+    "snapshot": "setaccessibilityfocusedwindow-setter.json",
+    "sha256": "169e3f219a24a8ed9e7819ccbab4cb7dae6be8a9efa8071898b926048b409200",
+    "abstract": [
+      {
+        "text": "Sets the child window with the current focus.",
+        "type": "text"
+      }
+    ]
+  }
+]
