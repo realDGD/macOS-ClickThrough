@@ -80,7 +80,7 @@ struct SettingsView: View {
                     .font(.caption).foregroundStyle(.secondary)
                 Button("打开日志文件夹…") { model.showLogs() }
             }
-            Text("ClickThrough 0.1.0 · macOS 14+")
+            Text("ClickThrough \(appVersion) · macOS 14+")
                 .font(.caption).foregroundStyle(.tertiary)
         }
         .formStyle(.grouped)
@@ -88,6 +88,10 @@ struct SettingsView: View {
         .alert("ClickThrough", isPresented: Binding(get: { model.message != nil }, set: { if !$0 { model.message = nil } })) {
             Button("好") { model.message = nil }
         } message: { Text(model.message ?? "") }
+    }
+
+    private var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "未知版本"
     }
 
     private func binding(_ keyPath: WritableKeyPath<AppSettings, Bool>) -> Binding<Bool> {
