@@ -38,7 +38,7 @@ make build BUILD_DIR=app/build/review-candidate
 
 本地默认 ad-hoc 签名，新二进制可能需要用户重新添加辅助功能授权。保持固定安装位置并使用稳定 Developer ID 是正式分发的问题，详见 [分发说明](distribution.md)。
 
-### 固定身份试验
+### 固定签名身份
 
 使用无证书的固定签名要求构建独立候选包：
 
@@ -47,7 +47,7 @@ CLICKTHROUGH_STABLE_ADHOC_IDENTITY=1 make build BUILD_DIR=app/build/fixed-identi
 make test-signing APP=app/build/fixed-identity-candidate/ClickThrough.app
 ```
 
-该选项显式指定 `identifier "local.clickthrough.app"`，不再以每版代码哈希作为身份；仅用于当前授权保留试验，普通构建及发布工作流仍保持原签名方式。它不认证开发者，其他程序也能声明相同标识，不能提供 Developer ID、公证或 Gatekeeper 批准。不能与 `CLICKTHROUGH_SIGN_IDENTITY` 的证书身份同时使用。
+该选项显式指定 `identifier "local.clickthrough.app"`，不再以每版代码哈希作为身份；Homebrew 源码构建采用该策略，普通本地构建与手动 DMG 构建仍默认使用原签名方式。它不认证开发者，其他程序也能声明相同标识，不能提供 Developer ID、公证或 Gatekeeper 批准。不能与 `CLICKTHROUGH_SIGN_IDENTITY` 的证书身份同时使用。
 
 签名统一由 `app/scripts/sign-app.sh` 执行；它拒绝修改正在运行的目标包。离线检查仅修改临时副本，覆盖跨版本匹配、旧身份迁移、错误标识、无效选项及内容篡改。通过不表示系统权限已保留；首次从旧哈希身份迁移仍需用户重新授权，再用另一代码哈希的候选包进行实际升级验证。进度见[本轮记录](validation/FIXED_SIGNING_IDENTITY_2026_11_06.md)。
 
@@ -60,7 +60,7 @@ make test-signing APP=app/build/fixed-identity-candidate/ClickThrough.app
 - `app/Sources/`、`app/Tests/`：产品与相关自动检查。
 - `app/Resources/Info.plist`、`app/Package.swift`：应用与部署声明。
 - `app/scripts/`：构建、DMG 打包、原生校验和 Cask 更新入口。
-- `Casks/clickthrough.rb`：同仓库 Homebrew 入口，由已公开 Release 自动更新。
+- `Casks/clickthrough.rb`：同仓库源码构建 Homebrew 入口，由已公开 Release 自动更新。
 - `app/build/`、`app/.build/`：可再生成的输出，不进入源码版本控制。
 - `app/verification/`：本地验证原始证据；保留在磁盘，默认不进入源码版本控制。
 - `poc/`：历史探针、靶标和实验，不随产品整理移动或覆盖。

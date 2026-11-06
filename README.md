@@ -17,11 +17,20 @@ brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrou
 brew install --cask realdgd/tap/clickthrough
 ```
 
-或从 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 下载 `ClickThrough-版本-arm64.dmg`，打开后将 `ClickThrough.app` 拖入“应用程序”。Homebrew 的 [Cask](Casks/clickthrough.rb) 与源码合并在本仓库，使用同一份 DMG 及 SHA-256。从 v0.1.1 起使用 DMG，已发布的 v0.1.0 ZIP 保留原样。
+Homebrew 的 [Cask](Casks/clickthrough.rb) 下载固定提交及 SHA-256 的源码归档，在本机使用 **Swift 6 Command Line Tools** 编译，再安装到“应用程序”；不是下载预编译 App。安装前需要已有现代独立 CLT，可通过 `swift --version` 检查版本，缺少时自行运行 `xcode-select --install`。
+
+已安装原 DMG 版 0.1.3 的用户，退出 ClickThrough 后执行一次迁移；此次应用版本仍为 0.1.3：
+
+```sh
+brew update
+brew reinstall --cask realdgd/tap/clickthrough
+```
+
+[GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 的历史 DMG 和 ZIP 继续保留；手动安装 DMG 时将 `ClickThrough.app` 拖入“应用程序”。
 
 已使用旧独立 `homebrew-tap` 的用户，请先按[迁移步骤](docs/distribution.md#旧独立-tap-迁移)备份并重置该 tap 的源码。两个仓库的 Git 历史不同，仅改变 URL 不足以迁移。tap 和包名保持不变，迁移源码与升级应用分别执行。
 
-**当前为 ad-hoc 签名、未经 Apple 公证的开发版。** macOS 可能阻止首次打开；请审阅系统“隐私与安全性”中的提示后自行决定是否允许，不需要关闭 Gatekeeper。允许打开后，为 ClickThrough 开启辅助功能权限。更新后可能需要重新添加该权限。
+Homebrew 源码构建使用固定应用标识的 ad-hoc 签名，便于沿用后续更新授权，但不认证开发者。**本机构建仍不等于 Apple 公证或系统授权。** 首次从旧哈希身份迁移可能需要重新关联辅助功能权限；系统安全提示按正常流程处理，安装不修改 Gatekeeper。
 
 已手动安装的用户，迁移到 Homebrew 前请先自行退出并备份现有应用。更新前也请先退出 ClickThrough，再运行：
 
@@ -36,7 +45,7 @@ brew upgrade --cask realdgd/tap/clickthrough
 - 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
 - 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
 
-详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者发布新版本的步骤见 [发布指南](docs/releasing.md)：tag 自动构建草稿，手动公开后 Action 自动更新本仓库的 Cask，无需跨仓库密钥。
+详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者步骤见 [发布指南](docs/releasing.md)：tag 可构建手动 DMG 草稿，公开 Release 后 Action 校验对应源码归档并更新本仓库的源码 Cask，无需跨仓库密钥。
 
 ## 开发
 

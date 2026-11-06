@@ -4,21 +4,24 @@ import json
 import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
-import test_verify_release as fixtures
-
 SCRIPT = Path(__file__).resolve().parents[2] / 'scripts/sync-homebrew.py'
+sys.path.insert(0, str(SCRIPT.parent))
+from source_cask import render_source_cask, source_url
 
 
 class TapSyncTests(unittest.TestCase):
     def setUp(self):
-        fixture = fixtures.ReleaseVerificationTests()
-        fixture.setUp()
-        self.addCleanup(fixture.doCleanups)
-        fixture.fixture()
-        self.assets = fixture.output
+        temporary = tempfile.TemporaryDirectory(prefix='clickthrough-source-sync-')
+        self.addCleanup(temporary.cleanup)
+        self.assets = Path(temporary.name)
+        self.manifest = {'version': '0.1.1', 'source_commit': 'a' * 40,
+                         'sha256': 'c' * 64, 'url': source_url('a' * 40)}
+        (self.assets / 'source.json').write_text(json.dumps(self.manifest))
+        (self.assets / 'clickthrough.rb').write_text(render_source_cask('0.1.1', 'c' * 64, 'a' * 40))
         self.remote = self.assets.parent / (self.assets.name + '-remote.git')
         self.tap = self.assets.parent / (self.assets.name + '-tap')
         self.addCleanup(shutil.rmtree, self.remote, ignore_errors=True)
@@ -98,6 +101,27 @@ class TapSyncTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn('clean', result.stderr)
         self.assertEqual(self.git('rev-parse', 'HEAD'), before)
+
+    def test_extra_ruby_in_generated_cask_cannot_update_tap(self):
+        with (self.assets / 'clickthrough.rb').open('a') as stream:
+            stream.write('system("unexpected command")\n')
+        result = self.sync()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('trusted source template', result.stderr)
+
+    def test_untrusted_archive_url_cannot_update_tap(self):
+        self.manifest['url'] = 'https://example.invalid/source.tar.gz'
+        (self.assets / 'source.json').write_text(json.dumps(self.manifest))
+        result = self.sync()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('archive URL', result.stderr)
+
+    def test_invalid_source_hash_cannot_update_tap(self):
+        self.manifest['sha256'] = 'not-a-checksum'
+        (self.assets / 'source.json').write_text(json.dumps(self.manifest))
+        result = self.sync()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('SHA-256', result.stderr)
 
 
 if __name__ == '__main__':

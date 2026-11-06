@@ -1,30 +1,30 @@
 # 分发与 Homebrew
 
-从 v0.1.1 起，通过 [GitHub Releases](https://github.com/realDGD/macOS-ClickThrough/releases) 分发 arm64 DMG，最低 macOS 14。[Cask](../Casks/clickthrough.rb) 放在同一项目仓库；Homebrew 与手动下载使用同一个 DMG 和 SHA-256。已公开的 v0.1.0 tag、ZIP 和附件保留原样，历史结果见 [首版发布验证](validation/RELEASE_0_1_0_2026_10_16.md)。
+Homebrew 下载固定完整提交的 GitHub 源码归档，并验证 SHA-256；使用本机 Swift 6 Command Line Tools 编译、写入来源凭据、以固定应用标识签名，再由标准 app artifact 安装。手动 DMG 与历史 Release 继续保留，当前 Homebrew 不下载这些预编译包。[决策与代价](../.agents/notes/implemented/process/2026-11-06-source-homebrew.md)。
 
 ## 安装、迁移与升级
+
+需要 Apple Silicon、macOS 14 或更新系统，以及支持 Swift 6 的现代独立 CLT。安装前可用 `swift --version` 检查；缺少工具链时自行运行 `xcode-select --install`。Cask 不自动安装 Xcode、CLT 或其他软件。
 
 ```sh
 brew tap --custom-remote realdgd/tap https://github.com/realDGD/macOS-ClickThrough
 brew install --cask realdgd/tap/clickthrough
 ```
 
-上面命令用于首次添加本项目 tap。显式 URL 让项目仓库同时作为 tap，`realdgd/tap` 是保留的本地 tap 名称。已添加旧独立 tap 的用户先执行下方迁移，不能只改 URL：新旧仓库的 Git 历史不相通。
-
-完整安装命令仅信任该 Cask，不要求信任整个 tap，参见 [Homebrew Tap Trust](https://docs.brew.sh/Tap-Trust)。原独立 `homebrew-tap` 保留迁移说明和历史版本，不再同步新发行；原 `homebrew-cask` 上游 fork 保持不变。
-
-手动安装：打开 DMG，将应用拖入“应用程序”，完成复制后推出磁盘映像。已有手动安装版本时，迁移到 Homebrew 前先自行退出并备份，避免覆盖运行中的应用。
-
-升级前退出 ClickThrough，再运行：
+首次源码迁移仍使用应用版本 0.1.3。已有原 DMG 版用户先退出应用，再运行：
 
 ```sh
 brew update
-brew upgrade --cask realdgd/tap/clickthrough
+brew reinstall --cask realdgd/tap/clickthrough
 ```
 
-卸载前先在应用中关闭登录启动，再执行 `brew uninstall --cask realdgd/tap/clickthrough`。只有显式 `--zap` 才清理偏好与日志；不宣称能自动清空 macOS TCC 记录。
+后续新版本仍按普通升级流程，退出软件后执行 `brew update` 和 `brew upgrade --cask realdgd/tap/clickthrough`。已添加旧独立 tap 的用户先按下方步骤迁移仓库历史；已使用当前仓库的 tap 无需重置。
 
-当前仍为 ad-hoc 签名、未公证开发版，macOS 可能阻止首次打开，更新后可能需要重新添加辅助功能权限。请审阅系统提示后自行决定是否允许。DMG 不改变签名／公证状态；安装流程不关闭 Gatekeeper、不移除 quarantine、不自动授予权限。
+来源凭据位于 `ClickThrough.app/Contents/Resources/HomebrewSource.plist`，包含版本、完整提交、源码归档 SHA-256、构建方式与签名策略；不写入本机源码路径。构建完成后清理下载归档中的 Swift 编译缓存，不启动应用或注册登录项。
+
+源码安装使用 identifier-only ad-hoc 身份；它只校验应用标识，不认证签名者。首次从旧哈希身份迁移可能需要用户重新关联辅助功能授权。源码编译、授权和 Apple 公证分别处理，不承诺所有系统无需安全提示，也不修改 Gatekeeper、quarantine 或 TCC。
+
+卸载前在应用中关闭登录启动，再执行 `brew uninstall --cask realdgd/tap/clickthrough`。不使用 `--zap` 时保留偏好与日志；只有显式 `--zap` 才清理这些本地数据，不自动清空系统权限记录。
 
 ## 旧独立 tap 迁移
 

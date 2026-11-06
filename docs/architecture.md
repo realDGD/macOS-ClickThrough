@@ -30,4 +30,4 @@ Session event tap 同步收到鼠标事件后，先按原有规则筛选未修�
 
 ## 分发路径
 
-产品与 Homebrew Cask 共用此仓库。tag 工作流构建 DMG 草稿；公开 Release 后，另一个工作流验证 DMG、应用和 Cask，再使用本仓库内置 token 仅提交 `Casks/clickthrough.rb`。发布与凭据策略见 [发布指南](releasing.md)，长期取舍见 [单仓库 DMG 决策](../.agents/notes/implemented/process/2026-10-16-single-repository-dmg.md)。
+产品与 Homebrew Cask 共用此仓库。Homebrew 下载固定源码归档，在受限文件准备步骤中使用独立 CLT 编译，以固定标识签名后由标准 app artifact 安装。`source_cask.py` 单点生成构建命令、来源凭据和 Cask；不引入额外 helper 或登录维护接口。tag 工作流保留手动 DMG 草稿；公开 Release 后，另一个工作流校验标签源码归档并使用仓库内置 token 仅更新 `Casks/clickthrough.rb`。见[发布指南](releasing.md)和[源码构建决策](../.agents/notes/implemented/process/2026-11-06-source-homebrew.md)。
