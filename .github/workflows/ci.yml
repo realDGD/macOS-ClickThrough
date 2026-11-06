@@ -46,6 +46,9 @@ jobs:
       - name: Build application
         run: make build BUILD_DIR=app/build/ci
 
+      - name: Check signing identities on disposable bundles
+        run: make test-signing APP=app/build/ci/ClickThrough.app
+
       - name: Verify deployment target and resources
         shell: python3 {0}
         run: |
