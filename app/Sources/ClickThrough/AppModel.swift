@@ -53,7 +53,10 @@ final class AppModel {
 
     func setEnabled(_ enabled: Bool) {
         updateSettings { $0.wantedEnabled = enabled }
-        if enabled { engine.start() } else { engine.stop() }
+        if enabled {
+            engine.start()
+            if state == .permissionRequired { openAccessibilitySettings() }
+        } else { engine.stop() }
     }
 
     func refreshSystemState() {

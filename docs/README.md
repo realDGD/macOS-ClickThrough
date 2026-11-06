@@ -14,6 +14,7 @@
 | [应用图标接入](validation/APP_ICON_2026_10_15.md) | Lucide 来源、图标资源与候选包检查 |
 | [小范围真实鼠标回归](validation/PHASE_3_PHYSICAL_2026_10_15.md) | 调整前产品构建的用户物理输入结果 |
 | [安装版撤权恢复](validation/PERMISSION_RECOVERY_2026_10_15.md) | 同一构建、同一进程的权限关闭与恢复结果 |
+| [固定签名身份试验](validation/FIXED_SIGNING_IDENTITY_2026_11_06.md) | 本机 6001 → 6003 实际代码更新保留权限；候选支持缺权限时直接请求授权，正式签名策略未切换 |
 | [v0.1.1 DMG 与同仓库发布](validation/RELEASE_0_1_1_2026_10_16.md) | 真实发布事件、Cask 自动提交、旧版本保留及密钥撤销 |
 | [历史跨仓库同步](validation/TAP_AUTO_SYNC_2026_10_16.md) | 已被单仓库方案替代的首次验证记录 |
 | [单仓库 DMG 决策](../.agents/notes/implemented/process/2026-10-16-single-repository-dmg.md) | Cask 合并、DMG、内置 token 与旧版本保留 |

@@ -6,9 +6,12 @@
 make test
 make test-release APP=app/build/ClickThrough.app
 make test-release-tools
+make test-signing APP=候选目录/ClickThrough.app
 ```
 
 DMG 检查仅挂载临时副本，不打开 Finder 或启动应用，并在结束时卸载。
+
+`test-signing` 只对临时副本执行真实 `codesign` 检查，验证默认／固定签名身份、跨版本匹配及错误输入，不安装或启动应用，也不修改系统授权。2026-11-06 的[固定身份试验](validation/FIXED_SIGNING_IDENTITY_2026_11_06.md)通过离线检查，并在本机 macOS 27.2 / arm64 完成首次授权迁移与 6001 → 6003 实际代码更新：系统授权记录完全未变，新进程直接开启成功。验收后功能关闭且进程退出；未做全量回归，也未撤权重测新增的手动开启授权提示分支。默认／正式发布签名策略未切换。
 
 Swift 单元检查覆盖应用规则、手动／登录图标恢复、状态与图标、修饰标志、失败开启意图和 AX 步骤顺序。分发检查在临时签名副本中验证参数、归档校验值、最低系统声明和旧 Cask 清理，不修改运行包。
 

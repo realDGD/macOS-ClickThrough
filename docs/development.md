@@ -38,6 +38,19 @@ make build BUILD_DIR=app/build/review-candidate
 
 本地默认 ad-hoc 签名，新二进制可能需要用户重新添加辅助功能授权。保持固定安装位置并使用稳定 Developer ID 是正式分发的问题，详见 [分发说明](distribution.md)。
 
+### 固定身份试验
+
+使用无证书的固定签名要求构建独立候选包：
+
+```sh
+CLICKTHROUGH_STABLE_ADHOC_IDENTITY=1 make build BUILD_DIR=app/build/fixed-identity-candidate
+make test-signing APP=app/build/fixed-identity-candidate/ClickThrough.app
+```
+
+该选项显式指定 `identifier "local.clickthrough.app"`，不再以每版代码哈希作为身份；仅用于当前授权保留试验，普通构建及发布工作流仍保持原签名方式。它不认证开发者，其他程序也能声明相同标识，不能提供 Developer ID、公证或 Gatekeeper 批准。不能与 `CLICKTHROUGH_SIGN_IDENTITY` 的证书身份同时使用。
+
+签名统一由 `app/scripts/sign-app.sh` 执行；它拒绝修改正在运行的目标包。离线检查仅修改临时副本，覆盖跨版本匹配、旧身份迁移、错误标识、无效选项及内容篡改。通过不表示系统权限已保留；首次从旧哈希身份迁移仍需用户重新授权，再用另一代码哈希的候选包进行实际升级验证。进度见[本轮记录](validation/FIXED_SIGNING_IDENTITY_2026_11_06.md)。
+
 应用图标源、生成命令及许可位置见 [素材说明](../app/Resources/Artwork/README.md)。正常构建使用已生成的 ICNS，不增加 Xcode 资源编译或下载步骤。
 
 构建对源码路径执行编译器前缀映射，并仅在新组装的可执行副本上移除调试符号，再签名。发布前另以 [归档检查工具](../app/scripts/verify-release.py) 核对版本、SHA-256、资源白名单及个人路径／凭据模式。编译目录和原始日志仍只保留在本地；这些检查不会修改正在运行的包。
