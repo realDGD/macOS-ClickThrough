@@ -100,7 +100,7 @@ jobs:
 
           Open the DMG and drag ClickThrough.app to Applications, or use the Homebrew entry documented in the project README. Review the download and macOS prompts before allowing the app to run.
 
-          Assets include the app DMG, its SHA-256 sidecar, source/version manifest, and matching Homebrew Cask. The disk image passed signature, integrity, required-resource and checked privacy-pattern validation. No GUI or Accessibility interaction is tested by this workflow.
+          Assets include the app DMG, its SHA-256 sidecar, source/version manifest, and a compatible DMG Cask manifest. The repository Homebrew entry builds a separately verified fixed source archive locally. The disk image passed signature, integrity, required-resource and checked privacy-pattern validation. No GUI or Accessibility interaction is tested by this workflow.
 
           Source is licensed under AGPL-3.0-only; Lucide artwork retains its ISC license.
           EOF

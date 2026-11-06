@@ -25,6 +25,7 @@ test-homebrew:
 test-release-tools:
 	python3 app/Tests/DistributionTests/test_verify_release.py
 	python3 app/Tests/DistributionTests/test_sync_homebrew.py
+	python3 app/Tests/DistributionTests/test_source_cask.py
 
 test-signing:
 	python3 app/Tests/DistributionTests/test_signing_identity.py --app "$(APP)"

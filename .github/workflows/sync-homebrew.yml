@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Published DMG vMAJOR.MINOR.PATCH release to sync
+        description: Published vMAJOR.MINOR.PATCH source version to sync
         required: true
         type: string
 
@@ -38,7 +38,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Download and validate published DMG and metadata
+      - name: Validate published source commit and archive checksum
         id: release
         env:
           GH_TOKEN: ${{ github.token }}

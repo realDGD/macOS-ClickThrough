@@ -19,7 +19,7 @@ Swift 单元检查覆盖应用规则、手动／登录图标恢复、状态与�
 
 `test-release-tools` 覆盖有效发布、版本不匹配、DMG 被修改、二进制中的个人路径与凭据模式、意外诊断文件及附加 Ruby 代码等输入。发布工作流对实际 DMG 运行同一校验，并在只读挂载时核对应用签名、执行权限、arm64 架构和 Mach-O 最低版本；不安装或启动应用。
 
-`test-release-tools` 还用临时本地 Git 仓库检查 tap 新版本提交／推送、同版本幂等、数字版本防降级、同版本内容不可改写、源码提交核对及无关修改隔离；不连接用户 tap、不安装软件。公开附件与 GitHub Actions 的历史跨仓库同步证据见 [原自动同步验证](validation/TAP_AUTO_SYNC_2026_10_16.md)，现已改为仓库内置 token 更新同仓库 Cask；[v0.1.1 实际发布验证](validation/RELEASE_0_1_1_2026_10_16.md) 记录真实发布事件的自动提交。线上结果不能由这些本地检查代替。
+`test-release-tools` 还用临时本地 Git 仓库检查源码 Cask 的新版本提交／推送、同版本幂等、数字版本防降级、同版本内容不可改写、源码提交核对及无关修改隔离；检查来源 URL、校验值及附加 Ruby 的拒绝。源码 Cask 的可信模板与真实 Homebrew DSL 往返另有小范围检查；没有 Homebrew 的环境明确跳过 DSL 检查，不安装软件。当前迁移证据见[源码 Homebrew 验证](validation/SOURCE_HOMEBREW_2026_11_06.md)。历史 DMG 自动同步与公开事件证据仍保留在[原记录](validation/TAP_AUTO_SYNC_2026_10_16.md)和 [v0.1.1 发布记录](validation/RELEASE_0_1_1_2026_10_16.md)，不将其转记为新流程实测。
 
 构建验证另见 [开发指南](development.md)。包的最低版本应同时核对 Info.plist 和 Mach-O `minos`，字符串图标还需检查系统符号可用性，不能只依赖编译器。
 

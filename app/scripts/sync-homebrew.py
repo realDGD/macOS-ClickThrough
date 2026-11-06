@@ -1,58 +1,75 @@
 #!/usr/bin/env python3
-"""Validate a public Release and update only the ClickThrough Cask in a checked-out tap."""
+"""Validate a published source version and update only the source-build Homebrew Cask."""
 import argparse
-import importlib.util
 import json
 import re
 import subprocess
 import sys
+import tarfile
 from pathlib import Path
 
-spec = importlib.util.spec_from_file_location('verify_release', Path(__file__).with_name('verify-release.py'))
-release = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(release)
+from source_cask import render_source_cask, resolve_checksum, source_url
+
 REPOSITORY = 'realDGD/macOS-ClickThrough'
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
 
 
 def git(tap, *args):
     return subprocess.check_output(['git', '-C', str(tap), *args], text=True).strip()
 
 
+def verify_source(directory, tag, source_commit=None):
+    require(re.fullmatch(r'v\d+\.\d+\.\d+', tag), 'tag must be vMAJOR.MINOR.PATCH')
+    require({p.name for p in directory.iterdir()} == {'source.json', 'clickthrough.rb'},
+                    'unexpected source metadata files')
+    require(all(p.is_file() and not p.is_symlink() for p in directory.iterdir()),
+                    'source metadata must be regular files')
+    manifest = json.loads((directory / 'source.json').read_text())
+    require(manifest['version'] == tag[1:], 'source version differs from tag')
+    if source_commit:
+        require(manifest['source_commit'] == source_commit, 'source commit differs from requested source')
+    expected = render_source_cask(manifest['version'], manifest['sha256'], manifest['source_commit'])
+    require(manifest['url'] == source_url(manifest['source_commit']), 'unexpected source archive URL')
+    require((directory / 'clickthrough.rb').read_text() == expected,
+                    'Cask differs from the trusted source template')
+    return dict(manifest, result='passed')
+
+
 def prepare(directory, tag):
-    release.require(re.fullmatch(r'v\d+\.\d+\.\d+', tag), 'tag must be vMAJOR.MINOR.PATCH')
+    require(re.fullmatch(r'v\d+\.\d+\.\d+', tag), 'tag must be vMAJOR.MINOR.PATCH')
     metadata = json.loads(subprocess.check_output(
         ['gh', 'api', f'repos/{REPOSITORY}/releases/tags/{tag}'], text=True))
-    release.require(metadata['tag_name'] == tag and metadata['draft'] is False
+    require(metadata['tag_name'] == tag and metadata['draft'] is False
                     and metadata['published_at'], 'Release must already be public')
-    name = f'ClickThrough-{tag[1:]}-arm64.dmg'
-    assets = {name, name + '.sha256', 'release.json', 'clickthrough.rb'}
-    release.require({asset['name'] for asset in metadata['assets']} == assets,
-                    'Release must contain exactly the four expected assets')
     root = Path(__file__).resolve().parents[2]
     commit = git(root, 'rev-parse', f'refs/tags/{tag}^{{commit}}')
     subprocess.run(['git', '-C', str(root), 'merge-base', '--is-ancestor', commit, 'origin/main'], check=True)
     directory.mkdir(parents=True, exist_ok=True)
-    release.require(not any(directory.iterdir()), 'download directory must be empty')
-    command = ['gh', 'release', 'download', tag, '--repo', REPOSITORY, '--dir', str(directory)]
-    for asset in sorted(assets):
-        command.extend(['--pattern', asset])
-    subprocess.run(command, check=True)
-    return release.verify(directory, tag, commit, native=True)
+    require(not any(directory.iterdir()), 'download directory must be empty')
+    digest = resolve_checksum(tag[1:], commit)
+    manifest = {'version': tag[1:], 'source_commit': commit, 'sha256': digest, 'url': source_url(commit)}
+    (directory / 'source.json').write_text(json.dumps(manifest, indent=2) + '\n')
+    (directory / 'clickthrough.rb').write_text(render_source_cask(tag[1:], digest, commit))
+    return verify_source(directory, tag, commit)
 
 
 def sync(directory, tag, source_commit, tap):
-    checked = release.verify(directory, tag, source_commit)
-    release.require(not git(tap, 'status', '--porcelain'), 'tap checkout must be clean')
-    release.require(git(tap, 'branch', '--show-current') == 'main', 'tap must be on main')
+    checked = verify_source(directory, tag, source_commit)
+    require(not git(tap, 'status', '--porcelain'), 'tap checkout must be clean')
+    require(git(tap, 'branch', '--show-current') == 'main', 'tap must be on main')
     cask = tap / 'Casks/clickthrough.rb'
-    release.require(cask.is_file() and not cask.is_symlink(), 'expected a regular ClickThrough Cask')
+    require(cask.is_file() and not cask.is_symlink(), 'expected a regular ClickThrough Cask')
     match = re.search(r'^\s*version [\'"](\d+\.\d+\.\d+)[\'"]\s*$', cask.read_text(), re.MULTILINE)
-    release.require(match, 'cannot determine current tap version')
+    require(match, 'cannot determine current tap version')
     current = tuple(map(int, match.group(1).split('.')))
     candidate = tuple(map(int, checked['version'].split('.')))
     content = (directory / 'clickthrough.rb').read_bytes()
     if current == candidate:
-        release.require(cask.read_bytes() == content, 'same version has different Cask content; publish a new version')
+        require(cask.read_bytes() == content, 'same version has different Cask content; publish a new version')
         result = 'unchanged'
     elif current > candidate:
         result = 'skipped-older'
@@ -88,7 +105,7 @@ def main():
         else:
             result = sync(args.directory, args.tag, args.source_commit, args.tap)
         print(json.dumps(result, indent=2))
-    except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
+    except (ValueError, KeyError, OSError, subprocess.CalledProcessError, tarfile.TarError) as error:
         print(f'Tap sync failed: {error}', file=sys.stderr)
         return 1
     return 0

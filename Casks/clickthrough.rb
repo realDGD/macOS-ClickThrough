@@ -1,16 +1,47 @@
 cask "clickthrough" do
   version '0.1.3'
-  sha256 '7178685703859b9db381521aa5cb486f541652228d30dd7dc3f52d885894cc13'
+  sha256 'cf85c591d13d018eeb2c2124a749d10e09eab9c41863721ddb291ddbfd2bdb52'
 
-  url 'https://github.com/realDGD/macOS-ClickThrough/releases/download/v0.1.3/ClickThrough-0.1.3-arm64.dmg'
+  url 'https://github.com/realDGD/macOS-ClickThrough/archive/3e60ffd386f93445787f898eab9d4f7f263c65d4.tar.gz'
   name "ClickThrough"
-  desc "Menu bar utility for first-click interaction with background windows"
+  desc "Menu bar utility compiled locally with Swift Command Line Tools"
   homepage 'https://github.com/realDGD/macOS-ClickThrough'
 
   depends_on arch: :arm64
   depends_on macos: :sonoma
 
-  app "ClickThrough.app"
+  preflight_steps do
+    run "/bin/bash", args: ['-c', 'set -euo pipefail
+[[ -d "$DEVELOPER_DIR" ]] || { echo "Install Swift 6 Command Line Tools first." >&2; exit 1; }
+[[ "$(/usr/libexec/PlistBuddy -c \'Print :CFBundleShortVersionString\' app/Resources/Info.plist)" == "$1" ]] || { echo "Cask/source version mismatch" >&2; exit 1; }
+export CLICKTHROUGH_SIGN_IDENTITY=-
+export CLICKTHROUGH_STABLE_ADHOC_IDENTITY=1
+unset SDKROOT
+# Homebrew supplies the outer sandbox; keep SwiftPM state inside this source tree.
+swift() {
+  /usr/bin/xcrun swift "$@" --disable-sandbox --cache-path "$PWD/app/.build/homebrew/cache" --config-path "$PWD/app/.build/homebrew/config" --security-path "$PWD/app/.build/homebrew/security"
+}
+export -f swift
+bash app/scripts/build-app.sh --output app/build/homebrew
+clickthrough_app="$PWD/app/build/homebrew/ClickThrough.app"
+clickthrough_stamp="$clickthrough_app/Contents/Resources/HomebrewSource.plist"
+/usr/bin/plutil -create xml1 "$clickthrough_stamp"
+/usr/libexec/PlistBuddy -c "Add :version string $1" "$clickthrough_stamp"
+/usr/libexec/PlistBuddy -c "Add :commit string $2" "$clickthrough_stamp"
+/usr/libexec/PlistBuddy -c "Add :sha256 string $3" "$clickthrough_stamp"
+/usr/libexec/PlistBuddy -c \'Add :builder string clt-source-cask\' "$clickthrough_stamp"
+/usr/libexec/PlistBuddy -c \'Add :signingPolicy string identifier-only-adhoc-v1\' "$clickthrough_stamp"
+bash app/scripts/sign-app.sh "$clickthrough_app"
+', 'clickthrough-source-build', '0.1.3', '3e60ffd386f93445787f898eab9d4f7f263c65d4', 'cf85c591d13d018eeb2c2124a749d10e09eab9c41863721ddb291ddbfd2bdb52'],
+                      chdir: 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4', print_stdout: true,
+                      env: { "DEVELOPER_DIR" => "/Library/Developer/CommandLineTools" }
+  end
+
+  app 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/build/homebrew/ClickThrough.app'
+
+  postflight_steps do
+    remove ['macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/.build', 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/.swiftpm'], recursive: true
+  end
 
   uninstall quit: "local.clickthrough.app"
 
@@ -20,9 +51,10 @@ cask "clickthrough" do
   ]
 
   caveats <<~EOS
-    This development build is ad-hoc signed and has not been notarized by Apple.
-    macOS may block its first launch; updates may require re-adding Accessibility permission.
-    Enable Accessibility for ClickThrough in System Settings, then turn it on.
+    This cask compiles the fixed source archive locally with Swift 6 Command Line Tools.
+    Source builds use identifier-only ad-hoc signing; this does not authenticate the signer.
+    Migrating from older hash-bound builds may require re-authorizing Accessibility once.
+    Local compilation is separate from Apple notarization and Gatekeeper approval.
     Before uninstalling, turn off launch at login in ClickThrough settings.
   EOS
 end
