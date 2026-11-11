@@ -1,8 +1,8 @@
 cask "clickthrough" do
-  version '0.1.3'
-  sha256 'cf85c591d13d018eeb2c2124a749d10e09eab9c41863721ddb291ddbfd2bdb52'
+  version '0.1.4'
+  sha256 '356765e850391352793f617eeb01a937cc8c119222cb344d2bfe5dd24a9e2193'
 
-  url 'https://github.com/realDGD/macOS-ClickThrough/archive/3e60ffd386f93445787f898eab9d4f7f263c65d4.tar.gz'
+  url 'https://github.com/realDGD/macOS-ClickThrough/archive/eb2a471d2d14e970b6013229cbbc37f9582a25ee.tar.gz'
   name "ClickThrough"
   desc "Menu bar utility compiled locally with Swift Command Line Tools"
   homepage 'https://github.com/realDGD/macOS-ClickThrough'
@@ -32,15 +32,15 @@ clickthrough_stamp="$clickthrough_app/Contents/Resources/HomebrewSource.plist"
 /usr/libexec/PlistBuddy -c \'Add :builder string clt-source-cask\' "$clickthrough_stamp"
 /usr/libexec/PlistBuddy -c \'Add :signingPolicy string identifier-only-adhoc-v1\' "$clickthrough_stamp"
 bash app/scripts/sign-app.sh "$clickthrough_app"
-', 'clickthrough-source-build', '0.1.3', '3e60ffd386f93445787f898eab9d4f7f263c65d4', 'cf85c591d13d018eeb2c2124a749d10e09eab9c41863721ddb291ddbfd2bdb52'],
-                      chdir: 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4', print_stdout: true,
+', 'clickthrough-source-build', '0.1.4', 'eb2a471d2d14e970b6013229cbbc37f9582a25ee', '356765e850391352793f617eeb01a937cc8c119222cb344d2bfe5dd24a9e2193'],
+                      chdir: 'macOS-ClickThrough-eb2a471d2d14e970b6013229cbbc37f9582a25ee', print_stdout: true,
                       env: { "DEVELOPER_DIR" => "/Library/Developer/CommandLineTools" }
   end
 
-  app 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/build/homebrew/ClickThrough.app'
+  app 'macOS-ClickThrough-eb2a471d2d14e970b6013229cbbc37f9582a25ee/app/build/homebrew/ClickThrough.app'
 
   postflight_steps do
-    remove ['macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/.build', 'macOS-ClickThrough-3e60ffd386f93445787f898eab9d4f7f263c65d4/app/.swiftpm'], recursive: true
+    remove ['macOS-ClickThrough-eb2a471d2d14e970b6013229cbbc37f9582a25ee/app/.build', 'macOS-ClickThrough-eb2a471d2d14e970b6013229cbbc37f9582a25ee/app/.swiftpm'], recursive: true
   end
 
   uninstall quit: "local.clickthrough.app"
