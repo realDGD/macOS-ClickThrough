@@ -37,6 +37,30 @@ private let ownID = "local.clickthrough.app"
     #expect(settings.whitelist.count == 1)
 }
 
+@Test func settingsFromBeforeDetailedDiagnosticsKeepUserPreferences() throws {
+    let old = Data("""
+        {"wantedEnabled":true,"showMenuBarIcon":false,"diagnosticsEnabled":true,
+         "ruleMode":"whitelist","blacklist":[{"bundleID":"example.a","name":"A"}],
+         "whitelist":[{"bundleID":"example.b","name":"B"}]}
+        """.utf8)
+    let restored = try JSONDecoder().decode(AppSettings.self, from: old)
+    #expect(restored.wantedEnabled)
+    #expect(!restored.showMenuBarIcon)
+    #expect(restored.diagnosticsEnabled)
+    #expect(!restored.detailedDiagnosticsEnabled)
+    #expect(restored.ruleMode == .whitelist)
+    #expect(restored.blacklist == [.init(bundleID: "example.a", name: "A")])
+    #expect(restored.whitelist == [.init(bundleID: "example.b", name: "B")])
+}
+
+@Test func detailedDiagnosticsPreferenceSurvivesSaveAndReload() throws {
+    var settings = AppSettings()
+    settings.diagnosticsEnabled = true
+    settings.detailedDiagnosticsEnabled = true
+    let restored = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(settings))
+    #expect(restored == settings)
+}
+
 @Test(arguments: [false, true]) func manualOpenRestoresOnlyIcon(wantedEnabled: Bool) {
     var settings = AppSettings()
     settings.showMenuBarIcon = false

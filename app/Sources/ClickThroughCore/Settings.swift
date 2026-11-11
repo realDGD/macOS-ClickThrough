@@ -21,11 +21,28 @@ public struct AppSettings: Codable, Equatable, Sendable {
     public var wantedEnabled = false
     public var showMenuBarIcon = true
     public var diagnosticsEnabled = false
+    public var detailedDiagnosticsEnabled = false
     public var ruleMode: RuleMode = .blacklist
     public var blacklist: [ApplicationRule] = []
     public var whitelist: [ApplicationRule] = []
 
     public init() {}
+
+    private enum CodingKeys: String, CodingKey {
+        case wantedEnabled, showMenuBarIcon, diagnosticsEnabled, detailedDiagnosticsEnabled
+        case ruleMode, blacklist, whitelist
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        wantedEnabled = try values.decode(Bool.self, forKey: .wantedEnabled)
+        showMenuBarIcon = try values.decode(Bool.self, forKey: .showMenuBarIcon)
+        diagnosticsEnabled = try values.decode(Bool.self, forKey: .diagnosticsEnabled)
+        detailedDiagnosticsEnabled = try values.decodeIfPresent(Bool.self, forKey: .detailedDiagnosticsEnabled) ?? false
+        ruleMode = try values.decode(RuleMode.self, forKey: .ruleMode)
+        blacklist = try values.decode([ApplicationRule].self, forKey: .blacklist)
+        whitelist = try values.decode([ApplicationRule].self, forKey: .whitelist)
+    }
 
     public func allows(bundleID: String?, selfBundleID: String) -> Bool {
         guard bundleID != selfBundleID else { return false }
