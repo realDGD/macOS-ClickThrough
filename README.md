@@ -19,7 +19,7 @@ brew install --cask realdgd/tap/clickthrough
 
 Homebrew 的 [Cask](Casks/clickthrough.rb) 下载固定提交及 SHA-256 的源码归档，在本机使用 **Swift 6 Command Line Tools** 编译，再安装到“应用程序”；不是下载预编译 App。安装前需要已有现代独立 CLT，可通过 `swift --version` 检查版本，缺少时自行运行 `xcode-select --install`。
 
-已安装原 DMG 版 0.1.3 的用户，退出 ClickThrough 后执行一次迁移；此次应用版本仍为 0.1.3：
+已安装原 DMG 版的用户，退出 ClickThrough 后执行一次迁移：
 
 ```sh
 brew update
@@ -43,6 +43,7 @@ brew upgrade --cask realdgd/tap/clickthrough
 
 - 左键点击菜单栏图标开启或关闭功能；右键打开设置和退出菜单。
 - 设置支持隐藏图标、登录启动、应用黑名单和白名单。隐藏后从 Spotlight 或 Finder 重新打开软件即可恢复图标。
+- 诊断支持可选详细日志，自动轮换并清理旧文件，总占用最多 20 MiB；默认关闭，设置会保留。
 - 开启前需要为 ClickThrough 授予辅助功能权限。首次点击能力取决于目标应用的公开 AX 支持和事件处理，不能保证所有应用都有效。
 
 详情见 [应用使用说明](app/README.md)；[分发说明](docs/distribution.md) 包含安装、卸载及签名限制。维护者步骤见 [发布指南](docs/releasing.md)：tag 可构建手动 DMG 草稿，公开 Release 后 Action 校验对应源码归档并更新本仓库的源码 Cask，无需跨仓库密钥。

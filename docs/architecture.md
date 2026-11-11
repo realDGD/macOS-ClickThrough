@@ -12,13 +12,13 @@ Session event tap 同步收到鼠标事件后，先按原有规则筛选未修�
 
 | 位置 | 责任 |
 | --- | --- |
-| `app/Sources/ClickThroughCore/` | 持久化设置、规则、修饰标志政策、运行状态和 AX 步骤顺序 |
+| `app/Sources/ClickThroughCore/` | 持久化设置、规则、修饰标志政策、运行状态、AX 步骤顺序和本地诊断存储 |
 | `EventTapEngine.swift` | 监听生命周期、同步处理与原事件放行 |
 | `WindowResolver.swift` / `A4Activation.swift` | 窗口命中与 A4 AX 操作 |
 | `AppModel.swift` | 用户意图、实际引擎状态、偏好与界面协调 |
 | `StatusItemController.swift` / `SettingsView.swift` | 菜单栏左右键入口与设置 |
 | `LoginItemController.swift` / `AppDelegate.swift` | 登录项、手动重新打开和窗口生命周期 |
-| `Diagnostics.swift` | 可关闭、限量的本地诊断输出 |
+| `ClickThroughCore/Diagnostics.swift` | 普通／详细诊断开关，后台编码与写入，文件轮换、按年龄和总容量清理 |
 
 应用规则只按 bundle ID 筛选；不包含对业务按钮、剪贴板或网页内容的识别。运行状态与用户的开启意图分开保存，权限失败不能伪装成已开启。
 

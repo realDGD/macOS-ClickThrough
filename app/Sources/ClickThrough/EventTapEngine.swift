@@ -81,27 +81,50 @@ final class EventTapEngine {
         guard state.isRunning else { return }
         let isDown = type == .leftMouseDown || type == .rightMouseDown
         guard isDown else { return }
-        guard AXIsProcessTrusted() else { releaseTap(); state = .permissionRequired; return }
-        guard isUnmodifiedMouseClick(event.flags) else { return }
         let started = DispatchTime.now().uptimeNanoseconds
-        guard let target = WindowResolver.target(at: event.location),
-              target.pid != getpid(), target.layer == 0,
-              settings.allows(bundleID: target.bundleID, selfBundleID: ownBundleID) else { return }
-        var fields = ["pid": String(target.pid), "bundle_id": target.bundleID ?? "",
-                      "window": String(target.windowNumber), "type": String(type.rawValue),
+        let detailed = diagnostics.recordsDetailed
+        var fields = ["type": String(type.rawValue),
                       "event_number": String(event.getIntegerValueField(.mouseEventNumber)),
                       "click_count": String(event.getIntegerValueField(.mouseEventClickState)),
                       "event_timestamp": String(event.timestamp)]
+        if detailed, started >= event.timestamp { fields["event_age_ns"] = String(started - event.timestamp) }
+        diagnostics.record("mouse_down", fields: fields, detailed: true)
+        var kind = "click_skipped"
+        defer {
+            fields["callback_work_ns"] = String(DispatchTime.now().uptimeNanoseconds - started)
+            diagnostics.record(kind, fields: fields, detailed: kind == "click_skipped")
+        }
+        guard AXIsProcessTrusted() else {
+            fields["reason"] = "ax_not_trusted"
+            releaseTap(); state = .permissionRequired; return
+        }
+        guard isUnmodifiedMouseClick(event.flags) else { fields["reason"] = "modified_click"; return }
+        let lookupStarted = detailed ? DispatchTime.now().uptimeNanoseconds : 0
+        let resolved = WindowResolver.target(at: event.location)
+        if detailed { fields["target_lookup_ns"] = String(DispatchTime.now().uptimeNanoseconds - lookupStarted) }
+        guard let target = resolved else { fields["reason"] = "target_not_found"; return }
+        fields["pid"] = String(target.pid)
+        fields["bundle_id"] = target.bundleID ?? ""
+        fields["window"] = String(target.windowNumber)
+        if detailed { fields["layer"] = String(target.layer) }
+        guard target.pid != getpid() else { fields["reason"] = "own_process"; return }
+        guard target.layer == 0 else { fields["reason"] = "nonstandard_layer"; return }
+        guard settings.allows(bundleID: target.bundleID, selfBundleID: ownBundleID) else {
+            fields["reason"] = "application_rule"; return
+        }
+        kind = "activation_request"
         // Same PID can contain another non-key window: never skip on foreground PID.
         ActivationSequence.run(window: {
+            let windowStarted = detailed ? DispatchTime.now().uptimeNanoseconds : 0
             let result = A4Activation.window(at: event.location, expectedPID: target.pid)
+            if detailed { fields["window_work_ns"] = String(DispatchTime.now().uptimeNanoseconds - windowStarted) }
             for (key, value) in result.fields { fields["window_" + key] = value }
             return result.success
         }, application: {
+            let applicationStarted = detailed ? DispatchTime.now().uptimeNanoseconds : 0
             let result = A4Activation.application(pid: target.pid)
+            if detailed { fields["application_work_ns"] = String(DispatchTime.now().uptimeNanoseconds - applicationStarted) }
             for (key, value) in result.fields { fields["application_" + key] = value }
         })
-        fields["callback_work_ns"] = String(DispatchTime.now().uptimeNanoseconds - started)
-        diagnostics.record("activation_request", fields: fields)
     }
 }

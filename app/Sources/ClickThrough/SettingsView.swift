@@ -76,6 +76,10 @@ struct SettingsView: View {
 
             Section("诊断") {
                 Toggle("记录诊断日志", isOn: binding(\.diagnosticsEnabled))
+                Toggle("记录详细诊断日志", isOn: binding(\.detailedDiagnosticsEnabled))
+                    .disabled(!model.settings.diagnosticsEnabled)
+                Text("详细日志包含每次点击的到达、跳过原因和各步骤耗时。自动清理 7 天未更新的日志，总占用最多 20 MiB。")
+                    .font(.caption).foregroundStyle(.secondary)
                 Text("用于排查启停与点击请求，不记录键盘输入、剪贴板、网页内容或窗口标题。")
                     .font(.caption).foregroundStyle(.secondary)
                 Button("打开日志文件夹…") { model.showLogs() }

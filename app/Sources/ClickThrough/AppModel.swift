@@ -28,6 +28,7 @@ final class AppModel {
         engine = EventTapEngine(diagnostics: diagnostics)
         engine.settings = settings
         diagnostics.enabled = settings.diagnosticsEnabled
+        diagnostics.detailedEnabled = settings.detailedDiagnosticsEnabled
         engine.onStateChange = { [weak self] state in
             self?.state = state
             self?.onPresentationChange?()
@@ -46,6 +47,7 @@ final class AppModel {
         if let data = try? JSONEncoder().encode(settings) { defaults.set(data, forKey: Self.settingsKey) }
         engine.settings = settings
         diagnostics.enabled = settings.diagnosticsEnabled
+        diagnostics.detailedEnabled = settings.detailedDiagnosticsEnabled
         onPresentationChange?()
     }
 
