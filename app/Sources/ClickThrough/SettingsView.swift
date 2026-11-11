@@ -33,9 +33,6 @@ struct SettingsView: View {
                 Toggle("显示菜单栏图标", isOn: binding(\.showMenuBarIcon))
                 Text("隐藏后，从 Spotlight 或“应用程序”重新打开 ClickThrough 即可恢复图标。功能开关保持原状。")
                     .font(.caption).foregroundStyle(.secondary)
-                Toggle("右键菜单跟随点击屏幕", isOn: binding(\.statusMenuFollowsClickedScreen))
-                Text("将 ClickThrough 菜单显示在点击屏幕的菜单栏下方。关闭后使用系统默认定位。")
-                    .font(.caption).foregroundStyle(.secondary)
                 Toggle("登录时启动", isOn: Binding(
                     get: { model.loginStatus == .enabled || model.loginStatus == .requiresApproval },
                     set: { model.setLoginEnabled($0) }))
