@@ -17,7 +17,6 @@ Session event tap 同步收到鼠标事件后，先按原有规则筛选未修�
 | `WindowResolver.swift` / `A4Activation.swift` | 窗口命中与 A4 AX 操作 |
 | `AppModel.swift` | 用户意图、实际引擎状态、偏好与界面协调 |
 | `StatusItemController.swift` / `SettingsView.swift` | 菜单栏左右键入口与设置 |
-| `ClickThroughCore/StatusMenuPlacement.swift` | 点击屏幕内的菜单锚点与显示范围几何；不参与 A4 激活 |
 | `LoginItemController.swift` / `AppDelegate.swift` | 登录项、手动重新打开和窗口生命周期 |
 | `ClickThroughCore/Diagnostics.swift` | 普通／详细诊断开关，后台编码与写入，文件轮换、按年龄和总容量清理 |
 
