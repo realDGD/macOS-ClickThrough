@@ -13,21 +13,42 @@ struct AXStepResult {
 
 @MainActor
 enum A4Activation {
-    static func window(at point: CGPoint, expectedPID: pid_t) -> AXStepResult {
+    static func window(at point: CGPoint, expectedPID: pid_t,
+                       capture: ((AXHitEvidence) -> Void)? = nil) -> AXStepResult {
+        var hitElement: AXUIElement?
+        var resolvedWindow: AXUIElement?
+        var evidence: [String: String] = [:]
+        defer {
+            capture?(AXHitEvidence(element: hitElement, window: resolvedWindow, fields: evidence))
+        }
         let system = AXUIElementCreateSystemWide()
         AXUIElementSetMessagingTimeout(system, 0.025)
         var element: AXUIElement?
         let hit = AXUIElementCopyElementAtPosition(system, Float(point.x), Float(point.y), &element)
+        if capture != nil {
+            hitElement = element
+            evidence["hit_ax_error"] = String(hit.rawValue)
+        }
         guard hit == .success, let element else { return .failure("hit_failed", hit) }
         var pid: pid_t = 0
-        AXUIElementGetPid(element, &pid)
+        let pidError = AXUIElementGetPid(element, &pid)
+        if capture != nil {
+            evidence["hit_pid"] = String(pid)
+            evidence["hit_pid_error"] = String(pidError.rawValue)
+        }
         guard pid == expectedPID else { return .failure("pid_mismatch") }
         var value: CFTypeRef?
         let read = AXUIElementCopyAttributeValue(element, kAXWindowAttribute as CFString, &value)
+        if capture != nil {
+            evidence["window_resolution"] = "AXWindow_attribute"
+            evidence["window_attribute_error"] = String(read.rawValue)
+            evidence["window_attribute_type"] = value.map { String(CFGetTypeID($0)) } ?? "missing"
+        }
         guard read == .success, let value, CFGetTypeID(value) == AXUIElementGetTypeID() else {
             return .failure("window_attribute_failed", read)
         }
         let window = unsafeDowncast(value, to: AXUIElement.self)
+        if capture != nil { resolvedWindow = window }
         AXUIElementSetMessagingTimeout(window, 0.025)
         var settable = DarwinBoolean(false)
         let query = AXUIElementIsAttributeSettable(window, kAXMainAttribute as CFString, &settable)
