@@ -20,6 +20,7 @@ public enum LaunchContext: Sendable { case manual, login }
 public struct AppSettings: Codable, Equatable, Sendable {
     public var wantedEnabled = false
     public var showMenuBarIcon = true
+    public var statusMenuFollowsClickedScreen = true
     public var diagnosticsEnabled = false
     public var detailedDiagnosticsEnabled = false
     public var ruleMode: RuleMode = .blacklist
@@ -30,6 +31,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
 
     private enum CodingKeys: String, CodingKey {
         case wantedEnabled, showMenuBarIcon, diagnosticsEnabled, detailedDiagnosticsEnabled
+        case statusMenuFollowsClickedScreen
         case ruleMode, blacklist, whitelist
     }
 
@@ -37,6 +39,7 @@ public struct AppSettings: Codable, Equatable, Sendable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         wantedEnabled = try values.decode(Bool.self, forKey: .wantedEnabled)
         showMenuBarIcon = try values.decode(Bool.self, forKey: .showMenuBarIcon)
+        statusMenuFollowsClickedScreen = try values.decodeIfPresent(Bool.self, forKey: .statusMenuFollowsClickedScreen) ?? true
         diagnosticsEnabled = try values.decode(Bool.self, forKey: .diagnosticsEnabled)
         detailedDiagnosticsEnabled = try values.decodeIfPresent(Bool.self, forKey: .detailedDiagnosticsEnabled) ?? false
         ruleMode = try values.decode(RuleMode.self, forKey: .ruleMode)

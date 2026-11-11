@@ -47,6 +47,7 @@ private let ownID = "local.clickthrough.app"
     #expect(restored.wantedEnabled)
     #expect(!restored.showMenuBarIcon)
     #expect(restored.diagnosticsEnabled)
+    #expect(restored.statusMenuFollowsClickedScreen)
     #expect(!restored.detailedDiagnosticsEnabled)
     #expect(restored.ruleMode == .whitelist)
     #expect(restored.blacklist == [.init(bundleID: "example.a", name: "A")])
@@ -59,6 +60,29 @@ private let ownID = "local.clickthrough.app"
     settings.detailedDiagnosticsEnabled = true
     let restored = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(settings))
     #expect(restored == settings)
+}
+
+@Test func previousSettingsKeepDetailedLoggingAndDefaultMenuPlacementOn() throws {
+    let old = Data("""
+        {"wantedEnabled":true,"showMenuBarIcon":false,"diagnosticsEnabled":true,
+         "detailedDiagnosticsEnabled":true,"ruleMode":"whitelist",
+         "blacklist":[],"whitelist":[{"bundleID":"example.a","name":"A"}]}
+        """.utf8)
+    let settings = try JSONDecoder().decode(AppSettings.self, from: old)
+    #expect(settings.statusMenuFollowsClickedScreen)
+    #expect(settings.wantedEnabled && settings.diagnosticsEnabled && settings.detailedDiagnosticsEnabled)
+    #expect(!settings.showMenuBarIcon)
+    #expect(settings.ruleMode == .whitelist)
+    #expect(settings.whitelist == [.init(bundleID: "example.a", name: "A")])
+}
+
+@Test func menuPlacementDefaultsOnAndDisabledChoicePersists() throws {
+    var settings = AppSettings()
+    #expect(settings.statusMenuFollowsClickedScreen)
+    settings.statusMenuFollowsClickedScreen = false
+    let restored = try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(settings))
+    #expect(restored == settings)
+    #expect(!restored.statusMenuFollowsClickedScreen)
 }
 
 @Test(arguments: [false, true]) func manualOpenRestoresOnlyIcon(wantedEnabled: Bool) {
