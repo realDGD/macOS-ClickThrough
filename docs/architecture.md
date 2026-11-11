@@ -18,6 +18,7 @@ Session event tap 同步收到鼠标事件后，先按原有规则筛选未修�
 | `AppModel.swift` | 用户意图、实际引擎状态、偏好与界面协调 |
 | `StatusItemController.swift` / `SettingsView.swift` | 菜单栏左右键入口与设置 |
 | `LoginItemController.swift` / `AppDelegate.swift` | 登录项、手动重新打开和窗口生命周期 |
+| `AXHitEvidence.swift` / `ClickThroughCore/PostEventDiagnostics.swift` | 详细模式下保留命中引用、单槽延后采样和过期结果隔离；新增 AX 查询在原事件回调返回后执行 |
 | `ClickThroughCore/Diagnostics.swift` | 普通／详细诊断开关，后台编码与写入，文件轮换、按年龄和总容量清理 |
 
 应用规则只按 bundle ID 筛选；不包含对业务按钮、剪贴板或网页内容的识别。运行状态与用户的开启意图分开保存，权限失败不能伪装成已开启。

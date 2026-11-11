@@ -4,7 +4,14 @@ import ClickThroughCore
 
 @MainActor
 final class EventTapEngine {
-    var settings = AppSettings()
+    var settings = AppSettings() {
+        didSet {
+            if settings.diagnosticsEnabled != oldValue.diagnosticsEnabled ||
+                settings.detailedDiagnosticsEnabled != oldValue.detailedDiagnosticsEnabled {
+                observations.invalidate()
+            }
+        }
+    }
     var onStateChange: ((RuntimeState) -> Void)?
     private(set) var state: RuntimeState = .stopped {
         didSet { onStateChange?(state) }
@@ -12,6 +19,7 @@ final class EventTapEngine {
     private var tap: CFMachPort?
     private var source: CFRunLoopSource?
     private let diagnostics: Diagnostics
+    private lazy var observations = PostEventDiagnostics(diagnostics: diagnostics)
     private let ownBundleID = Bundle.main.bundleIdentifier ?? "local.clickthrough.app"
 
     init(diagnostics: Diagnostics) { self.diagnostics = diagnostics }
@@ -46,7 +54,11 @@ final class EventTapEngine {
             releaseTap(); state = .paused("系统未启用鼠标监听，请重新开启。"); return
         }
         state = .running
-        diagnostics.record("started")
+        diagnostics.record("started", fields: [
+            "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "unknown",
+            "build": Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "unknown",
+            "pid": String(getpid()), "detailed": String(diagnostics.recordsDetailed), "schema": "2"
+        ])
     }
 
     func stop() {
@@ -65,6 +77,7 @@ final class EventTapEngine {
     }
 
     private func releaseTap() {
+        observations.invalidate()
         if let tap { CGEvent.tapEnable(tap: tap, enable: false); CFMachPortInvalidate(tap) }
         if let source { CFRunLoopRemoveSource(CFRunLoopGetMain(), source, .commonModes) }
         tap = nil
@@ -87,6 +100,11 @@ final class EventTapEngine {
                       "event_number": String(event.getIntegerValueField(.mouseEventNumber)),
                       "click_count": String(event.getIntegerValueField(.mouseEventClickState)),
                       "event_timestamp": String(event.timestamp)]
+        if detailed {
+            let clickID = String(event.timestamp) + "-" + String(event.getIntegerValueField(.mouseEventNumber))
+            fields["click_id"] = clickID
+            observations.noteMouseDown(clickID)
+        }
         if detailed, started >= event.timestamp { fields["event_age_ns"] = String(started - event.timestamp) }
         diagnostics.record("mouse_down", fields: fields, detailed: true)
         var kind = "click_skipped"
@@ -113,10 +131,27 @@ final class EventTapEngine {
             fields["reason"] = "application_rule"; return
         }
         kind = "activation_request"
+        var evidence: AXHitEvidence?
+        if detailed {
+            let frontmost = NSWorkspace.shared.frontmostApplication
+            fields["frontmost_pid_before_request"] = frontmost.map { String($0.processIdentifier) } ?? "unknown"
+            fields["frontmost_bundle_id_before_request"] = frontmost?.bundleIdentifier ?? "unknown"
+            fields["focused_window_before_request"] = "not_sampled"
+            fields["before_request_sample_ns"] = String(DispatchTime.now().uptimeNanoseconds)
+        }
+        defer {
+            if detailed, let evidence {
+                observations.submit(fields: fields) { evidence.snapshot(pid: target.pid) }
+            }
+        }
         // Same PID can contain another non-key window: never skip on foreground PID.
         ActivationSequence.run(window: {
             let windowStarted = detailed ? DispatchTime.now().uptimeNanoseconds : 0
-            let result = A4Activation.window(at: event.location, expectedPID: target.pid)
+            let result = A4Activation.window(at: event.location, expectedPID: target.pid,
+                                             capture: detailed ? {
+                                                 evidence = $0
+                                                 fields.merge($0.fields) { _, new in new }
+                                             } : nil)
             if detailed { fields["window_work_ns"] = String(DispatchTime.now().uptimeNanoseconds - windowStarted) }
             for (key, value) in result.fields { fields["window_" + key] = value }
             return result.success
