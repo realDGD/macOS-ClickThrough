@@ -33,7 +33,7 @@ class SourceCaskTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('brew'), 'Homebrew required for the DSL round trip')
     def test_homebrew_delivers_the_exact_shell_command(self):
-        ruby = 'require "cask/cask_loader"; require "json"; puts JSON.generate(Cask::CaskLoader.load(File.read(ARGV.fetch(0))).to_h)'
+        ruby = 'require "cask/cask_loader"; require "json"; puts JSON.generate((Cask::CaskLoader.respond_to?(:from_content) ? Cask::CaskLoader.from_content(File.read(ARGV.fetch(0))) : Cask::CaskLoader.load(File.read(ARGV.fetch(0)))).to_h)'
         cask = json.loads(subprocess.check_output(['brew', 'ruby', '-e', ruby, '--', str(ROOT / 'Casks/clickthrough.rb')],
                          text=True, env=dict(os.environ, HOMEBREW_NO_AUTO_UPDATE='1', HOMEBREW_NO_ANALYTICS='1')))
         step = next(a['preflight_steps'][0]['steps'][0] for a in cask['artifacts'] if 'preflight_steps' in a)

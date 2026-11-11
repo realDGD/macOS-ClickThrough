@@ -78,7 +78,7 @@ with tempfile.TemporaryDirectory(prefix='clickthrough-distribution-') as temp_na
         brew = shutil.which('brew')
         assert brew, '--homebrew requires an already-installed brew'
         ruby = '''require "cask/cask_loader"; require "json"
-c = Cask::CaskLoader.load(File.read(ARGV.fetch(0)))
+c = (Cask::CaskLoader.respond_to?(:from_content) ? Cask::CaskLoader.from_content(File.read(ARGV.fetch(0))) : Cask::CaskLoader.load(File.read(ARGV.fetch(0))))
 puts JSON.generate({token:c.token,version:c.version.to_s,sha256:c.sha256,
   macos:c.depends_on.macos.minimum_version.to_s,comparator:c.depends_on.macos.comparator,
   arch:c.depends_on.arch})'''
